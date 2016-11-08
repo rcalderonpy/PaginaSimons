@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+{% block metas %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('bundles/app/Bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}">
+{% endblock %}
+
+ {% block body %}
+     {% include 'Partials/maninmenu.html.twig' with {'marca':'Simons Estudio Contable'} %}
+     <section class="container">
+         {% block content %} {% endblock %}
+     </section>
+     {% block javascripts %}
+         <script src="{{ asset('bundles/app/Bootstrap/js/bootstrap.min.js') }}"></script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+     {% endblock %}
+ {% endblock %}
+
+{#PIE DE PAGINA#}
+{% block foot %}
+    <div class="container-fluid footerlocal navbar-fixed-bottom">
+        <div class="row">
+            <div class="col-md-7 col-md-offset-1">
+                <address>
+                    <br>
+                    <span class="text-muted">República de Colombia esq. Caballero</span><br>
+                    <span class="text-muted">Asunción - Paraguay</span><br>
+                    <abbr title="Phone"><span class="text-muted">Tel:</span></abbr>
+                    <span class="text-muted">(595 21) 496-509 </span><br>
+                    <abbr title="Email"><span class="text-muted">Email:</span></abbr> <a href="mailto:atencion@simons.com.py" >atencion@simons.com.py</a>
+                </address>
+            </div>
+            <div class="col-md-3 text-right">
+                <br>
+                <br>
+                <br>
+                <br>
+                <address><strong class="text-muted">Diseñado por <cite>Rodrigo Calderón</cite></address>
+            </div>
+        </div>
+    </div>
+{% endblock %}

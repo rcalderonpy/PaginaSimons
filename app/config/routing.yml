@@ -1,0 +1,28 @@
+contabilidad:
+    resource: "@ContabilidadBundle/Resources/config/routing.yml"
+    prefix:   /contab
+
+personal:
+    resource: "@PersonalBundle/Resources/config/routing.yml"
+    prefix:   /rrhh
+
+
+homepage:
+    path:      /inicio
+    defaults:  { _controller: AppBundle:Default:index }
+
+raiz:
+    path:      /
+    defaults:  { _controller: AppBundle:Default:index }
+
+mision:
+    path:      /empresa-mision
+    defaults:  { _controller: AppBundle:Default:mision }
+
+contacto:
+    path:      /contacto
+    defaults:  { _controller: AppBundle:Default:contacto }
+
+login:
+    path:      /login
+    defaults:  { _controller: AppBundle:Default:login}

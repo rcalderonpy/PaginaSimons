@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% block metas %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('bundles/app/Bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Adamina" rel="stylesheet">
+    
+{% endblock %}
+
+ {% block body %}
+     <section class="container">
+         {% block content %} {% endblock %}
+     </section>
+     {% block javascripts %}
+         <script src="{{ asset('bundles/app/Bootstrap/js/bootstrap.min.js') }}"></script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+     {% endblock %}
+ {% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'layout-responsive.html.twig' %}
+
+
+{% block title %}Contacto{% endblock %}
+
+
+{% block stylesheets%}
+	{{ parent() }}
+	<link href="css/estilos.css" rel="stylesheet">
+{% endblock %}
+
+
+
+{% block content %}
+	{{ parent() }}
+	<br>
+	<div class="row">
+		<div class="col-md-7">
+			<img src="{{ asset('img/contacto-mapa.jpg') }}" alt="mapa" class="img-responsive img-thumbnail">
+		</div>
+		<div class="col-md-4">
+
+			<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Información</h3>
+					</div>
+				<div class="panel-body">
+					<strong>Dirección:</strong> República de Colombia esquina Caballero <br><br>
+					<strong>Referencia: </strong>Frente al Edificio Alicante <br><br>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+{% endblock %}

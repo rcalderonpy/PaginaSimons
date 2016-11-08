@@ -1,0 +1,97 @@
+body {
+    background-color: #b2dbda;
+    background-image: url("..//img/logotipo_simons (rasgado).png");
+
+    background-position: top;
+    background-repeat: repeat-y;
+    background-clip: border-box;
+    position: relative;
+}
+
+.footerlocal {
+    background-color: #000000;
+}
+
+.fondoimg {
+    /*background-image: url("../img/mision-brujula.jpg")*/
+
+}
+
+.bottom-aligned {
+    display: flex;
+    align-items: flex-end;
+}
+
+section {
+    padding-top: 50px;
+    padding-bottom: 100px;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+form{
+    background: #333333;
+    width: 360px;
+    border: 1px solid #4e4d4d;
+    border-radius: 3px;
+    box-shadow:inset 0px 0px 10px #000;
+    margin: 150px auto;
+}
+
+form h1{
+    text-align: center;
+    color: #fff;
+    font-weight:normal;
+    font-size: 30px;
+    font-family: 'Adamina', serif;
+}
+
+form input{
+    width: 280px;
+    height: 35px;
+    padding: 0px 10px;
+    margin: 10px 30px;
+    color: #6d6d6d;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+form button{
+    width: 280px;
+    margin: 0px 0px 30px 30px;
+    height: 35px;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3c3c3c+0,2a2828+100 */
+    background: #3c3c3c; /* Old browsers */
+    background: -moz-linear-gradient(top,  #3c3c3c 0%, #2a2828 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #3c3c3c 0%,#2a2828 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #3c3c3c 0%,#2a2828 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3c3c3c', endColorstr='#2a2828',GradientType=0 ); /* IE6-9 */
+    border:1px solid #232323;
+    color: #fff;
+    box-shadow: 0px 2px 0px #000;
+    -moz-box-shadow: 0px 2px 0px #000;
+    -webkit-box-shadow: 0px 2px 0px #000;
+    -webkit-border-radius:;
+    -moz-border-radius:;
+    border-radius:3px;
+    font-size: 15px;
+    font-family:"Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+}
+
+form button:hover{
+    background: #3a3a3a;
+}
+
+form button:active{
+
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,3a3a3a+100 */
+    background: #000000; /* Old browsers */
+    background: -moz-linear-gradient(top,  #000000 0%, #3a3a3a 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #000000 0%,#3a3a3a 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #000000 0%,#3a3a3a 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#3a3a3a',GradientType=0 ); /* IE6-9 */
+
+}

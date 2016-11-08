@@ -1,0 +1,72 @@
+{% extends 'layout-responsive.html.twig' %}
+
+
+{% block title %}Misión{% endblock %}
+
+
+{% block stylesheets%}
+	{{ parent() }}
+	<link href="{{ asset('css/estilos.css') }}" rel="stylesheet">
+{% endblock %}
+
+
+
+{% block content %}
+	{{ parent() }}
+	{#Misión#}
+	<div class="container-fluid fondoimg">
+	
+	<div class="row">
+		<div class="col-md-8">
+			<h1 class="">Misión:</h1>
+			<br>
+			<p class="text-left lead"><i class="fa fa-quote-left text-left" aria-hidden="true"></i>
+			&nbsp;&nbsp;Brindar a nuestros clientes el mejor servicio profesional en las áreas de nuestra especialidad,
+			para que encuentren en nosotros, una total satisfacción a los problemas que se les presentan en su actividad diaria &nbsp;&nbsp;
+			<i class="fa fa-quote-right" aria-hidden="true"></i>
+			</p>
+		</div>
+		<div class="col-md-3 col-md-offset-1 media">
+			<img src="{{ asset('img/mision-brujula.jpg') }}" alt="Brujula" class="img-responsive img-rounded">
+		</div>
+		
+	</div>
+	<br>
+		
+	{#Visión#}
+	<div class="row">
+		<div class="col-md-3">
+			<img src="{{ asset('img/mision-brujula.jpg') }}" alt="Brujula" class="img-responsive img-rounded">
+		</div>
+		<div class="col-md-8 col-md-offset-1">
+			
+			<h1 class="text-right">Visión:</h1>
+			<br>
+			<p class="text-right lead"><i class="fa fa-quote-left" aria-hidden="true"></i>
+				&nbsp;&nbsp;Brindar a nuestros clientes el mejor servicio profesional en las áreas de nuestra especialidad,
+				para que encuentren en nosotros, una total satisfacción a los problemas que se les presentan en su actividad diaria &nbsp;&nbsp;
+				<i class="fa fa-quote-right" aria-hidden="true"></i>
+			</p>
+		</div>
+	</div>
+	
+	{#Valores#}
+	<div class="row">
+		<div class="col-md-8">
+			
+			<h1 class="">Valores:</h1>
+			<br>
+			<p class="lead"> <i class="fa fa-balance-scale" aria-hidden="true"></i> Integridad</p>
+			<p class="lead"> <i class="fa fa-balance-scale" aria-hidden="true"></i> Responsabilidad</p>
+			<p class="lead"> <i class="fa fa-balance-scale" aria-hidden="true"></i> Eficiencia</p>
+			<p class="lead"> <i class="fa fa-balance-scale" aria-hidden="true"></i> Confidencialidad</p>
+			<p class="lead"> <i class="fa fa-balance-scale" aria-hidden="true"></i> Respeto hacia los clientes y empleados</p>
+	
+		
+		</div>
+		
+	</div>
+	<br>
+	</div>
+{% endblock %}
+

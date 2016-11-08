@@ -1,0 +1,24 @@
+venta_index:
+    path:     /
+    defaults: { _controller: "ContabilidadBundle:VentaSin:index" }
+    methods:  GET
+
+venta_show:
+    path:     /{id}/show
+    defaults: { _controller: "ContabilidadBundle:VentaSin:show" }
+    methods:  GET
+
+venta_new:
+    path:     /new
+    defaults: { _controller: "ContabilidadBundle:VentaSin:new" }
+    methods:  [GET, POST]
+
+venta_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ContabilidadBundle:VentaSin:edit" }
+    methods:  [GET, POST]
+
+venta_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ContabilidadBundle:VentaSin:delete" }
+    methods:  DELETE

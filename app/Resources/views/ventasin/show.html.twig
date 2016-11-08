@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>VentaSin</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ventaSin.id }}</td>
+            </tr>
+            <tr>
+                <th>Fecha</th>
+                <td>{% if ventaSin.fecha %}{{ ventaSin.fecha|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Comprobante</th>
+                <td>{{ ventaSin.comprobante }}</td>
+            </tr>
+            <tr>
+                <th>Cotiz</th>
+                <td>{{ ventaSin.cotiz }}</td>
+            </tr>
+            <tr>
+                <th>Comentario</th>
+                <td>{{ ventaSin.comentario }}</td>
+            </tr>
+            <tr>
+                <th>G10</th>
+                <td>{{ ventaSin.g10 }}</td>
+            </tr>
+            <tr>
+                <th>G5</th>
+                <td>{{ ventaSin.g5 }}</td>
+            </tr>
+            <tr>
+                <th>Iva10</th>
+                <td>{{ ventaSin.iva10 }}</td>
+            </tr>
+            <tr>
+                <th>Iva5</th>
+                <td>{{ ventaSin.iva5 }}</td>
+            </tr>
+            <tr>
+                <th>Exe</th>
+                <td>{{ ventaSin.exe }}</td>
+            </tr>
+            <tr>
+                <th>Retencion</th>
+                <td>{{ ventaSin.retencion }}</td>
+            </tr>
+            <tr>
+                <th>Timbrado</th>
+                <td>{{ ventaSin.timbrado }}</td>
+            </tr>
+            <tr>
+                <th>Condicion</th>
+                <td>{{ ventaSin.condicion }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('venta_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('venta_edit', { 'id': ventaSin.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,7 @@
+personal_homepage:
+    path:     /
+    defaults: { _controller: PersonalBundle:Default:index }
+
+personal_carga_empresa:
+    path:     /empresa
+    defaults: { _controller: PersonalBundle:Default:cargaEmpresa }

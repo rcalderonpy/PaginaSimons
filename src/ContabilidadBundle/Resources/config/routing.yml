@@ -1,0 +1,11 @@
+contabilidad_venta:
+    resource: "@ContabilidadBundle/Resources/config/routing/ventasin.yml"
+    prefix:   /venta
+
+contabilidad_homepage:
+    path:     /
+    defaults: { _controller: ContabilidadBundle:Default:index }
+
+ventas:
+    path:     /ventas_sin
+    defaults: { _controller: ContabilidadBundle:Default:ventasSin }

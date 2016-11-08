@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>VentaSin list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fecha</th>
+                <th>Comprobante</th>
+                <th>Cotiz</th>
+                <th>Comentario</th>
+                <th>G10</th>
+                <th>G5</th>
+                <th>Iva10</th>
+                <th>Iva5</th>
+                <th>Exe</th>
+                <th>Retencion</th>
+                <th>Timbrado</th>
+                <th>Condicion</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ventaSin in ventaSins %}
+            <tr>
+                <td><a href="{{ path('venta_show', { 'id': ventaSin.id }) }}">{{ ventaSin.id }}</a></td>
+                <td>{% if ventaSin.fecha %}{{ ventaSin.fecha|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ ventaSin.comprobante }}</td>
+                <td>{{ ventaSin.cotiz }}</td>
+                <td>{{ ventaSin.comentario }}</td>
+                <td>{{ ventaSin.g10 }}</td>
+                <td>{{ ventaSin.g5 }}</td>
+                <td>{{ ventaSin.iva10 }}</td>
+                <td>{{ ventaSin.iva5 }}</td>
+                <td>{{ ventaSin.exe }}</td>
+                <td>{{ ventaSin.retencion }}</td>
+                <td>{{ ventaSin.timbrado }}</td>
+                <td>{{ ventaSin.condicion }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('venta_show', { 'id': ventaSin.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('venta_edit', { 'id': ventaSin.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('venta_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

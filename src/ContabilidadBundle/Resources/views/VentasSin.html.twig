@@ -1,0 +1,57 @@
+{% extends '@Contabilidad/layout-contab.html.twig' %}
+{% block body %}
+<h1>Ventas</h1>
+
+{% block content %}
+<div class="row">
+	
+	<!-- *** MENUS AND FILTERS ***
+	_________________________________________________________ -->
+	<div class="col-sm-3">
+		<div class="panel panel-default sidebar-menu">
+			<div class="panel-heading">
+				<h3 class="panel-title">Cliente</h3>
+			</div>
+	
+			<div class="panel-body">
+				<ul class="nav nav-pills nav-stacked category-menu">
+					<li>Categoría 1</li>
+					<li>Categoría 2</li>
+					{#{% for fila in categorias %}#}
+						{#<li class="{% if app.request.get('categoriaSlug') == fila[0].slug %}active{% endif %}">#}
+							{#<a href="{{ path('productos_by_categoria',{'categoriaSlug': fila[0].slug}) }}">#}
+								{#{{ fila[0].nombre }}#}
+								{#<span class="badge pull-right">{{ fila.cantidad }}</span>#}
+							{#</a>#}
+						{#</li>#}
+					{#{% endfor %}#}
+		
+				</ul>
+	
+			</div>
+		</div>
+	</div>
+
+	<!-- *** AREA DE TRABAJO ***
+	_________________________________________________________ -->
+	
+	<div class="col-sm-9">
+		
+		<p class="text-muted lead">In our Ladies department we offer wide selection of the best products we
+			have found and carefully selected worldwide. Pellentesque habitant morbi tristique senectus et
+			netuss.</p>
+		
+		<div class="row products">
+			    
+			{#{% for producto in productos %}#}
+				{#{% include '@App/Partials/producto.html.twig' with {#}
+				{#'producto': producto,#}
+				{#'pantallaGrande' : false#}
+				{#} %}#}
+			{#{% endfor %}#}
+		
+		</div>
+		
+	{% endblock %}
+
+{% endblock %}

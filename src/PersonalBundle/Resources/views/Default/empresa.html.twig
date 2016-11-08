@@ -1,0 +1,106 @@
+{% extends '::layout-responsive.html.twig' %}
+
+{% block stylesheets%}
+	{{ parent() }}
+	<link href="{{ asset('css/estilos.css') }}" rel="stylesheet" xmlns="http://www.w3.org/1999/html">
+{% endblock %}
+
+
+{% block title %}Carga de Empresa {% endblock %}
+
+{% block content  %}
+	<br>
+	<div class="row">
+		<div class="col-md-6">
+			<div  class="panel panel-primary">
+				<div class="panel-heading">Datos de la Empresa</div>
+				<div class="panel-body bg-info">
+					<form action="" method="post" class="" >
+						
+						{{ form_start(form, {'action':'', 'method':'POST'}) }}
+						
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-6">
+									{#<label for="nombre">Nombre</label>#}
+									<label>
+										Nombre:
+										{{ form_errors(form.nombre) }}
+										{{ form_widget(form.nombre) }}
+									</label>
+									{#<input type="text" id="nombre" class="form-control text-uppercase" name="_nombre" placeholder="Ingrese el Nombre" required="required" tabindex="1">#}
+								</div>
+								<div class="col-md-6">
+									<label>
+										Apellido:
+										{{ form_errors(form.apellido) }}
+										{{ form_widget(form.apellido) }}
+									</label>
+									{#<label for="apellido">Apellido</label>#}
+									{#<input type="text" id="apellido" class="form-control text-uppercase" name="_apellido" placeholder="Ingrese el Apellido" required="required" tabindex="2">#}
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-6">
+									<label>
+										Nº Pat. MTESS:
+										{{ form_errors(form.npatMtess) }}
+										{{ form_widget(form.npatMtess) }}
+									</label>
+									{#<label for="npatMtess">Nº Pat. MTESS</label>#}
+									{#<input type="text" id="npatMtess" class="form-control" name="_npatMtess" placeholder="Nº Pat. MTESS" required="required" tabindex="3">#}
+								</div>
+								<div class="col-md-6">
+									<label>
+										Contraseña:
+										{{ form_errors(form.pwMtess) }}
+										{{ form_widget(form.pwMtess) }}
+									</label>
+									{#<label for="pwMtess">Contraseña</label>#}
+									{#<input type="text" id="pwMtess" class="form-control" name="_pwMtess" placeholder="Contraseña" tabindex="4" required="required">#}
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="row bottom-aligned">
+								<div class="col-md-6">
+									<label>
+										Nº Pat. IPS:
+										{{ form_errors(form.npatIps) }}
+										{{ form_widget(form.npatIps) }}
+									</label>
+									{#<label for="npatips">Nº Patronal IPS</label>#}
+									{#<input type="text" id="npatIps" class="form-control" name="_npatIps" placeholder="Nº Pat. IPS" required="required" tabindex="5">#}
+								</div>
+								<div class="col-md-3">
+									<label>
+										Contraseña:
+										{{ form_errors(form.pwIps) }}
+										{{ form_widget(form.pwIps) }}
+									</label>
+									{#<label for="pwMtess">Contraseña</label>#}
+									{#<input type="text" id="pwIps" class="form-control" name="_pwIps" placeholder="Contraseña" tabindex="6">#}
+								</div>
+								<div class="col-md-3">
+									<label>
+										{{ form_widget(form.submit )}}
+									</label>
+									{#<input type="submit" id="submit" class="btn btn-success form-control" name="_submit" value="Guardar">#}
+								</div>
+							</div>
+						</div>
+						{{ form_end(form) }}
+						
+					</form>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
