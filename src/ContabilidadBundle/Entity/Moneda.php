@@ -35,6 +35,11 @@ class Moneda
      */
     private $simbolo;
 
+    public function __toString()
+    {
+        return $this->getMoneda();
+    }
+
 
     /**
      * Get id

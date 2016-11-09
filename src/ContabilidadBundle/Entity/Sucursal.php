@@ -28,6 +28,11 @@ class Sucursal
      */
     private $sucursal;
 
+    public function __toString()
+    {
+        return $this->getSucursal();
+    }
+
 
     /**
      * Get id

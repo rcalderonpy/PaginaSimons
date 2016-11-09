@@ -49,6 +49,10 @@ class Usuario
      */
     private $admin;
 
+    public function __toString()
+    {
+        return $this->getUsuario();
+    }
 
     /**
      * Get id

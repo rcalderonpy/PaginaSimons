@@ -63,6 +63,10 @@ class Cliente
      */
     private $estado;
 
+    public function __toString()
+    {
+        return $this->getNombres().' '.$this->getApe1().' '.$this->getApe2();
+    }
 
     /**
      * Get id

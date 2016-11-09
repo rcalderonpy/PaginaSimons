@@ -1,10 +1,10 @@
 body {
     background-color: #b2dbda;
-    background-image: url("..//img/logotipo_simons (rasgado).png");
+    /*background-image: url("..//img/logotipo_simons (rasgado).png");*/
 
-    background-position: top;
-    background-repeat: repeat-y;
-    background-clip: border-box;
+    /*background-position: top;*/
+    /*background-repeat: repeat-y;*/
+    /*background-clip: border-box;*/
     position: relative;
 }
 
@@ -12,10 +12,10 @@ body {
     background-color: #000000;
 }
 
-.fondoimg {
-    /*background-image: url("../img/mision-brujula.jpg")*/
+/*.fondoimg {*/
+    /*!*background-image: url("../img/mision-brujula.jpg")*!*/
 
-}
+/*}*/
 
 .bottom-aligned {
     display: flex;
@@ -27,10 +27,10 @@ section {
     padding-bottom: 100px;
 }
 
-* {
-    margin: 0px;
-    padding: 0px;
-}
+/** {*/
+    /*margin: 0px;*/
+    /*padding: 0px;*/
+/*}*/
 
 form{
     background: #333333;
