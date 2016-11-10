@@ -1,77 +1,82 @@
-{% extends '@Contabilidad/layout-contab.html.twig' %}
+{% extends '@Contabilidad/BaseFormularios.html.twig' %}
 
-{% block body %}
-    <h1>Ventas Sin Contabilidad - Creación</h1>
-    {{ form_start(form) }}
-    <div class="row">
-        <div class="col-md-2">
-            {{ form_label(form.fecha) }}
-            {{ form_widget(form.fecha) }}
-        </div>
-        <div class="col-md-6">
-            {{ form_label(form.entidad) }}
-            {{ form_widget(form.entidad) }}
-        </div>
-        <div class="col-md-4">
-            {{ form_label(form.sucursal) }}
-            {{ form_widget(form.sucursal) }}
-        </div>
-    </div>
-    
-    <div class="row">
-        <div class="col-md-2">
-            {{ form_label(form.comprobante) }}
-            {{ form_widget(form.comprobante) }}
-        </div>
-        <div class="col-md-2">
-            {{ form_label(form.timbrado) }}
-            {{ form_widget(form.timbrado) }}
-        </div>
-        <div class="col-md-2">
-            {{ form_label(form.condicion) }}
-            {{ form_widget(form.condicion) }}
-        </div>
-        <div class="col-md-2">
-            {{ form_label(form.moneda) }}
-            {{ form_widget(form.moneda) }}
-        </div>
-        <div class="col-md-4">
-            {{ form_label(form.comentario) }}
-            {{ form_widget(form.comentario) }}
-        </div>
-    </div>
-    
-    <div class="row">
-        <div class="col-md-2">
-            {{ form_label(form.g10) }}
-            {{ form_widget(form.g10) }}
-        </div>
-        <div class="col-md-2">
-            {{ form_label(form.g5) }}
-            {{ form_widget(form.g5) }}
-        </div>
-        <div class="col-md-2">
-            {{ form_label(form.iva10) }}
-            {{ form_widget(form.iva10) }}
-        </div>
-        <div class="col-md-2">
-            {{ form_label(form.iva5) }}
-            {{ form_widget(form.iva5) }}
-        </div>
-        <div class="col-md-2">
-            {{ form_label(form.exe) }}
-            {{ form_widget(form.exe) }}
-        </div>
-        <div class="col-md-2">
-            {{ form_label(form.retencion) }}
-            {{ form_widget(form.retencion) }}
-        </div>
+{% block areatrabajo %}
 
+    <h1>Ventas - Creación</h1>
+    <div class="panel panel-default">
+        <div class="panel-body bg-info">
+    
+            {#//primera fila#}
+            <div class="row">
+                <div class="col-md-3">
+                    {{ form_label(form.fecha) }}
+                    {{ form_widget(form.fecha) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_label(form.entidad) }}
+                    {{ form_widget(form.entidad) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_label(form.sucursal) }}
+                    {{ form_widget(form.sucursal) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.comprobante) }}
+                    {{ form_widget(form.comprobante) }}
+                </div>
+            </div>
+            {#//segunda fila#}
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_label(form.timbrado) }}
+                    {{ form_widget(form.timbrado) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.condicion) }}
+                    {{ form_widget(form.condicion) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_label(form.moneda) }}
+                    {{ form_widget(form.moneda) }}
+                </div>
+                <div class="col-md-5">
+                    {{ form_label(form.comentario) }}
+                    {{ form_widget(form.comentario) }}
+                </div>
+            </div>
+            
+            {#//tercera fila#}
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_label(form.g10) }}
+                    {{ form_widget(form.g10) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.g5) }}
+                    {{ form_widget(form.g5) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.iva10) }}
+                    {{ form_widget(form.iva10) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.iva5) }}
+                    {{ form_widget(form.iva5) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.exe) }}
+                    {{ form_widget(form.exe) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.retencion) }}
+                    {{ form_widget(form.retencion) }}
+                </div>
+            </div>
+            <br>
+            <input type="submit" value="Create" class="btn btn-group btn-success pull-right"/>
+        </div>
     </div>
     
-    <br>
-        <input type="submit" value="Create" class="btn btn-group btn-success"/>
-{{ form_end(form) }}
 
     <ul>
         <li>

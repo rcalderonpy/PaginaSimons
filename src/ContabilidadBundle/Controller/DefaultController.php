@@ -13,6 +13,6 @@ class DefaultController extends Controller
 
     public function ventasSinAction()
     {
-        return $this->render('ContabilidadBundle::VentasSin.html.twig');
+        return $this->render('BaseFormularios.html.twig');
     }
 }

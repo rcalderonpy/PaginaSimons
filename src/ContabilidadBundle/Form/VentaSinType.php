@@ -6,7 +6,10 @@ namespace ContabilidadBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CurrencyType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -30,29 +33,37 @@ class VentaSinType extends AbstractType
             ->add('comprobante')
             ->add('cotiz')
             ->add('comentario')
-            ->add('g10', IntegerType::class, array(
+            ->add('g10', NumberType::class, array(
+                'grouping'=>true,
                 'data'=>0,
-                'attr'=>array('class'=>'text-right')
+                'attr'=>array('class'=>'text-right'),
+                'scale'=>0
             ))
-            ->add('g5', IntegerType::class, array(
+            ->add('g5', NumberType::class, array(
+                'grouping'=>true,
                 'data'=>0,
-                'attr'=>array('class'=>'text-right')
+                'attr'=>array('class'=>'text-right'),
+                'scale'=>0
             ))
-            ->add('iva10', IntegerType::class, array(
+            ->add('iva10', NumberType::class, array(
                 'data'=>0,
-                'attr'=>array('class'=>'text-right')
+                'attr'=>array('class'=>'text-right'),
+                'grouping'=>true
             ))
-            ->add('iva5', IntegerType::class, array(
+            ->add('iva5', NumberType::class, array(
                 'data'=>0,
-                'attr'=>array('class'=>'text-right')
+                'attr'=>array('class'=>'text-right'),
+                'grouping'=>true
             ))
-            ->add('exe', IntegerType::class, array(
+            ->add('exe', NumberType::class, array(
                 'data'=>0,
-                'attr'=>array('class'=>'text-right')
+                'attr'=>array('class'=>'text-right'),
+                'grouping'=>true
             ))
-            ->add('retencion', IntegerType::class, array(
+            ->add('retencion', NumberType::class, array(
                 'data'=>0,
-                'attr'=>array('class'=>'text-right')
+                'attr'=>array('class'=>'text-right'),
+                'grouping'=>true
             ))
             ->add('timbrado')
             ->add('condicion', ChoiceType::class, array(
@@ -66,7 +77,9 @@ class VentaSinType extends AbstractType
             ->add('sucursal')
             ->add('entidad')
             ->add('cliente')
-            ->add('moneda')
+            ->add('moneda', null, array(
+                'placeholder'=>false
+            ))
             ->add('usuario')
         ;
     }

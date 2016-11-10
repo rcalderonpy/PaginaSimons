@@ -1,0 +1,33 @@
+{% extends '@Contabilidad/layout-contab.html.twig' %}
+{% block body %}
+
+{% block content %}
+	<div class="row">
+		
+		<!-- *** MENUS AND FILTERS ***
+		_________________________________________________________ -->
+		<div class="col-sm-3 bg-info">
+			<h2>Cliente</h2>
+				<ul class="nav nav-pills nav-stacked category-menu">
+					<li>Categoría 1</li>
+					<li>Categoría 2</li>
+					<li>Categoría 2</li>
+					<li>Categoría 2</li>
+					<li>Categoría 2</li>
+					<li>Categoría 2</li>
+					<li>Categoría 2</li>
+				</ul>
+		</div>
+	
+		<!-- *** AREA DE TRABAJO ***
+		_________________________________________________________ -->
+		<div class="col-sm-9">
+			{% block areatrabajo %}
+			{% endblock %}
+		</div>
+	</div>
+	
+		
+{% endblock %}
+
+{% endblock %}
