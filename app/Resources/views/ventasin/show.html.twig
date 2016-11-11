@@ -1,76 +1,96 @@
-{% extends 'base.html.twig' %}
+{% extends '@Contabilidad/BaseFormularios.html.twig' %}
 
-{% block body %}
-    <h1>VentaSin</h1>
-
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ ventaSin.id }}</td>
-            </tr>
-            <tr>
-                <th>Fecha</th>
-                <td>{% if ventaSin.fecha %}{{ ventaSin.fecha|date('Y-m-d') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Comprobante</th>
-                <td>{{ ventaSin.comprobante }}</td>
-            </tr>
-            <tr>
-                <th>Cotiz</th>
-                <td>{{ ventaSin.cotiz }}</td>
-            </tr>
-            <tr>
-                <th>Comentario</th>
-                <td>{{ ventaSin.comentario }}</td>
-            </tr>
-            <tr>
-                <th>G10</th>
-                <td>{{ ventaSin.g10 }}</td>
-            </tr>
-            <tr>
-                <th>G5</th>
-                <td>{{ ventaSin.g5 }}</td>
-            </tr>
-            <tr>
-                <th>Iva10</th>
-                <td>{{ ventaSin.iva10 }}</td>
-            </tr>
-            <tr>
-                <th>Iva5</th>
-                <td>{{ ventaSin.iva5 }}</td>
-            </tr>
-            <tr>
-                <th>Exe</th>
-                <td>{{ ventaSin.exe }}</td>
-            </tr>
-            <tr>
-                <th>Retencion</th>
-                <td>{{ ventaSin.retencion }}</td>
-            </tr>
-            <tr>
-                <th>Timbrado</th>
-                <td>{{ ventaSin.timbrado }}</td>
-            </tr>
-            <tr>
-                <th>Condicion</th>
-                <td>{{ ventaSin.condicion }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('venta_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('venta_edit', { 'id': ventaSin.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% block areatrabajo %}
+    <h1>Ventas</h1>
+    <div class="panel panel-default">
+        <div class="panel-body bg-info">
+            <div class="row form-inline">
+                <div class="col-md-12">
+                    {{ form_widget(form.usuario, {'attr':{'disabled':true}})  }}
+                    {{ form_widget(form.cliente, {'attr':{'disabled':true}}) }}
+                </div>
+            </div>
+            {#//primera fila#}
+            <div class="row form-inline">
+                <div class="col-md-12">
+                    <label class="control-label" style="width: 17%">Fecha</label>
+                    <label class="control-label" style="width: 36%">Cliente</label>
+                    <label class="control-label" style="width: 21%">Sucursal</label>
+                    <label class="control-label" style="width: 20%">Comprobante</label>
+                </div>
+                <div class="col-md-12">
+                    {{ form_widget(form.fecha, {'attr':{'disabled':true}}) }}
+                    {{ form_widget(form.entidad, {'attr':{'disabled':true}}) }}
+                    {{ form_widget(form.sucursal, {'attr':{'disabled':true}}) }}
+                    {#<div class="panel panel-info visible-lg-inline-block">#}
+                    {#<div class="bg-info">#}
+                    {{ form_widget(form.nsuc, {'attr':{'disabled':true}}) }}
+                    {{ form_widget(form.npe, {'attr':{'disabled':true}}) }}
+                    {{ form_widget(form.ncomp, {'attr':{'disabled':true}}) }}
+                    {#</div>#}
+                    {#</div>#}
+                </div>
+            </div>
+            {#//segunda fila#}
+            <div class="row form-inline">
+                <div class="col-md-12">
+                    <label class="control-label" style="width: 15%">Timbrado</label>
+                    <label class="control-label" style="width: 12%">Condición</label>
+                    <label class="control-label" style="width: 21%">Moneda</label>
+                    <label class="control-label" style="width: 10%">Cambio</label>
+                    <label class="control-label" style="width: 20%">Comentario</label>
+                </div>
+                <div class="col-md-12">
+                    {{ form_widget(form.timbrado, {'attr':{'disabled':true}}) }}
+                    {{ form_widget(form.condicion, {'attr':{'disabled':true}}) }}
+                    {{ form_widget(form.moneda, {'attr':{'disabled':true}}) }}
+                    {{ form_widget(form.cotiz, {'attr':{'disabled':true}}) }}
+                    {{ form_widget(form.comentario, {'attr':{'disabled':true}}) }}
+                </div>
+            </div>
+    
+            {#//tercera fila#}
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_label(form.g10) }}
+                    {{ form_widget(form.g10, {'attr':{'disabled':true}}) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.g5) }}
+                    {{ form_widget(form.g5, {'attr':{'disabled':true}}) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.iva10) }}
+                    {{ form_widget(form.iva10, {'attr':{'disabled':true}}) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.iva5) }}
+                    {{ form_widget(form.iva5, {'attr':{'disabled':true}}) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.exe) }}
+                    {{ form_widget(form.exe, {'attr':{'disabled':true}}) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.retencion) }}
+                    {{ form_widget(form.retencion, {'attr':{'disabled':true}}) }}
+                </div>
+            </div>
+    
+    
+            <br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a href="{{ path('venta_index') }}" class="btn btn-default">Volver al Listado</a>
+            <a href="{{ path('venta_edit', { 'id': ventaSin.id }) }}" class="btn btn-warning">Editar</a>
+            <div class="visible-lg-inline-block pull-right">
+                {{ form_start(delete_form) }}
+                <input type="submit" value="Borrar" class="btn btn-danger">
+                {{ form_end(delete_form) }}
+            </div>
+        </div>
+    </div>
+    
 {% endblock %}

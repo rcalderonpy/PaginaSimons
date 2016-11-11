@@ -1,50 +1,56 @@
 {% extends '@Contabilidad/BaseFormularios.html.twig' %}
 
 {% block areatrabajo %}
-
+    
     <h1>Ventas - Creación</h1>
     <div class="panel panel-default">
         <div class="panel-body bg-info">
-    
+            {{ form_start(form) }}
+            <div class="row form-inline">
+                <div class="col-md-12">
+                    {{ form_widget(form.usuario) }}
+                    {{ form_widget(form.cliente) }}
+                </div>
+            </div>
             {#//primera fila#}
-            <div class="row">
-                <div class="col-md-3">
-                    {{ form_label(form.fecha) }}
+            <div class="row form-inline">
+                <div class="col-md-12">
+                    <label class="control-label" style="width: 17%">Fecha</label>
+                    <label class="control-label" style="width: 36%">Cliente</label>
+                    <label class="control-label" style="width: 21%">Sucursal</label>
+                    <label class="control-label" style="width: 20%">Comprobante</label>
+                </div>
+                <div class="col-md-12">
                     {{ form_widget(form.fecha) }}
-                </div>
-                <div class="col-md-4">
-                    {{ form_label(form.entidad) }}
                     {{ form_widget(form.entidad) }}
-                </div>
-                <div class="col-md-3">
-                    {{ form_label(form.sucursal) }}
                     {{ form_widget(form.sucursal) }}
-                </div>
-                <div class="col-md-2">
-                    {{ form_label(form.comprobante) }}
-                    {{ form_widget(form.comprobante) }}
+                    {#<div class="panel panel-info visible-lg-inline-block">#}
+                        {#<div class="bg-info">#}
+                    {{ form_widget(form.nsuc) }}
+                    {{ form_widget(form.npe) }}
+                    {{ form_widget(form.ncomp) }}
+                        {#</div>#}
+                    {#</div>#}
                 </div>
             </div>
             {#//segunda fila#}
-            <div class="row">
-                <div class="col-md-2">
-                    {{ form_label(form.timbrado) }}
+            <div class="row form-inline">
+                <div class="col-md-12">
+                    <label class="control-label" style="width: 15%">Timbrado</label>
+                    <label class="control-label" style="width: 12%">Condición</label>
+                    <label class="control-label" style="width: 21%">Moneda</label>
+                    <label class="control-label" style="width: 10%">Cambio</label>
+                    <label class="control-label" style="width: 20%">Comentario</label>
+                </div>
+                <div class="col-md-12">
                     {{ form_widget(form.timbrado) }}
-                </div>
-                <div class="col-md-2">
-                    {{ form_label(form.condicion) }}
                     {{ form_widget(form.condicion) }}
-                </div>
-                <div class="col-md-3">
-                    {{ form_label(form.moneda) }}
                     {{ form_widget(form.moneda) }}
-                </div>
-                <div class="col-md-5">
-                    {{ form_label(form.comentario) }}
+                    {{ form_widget(form.cotiz) }}
                     {{ form_widget(form.comentario) }}
                 </div>
             </div>
-            
+    
             {#//tercera fila#}
             <div class="row">
                 <div class="col-md-2">
@@ -72,15 +78,12 @@
                     {{ form_widget(form.retencion) }}
                 </div>
             </div>
-            <br>
-            <input type="submit" value="Create" class="btn btn-group btn-success pull-right"/>
-        </div>
-    </div>
     
-
-    <ul>
-        <li>
-            <a href="{{ path('venta_index') }}">Back to the list</a>
-        </li>
-    </ul>
+            <br>
+            <input type="submit" value="Guardar" class="btn btn-group btn-success pull-right"/>
+            {{ form_end(form) }}
+        </div>
+    
+    </div>
+    <a href="{{ path('venta_index') }}" class="btn btn-default">Volver al Listado</a>
 {% endblock %}

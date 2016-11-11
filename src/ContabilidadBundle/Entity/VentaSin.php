@@ -60,10 +60,30 @@ class VentaSin
     /**
      * @var string
 
-     * @ORM\Column(name="comprobante", type="string", length=50)
+     * @ORM\Column(name="nsuc", type="string", length=5)
      * @Assert\NotBlank()
+     * @Assert\Length(max="3")
+     *
      */
-    private $comprobante;
+    private $nsuc;
+
+    /**
+     * @var string
+
+     * @ORM\Column(name="npe", type="string", length=5)
+     * @Assert\NotBlank()
+     * @Assert\Length(max="3")
+     */
+    private $npe;
+
+    /**
+     * @var string
+
+     * @ORM\Column(name="ncomp", type="string", length=20)
+     * @Assert\NotBlank()
+     * @Assert\Length(max="7")
+     */
+    private $ncomp;
 
     /**
      * @var \stdClass
@@ -257,28 +277,60 @@ class VentaSin
     }
 
     /**
-     * Set comprobante
-     *
-     * @param string $comprobante
-     *
+     * @return string
+     */
+    public function getNsuc()
+    {
+        return $this->nsuc;
+    }
+
+    /**
+     * @param string $nsuc
      * @return VentaSin
      */
-    public function setComprobante($comprobante)
+    public function setNsuc($nsuc)
     {
-        $this->comprobante = $comprobante;
-
+        $this->nsuc = $nsuc;
         return $this;
     }
 
     /**
-     * Get comprobante
-     *
      * @return string
      */
-    public function getComprobante()
+    public function getNpe()
     {
-        return $this->comprobante;
+        return $this->npe;
     }
+
+    /**
+     * @param string $npe
+     * @return VentaSin
+     */
+    public function setNpe($npe)
+    {
+        $this->npe = $npe;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNcomp()
+    {
+        return $this->ncomp;
+    }
+
+    /**
+     * @param string $ncomp
+     * @return VentaSin
+     */
+    public function setNcomp($ncomp)
+    {
+        $this->ncomp = $ncomp;
+        return $this;
+    }
+
+
 
     /**
      * Set moneda

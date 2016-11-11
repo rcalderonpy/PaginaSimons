@@ -2,6 +2,7 @@
 
 namespace ContabilidadBundle\Controller;
 
+use ContabilidadBundle\ContabilidadBundle;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -23,9 +24,16 @@ class VentaSinController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $ventaSins = $em->getRepository('ContabilidadBundle:VentaSin')->findAll();
+//        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findAll();
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>2));
+
+//        dump($cliente);
+//        die();
+
 
         return $this->render('ventasin/index.html.twig', array(
             'ventaSins' => $ventaSins,
+            'cliente'=>$cliente
         ));
     }
 
@@ -60,10 +68,16 @@ class VentaSinController extends Controller
     public function showAction(VentaSin $ventaSin)
     {
         $deleteForm = $this->createDeleteForm($ventaSin);
+        $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
+
+        $em=$this->getDoctrine()->getEntityManager();
+        $entidad=$em->getRepository('Entidad')->findOneBy('id');
+
 
         return $this->render('ventasin/show.html.twig', array(
             'ventaSin' => $ventaSin,
             'delete_form' => $deleteForm->createView(),
+            'form'=>$form->createView()
         ));
     }
 
@@ -76,19 +90,25 @@ class VentaSinController extends Controller
         $deleteForm = $this->createDeleteForm($ventaSin);
         $editForm = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
         $editForm->handleRequest($request);
+        $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
+        $form->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($ventaSin);
             $em->flush();
 
-            return $this->redirectToRoute('venta_edit', array('id' => $ventaSin->getId()));
+            return $this->redirectToRoute('venta_show', array(
+                'id' => $ventaSin->getId(),
+                'form'=>$form
+            ));
         }
 
         return $this->render('ventasin/edit.html.twig', array(
             'ventaSin' => $ventaSin,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'form'=>$form->createView()
         ));
     }
 

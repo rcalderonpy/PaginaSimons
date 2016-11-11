@@ -1,47 +1,42 @@
-{% extends '@Contabilidad/layout-contab.html.twig' %}
+{% extends '@Contabilidad/BaseFormularios.html.twig' %}
 
-{% block body %}
+{% block areatrabajo %}
     <h1>Ventas</h1>
 
-    <table class="table table-striped table-condensed">
+    <table class="table table-striped table-condensed table-bordered">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Fecha</th>
-                <th>Comprobante</th>
-                <th>Cotiz</th>
-                <th>Comentario</th>
-                <th>G10</th>
-                <th>G5</th>
-                <th>Iva10</th>
-                <th>Iva5</th>
-                <th>Exe</th>
-                <th>Retencion</th>
-                <th>Timbrado</th>
-                <th>Condicion</th>
-                <th>Actions</th>
+                <th class="text-center">Id</th>
+                <th class="text-center">Fecha</th>
+                <th class="text-center">Comprobante</th>
+                <th class="text-center">Cotiz</th>
+                <th class="text-center">Comentario</th>
+                <th class="text-center">G10</th>
+                <th class="text-center">Timbrado</th>
+                <th class="text-center">Condicion</th>
+                <th class="text-center">Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for ventaSin in ventaSins %}
             
             <tr>
-                <td><a href="{{ path('venta_show', { 'id': ventaSin.id }) }}">{{ ventaSin.id }}</a></td>
-                <td>{% if ventaSin.fecha %}{{ ventaSin.fecha|date('Y-m-d') }}{% endif %}</td>
-                <td>{{ ventaSin.comprobante }}</td>
-                <td>{{ ventaSin.cotiz }}</td>
-                <td>{{ ventaSin.comentario }}</td>
-                <td>{{ ventaSin.g10 }}</td>
-                <td>{{ ventaSin.g5 }}</td>
-                <td>{{ ventaSin.iva10 }}</td>
-                <td>{{ ventaSin.iva5 }}</td>
-                <td>{{ ventaSin.exe }}</td>
-                <td>{{ ventaSin.retencion }}</td>
-                <td>{{ ventaSin.timbrado }}</td>
-                <td>{{ ventaSin.condicion }}</td>
-                <td>
-                    <a href="{{ path('venta_show', { 'id': ventaSin.id }) }}" class="btn btn-info">Mostrar</a>
-                    <a href="{{ path('venta_edit', { 'id': ventaSin.id }) }}" class="btn btn-warning">Editar</a>
+                <td><p class="small"><a href="{{ path('venta_show', { 'id': ventaSin.id }) }}">{{ ventaSin.id }}</a></p></td>
+                <td><p class="small">{% if ventaSin.fecha %}{{ ventaSin.fecha|date('d/m/Y') }}{% endif %}</p></td>
+                <td><p class="small">{{ ventaSin.nsuc~'-'~ventaSin.npe~'-'~ventaSin.ncomp }}</p></td>
+                <td><p class="small">{{ ventaSin.cotiz }}</p></td>
+                <td><p class="small">{{ ventaSin.comentario }}</p></td>
+                <td class="text-right"><p class="small">{{ ventaSin.g10|number_format(0, ',', '.') }}</p></td>
+                {#<td class="text-right">{{ ventaSin.g5|number_format(0, ',', '.') }}</td>#}
+                {#<td class="text-right">{{ ventaSin.iva10|number_format(0, ',', '.') }}</td>#}
+                {#<td class="text-right">{{ ventaSin.iva5|number_format(0, ',', '.') }}</td>#}
+                {#<td class="text-right">{{ ventaSin.exe|number_format(0, ',', '.') }}</td>#}
+                {#<td class="text-right">{{ ventaSin.retencion|number_format(0, ',', '.') }}</td>#}
+                <td><p class="small">{{ ventaSin.timbrado }}</p></td>
+                <td><p class="small">{{ ventaSin.condicion }}</p></td>
+                <td class="text-center">
+                    <a href="{{ path('venta_show', { 'id': ventaSin.id }) }}" class="btn btn-info btn-xs">Mostrar</a>
+                    <a href="{{ path('venta_edit', { 'id': ventaSin.id }) }}" class="btn btn-warning btn-xs">Editar</a>
                 </td>
             </tr>
         {% endfor %}

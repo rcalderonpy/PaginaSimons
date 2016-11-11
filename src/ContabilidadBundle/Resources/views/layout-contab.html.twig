@@ -12,12 +12,12 @@
     //este bloque sirve para agregar un menu superior
      {% block menu %}{% endblock %}
      
-     <section class="container">
+     <section class="container-fluid">
          {% block content %} {% endblock %}
      </section>
      {% block javascripts %}
-         <script src="{{ asset('bundles/app/Bootstrap/js/bootstrap.min.js') }}"></script>
          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+         <script src="{{ asset('bundles/app/Bootstrap/js/bootstrap.min.js') }}"></script>
      {% endblock %}
  {% endblock %}
 

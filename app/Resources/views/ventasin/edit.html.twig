@@ -1,21 +1,91 @@
-{% extends 'base.html.twig' %}
+{% extends '@Contabilidad/BaseFormularios.html.twig' %}
 
-{% block body %}
-    <h1>VentaSin edit</h1>
-
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('venta_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% block areatrabajo %}
+    
+    <h1>Ventas - Edición</h1>
+    <div class="panel panel-default">
+        <div class="panel-body bg-info">
+            {{ form_start(form) }}
+            <div class="row form-inline">
+                <div class="col-md-12">
+                    {{ form_widget(form.usuario) }}
+                    {{ form_widget(form.cliente) }}
+                </div>
+            </div>
+            {#//primera fila#}
+            <div class="row form-inline">
+                <div class="col-md-12">
+                    <label class="" style="width: 17%">Fecha</label>
+                    <label class="" style="width: 36%">Cliente</label>
+                    <label class="" style="width: 21%">Sucursal</label>
+                    <label class="" style="width: 20%">Comprobante</label>
+                </div>
+                <div class="col-md-12">
+                    {{ form_widget(form.fecha) }}
+                    {{ form_widget(form.entidad) }}
+                    {{ form_widget(form.sucursal) }}
+                    {#<div class="panel panel-info visible-lg-inline-block">#}
+                    {#<div class="bg-info">#}
+                    {{ form_widget(form.nsuc) }}
+                    {{ form_widget(form.npe) }}
+                    {{ form_widget(form.ncomp) }}
+                    {#</div>#}
+                    {#</div>#}
+                </div>
+            </div>
+            {#//segunda fila#}
+            <div class="row form-inline">
+                <div class="col-md-12">
+                    <label class="" style="width: 15%">Timbrado</label>
+                    <label class="" style="width: 12%">Condición</label>
+                    <label class="" style="width: 21%">Moneda</label>
+                    <label class="" style="width: 10%">Cambio</label>
+                    <label class="" style="width: 20%">Comentario</label>
+                </div>
+                <div class="col-md-12">
+                    {{ form_widget(form.timbrado) }}
+                    {{ form_widget(form.condicion) }}
+                    {{ form_widget(form.moneda) }}
+                    {{ form_widget(form.cotiz) }}
+                    {{ form_widget(form.comentario) }}
+                </div>
+            </div>
+            
+            {#//tercera fila#}
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_label(form.g10) }}
+                    {{ form_widget(form.g10) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.g5) }}
+                    {{ form_widget(form.g5) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.iva10) }}
+                    {{ form_widget(form.iva10) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.iva5) }}
+                    {{ form_widget(form.iva5) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.exe) }}
+                    {{ form_widget(form.exe) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.retencion) }}
+                    {{ form_widget(form.retencion) }}
+                </div>
+            </div>
+            
+            <br>
+            
+            <input type="submit" value="Guardar" class="btn btn-group btn-success pull-right"/>
+        </div>
+        {{ form_end(form) }}
+    
+    </div>
+    <a href="{{ path('venta_index') }}" class="btn btn-default">Volver al Listado</a>
+    
 {% endblock %}
