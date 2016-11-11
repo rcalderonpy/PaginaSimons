@@ -24,7 +24,6 @@ class VentaSinController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $ventaSins = $em->getRepository('ContabilidadBundle:VentaSin')->findAll();
-//        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findAll();
         $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>2));
 
 //        dump($cliente);
@@ -47,8 +46,10 @@ class VentaSinController extends Controller
         $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
         $form->handleRequest($request);
 
+        $em = $this->getDoctrine()->getManager();
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>2));
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($ventaSin);
             $em->flush();
 
@@ -57,6 +58,7 @@ class VentaSinController extends Controller
 
         return $this->render('ventasin/new.html.twig', array(
             'ventaSin' => $ventaSin,
+            'cliente' => $cliente,
             'form' => $form->createView(),
         ));
     }
@@ -71,11 +73,12 @@ class VentaSinController extends Controller
         $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
 
         $em=$this->getDoctrine()->getEntityManager();
-        $entidad=$em->getRepository('Entidad')->findOneBy('id');
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>2));
 
 
         return $this->render('ventasin/show.html.twig', array(
             'ventaSin' => $ventaSin,
+            'cliente' => $cliente,
             'delete_form' => $deleteForm->createView(),
             'form'=>$form->createView()
         ));
@@ -93,8 +96,10 @@ class VentaSinController extends Controller
         $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
         $form->handleRequest($request);
 
+        $em = $this->getDoctrine()->getManager();
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>2));
+
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($ventaSin);
             $em->flush();
 
@@ -106,6 +111,7 @@ class VentaSinController extends Controller
 
         return $this->render('ventasin/edit.html.twig', array(
             'ventaSin' => $ventaSin,
+            'cliente' => $cliente,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'form'=>$form->createView()
