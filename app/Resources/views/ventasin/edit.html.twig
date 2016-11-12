@@ -50,31 +50,23 @@
                     {{ form_widget(form.comentario) }}
                 </div>
             </div>
-            
+    
             {#//tercera fila#}
-            <div class="row">
-                <div class="col-md-2">
-                    {{ form_label(form.g10) }}
+            <div class="row form-inline">
+                <div class="col-md-12">
+                    <label class="control-label" style="width: 17%">Gravadas 10%</label>
+                    <label class="control-label" style="width: 17%">Gravadas 5%</label>
+                    <label class="control-label" style="width: 16%">IVA 10%</label>
+                    <label class="control-label" style="width: 16%">IVA 5%</label>
+                    <label class="control-label" style="width: 16%">Exentas</label>
+                    <label class="control-label" style="width: 14%">Retención IVA</label>
+                </div>
+                <div class="col-md-12">
                     {{ form_widget(form.g10) }}
-                </div>
-                <div class="col-md-2">
-                    {{ form_label(form.g5) }}
                     {{ form_widget(form.g5) }}
-                </div>
-                <div class="col-md-2">
-                    {{ form_label(form.iva10) }}
                     {{ form_widget(form.iva10) }}
-                </div>
-                <div class="col-md-2">
-                    {{ form_label(form.iva5) }}
                     {{ form_widget(form.iva5) }}
-                </div>
-                <div class="col-md-2">
-                    {{ form_label(form.exe) }}
                     {{ form_widget(form.exe) }}
-                </div>
-                <div class="col-md-2">
-                    {{ form_label(form.retencion) }}
                     {{ form_widget(form.retencion) }}
                 </div>
             </div>

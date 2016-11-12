@@ -4,6 +4,7 @@
     <h1>Ventas</h1>
     <div class="panel panel-default">
         <div class="panel-body bg-info">
+            {#{{ form_start(form) }}#}
             <div class="row form-inline">
                 <div class="col-md-12">
                     {{ form_widget(form.usuario, {'attr':{'disabled':true}})  }}
@@ -50,35 +51,28 @@
             </div>
     
             {#//tercera fila#}
-            <div class="row">
-                <div class="col-md-2">
-                    {{ form_label(form.g10) }}
+            <div class="row form-inline">
+                <div class="col-md-12">
+                    <label class="control-label" style="width: 17%">Gravadas 10%</label>
+                    <label class="control-label" style="width: 17%">Gravadas 5%</label>
+                    <label class="control-label" style="width: 16%">IVA 10%</label>
+                    <label class="control-label" style="width: 16%">IVA 5%</label>
+                    <label class="control-label" style="width: 16%">Exentas</label>
+                    <label class="control-label" style="width: 14%">Retención IVA</label>
+                </div>
+                <div class="col-md-12">
                     {{ form_widget(form.g10, {'attr':{'disabled':true}}) }}
-                </div>
-                <div class="col-md-2">
-                    {{ form_label(form.g5) }}
                     {{ form_widget(form.g5, {'attr':{'disabled':true}}) }}
-                </div>
-                <div class="col-md-2">
-                    {{ form_label(form.iva10) }}
                     {{ form_widget(form.iva10, {'attr':{'disabled':true}}) }}
-                </div>
-                <div class="col-md-2">
-                    {{ form_label(form.iva5) }}
                     {{ form_widget(form.iva5, {'attr':{'disabled':true}}) }}
-                </div>
-                <div class="col-md-2">
-                    {{ form_label(form.exe) }}
                     {{ form_widget(form.exe, {'attr':{'disabled':true}}) }}
-                </div>
-                <div class="col-md-2">
-                    {{ form_label(form.retencion) }}
                     {{ form_widget(form.retencion, {'attr':{'disabled':true}}) }}
                 </div>
             </div>
-    
+            
     
             <br>
+            {#{{ form_end(form) }}#}
         </div>
     </div>
     <div class="row">

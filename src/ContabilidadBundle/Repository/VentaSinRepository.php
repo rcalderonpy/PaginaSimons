@@ -10,4 +10,9 @@ namespace ContabilidadBundle\Repository;
  */
 class VentaSinRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getIVA10($ii10)
+    {
+        $iva10=round(($ii10/11),0);
+        return $iva10;
+    }
 }

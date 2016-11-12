@@ -67,12 +67,13 @@ class VentaSinController extends Controller
      * Finds and displays a VentaSin entity.
      *
      */
-    public function showAction(VentaSin $ventaSin)
+    public function showAction(VentaSin $ventaSin, Request $request)
     {
         $deleteForm = $this->createDeleteForm($ventaSin);
         $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
+        $form->handleRequest($request);
 
-        $em=$this->getDoctrine()->getEntityManager();
+        $em=$this->getDoctrine()->getManager();
         $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>2));
 
 

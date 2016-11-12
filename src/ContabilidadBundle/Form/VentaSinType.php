@@ -13,8 +13,10 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Intl\DateFormatter\IntlDateFormatter;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Intl\NumberFormatter;
+use DateTimeZone;
 
 class VentaSinType extends AbstractType
 {
@@ -28,70 +30,82 @@ class VentaSinType extends AbstractType
             ->add('fecha', BirthdayType::class, array(
                 'widget'=>'single_text',
                 'input'=>'datetime',
-                'data'=>new \DateTime(),
+                'html5'=>false,
+                'format'=>'d-M-y',
                 'attr'=>array('id'=>'fecha',
-                    'style'=>'width:17%'
+                    'style'=>'width:17%',
+                    'class'=>'input-sm'
                     )
             ))
             ->add('nsuc', null, array(
                 'attr'=>array('style'=>'width:6%',
-                    'placeholder'=>'SUC')
+                    'placeholder'=>'SUC',
+                    'class'=>'input-sm')
             ))
             ->add('npe', null, array(
                 'attr'=>array('style'=>'width:6%',
-                    'placeholder'=>'PE')
+                    'placeholder'=>'PE',
+                    'class'=>'input-sm')
             ))
             ->add('ncomp', null, array(
                 'attr'=>array('style'=>'width:11%',
-                    'placeholder'=>'COMPROB')
+                    'placeholder'=>'COMPROB',
+                    'class'=>'input-sm')
             ))
-            ->add('cotiz',null, array(
+            ->add('cotiz',NumberType::class, array(
                 'attr'=>array(
-                    'style'=>'width:10%'
-                )
+                    'style'=>'width:8%',
+                    'class'=>'text-right input-sm'
+                ),
+                'scale'=>2,
+                'grouping'=>true,
             ))
             ->add('comentario', null, array(
                 'attr'=>array(
-                    'style'=>'width:40%'
+                    'style'=>'width:51%',
+                    'class'=>'input-sm'
                 )
             ))
             ->add('g10', NumberType::class, array(
                 'grouping'=>true,
-                'data'=>0,
-                'attr'=>array('class'=>'text-right'),
+                'attr'=>array(
+                    'class'=>'text-right input-sm',
+                    'style'=>'width:17%'
+                    ),
                 'scale'=>0
             ))
             ->add('g5', NumberType::class, array(
                 'grouping'=>true,
-                'data'=>0,
-                'attr'=>array('class'=>'text-right'),
+                'attr'=>array('class'=>'text-right input-sm',
+                    'style'=>'width:17%'),
                 'scale'=>0
             ))
             ->add('iva10', NumberType::class, array(
-                'data'=>0,
-                'attr'=>array('class'=>'text-right'),
+                'attr'=>array('class'=>'text-right input-sm',
+                    'style'=>'width:16%'),
                 'grouping'=>true,
                 'empty_data'=>0
             ))
             ->add('iva5', NumberType::class, array(
-                'data'=>0,
-                'attr'=>array('class'=>'text-right'),
+                'attr'=>array('class'=>'text-right input-sm',
+                    'style'=>'width:16%'),
                 'grouping'=>true
             ))
             ->add('exe', NumberType::class, array(
-                'data'=>0,
-                'attr'=>array('class'=>'text-right'),
+                'attr'=>array('class'=>'text-right input-sm',
+                    'style'=>'width:16%'),
                 'grouping'=>true
             ))
             ->add('retencion', NumberType::class, array(
-                'data'=>0,
-                'attr'=>array('class'=>'text-right'),
+                'attr'=>array('class'=>'text-right input-sm',
+                    'style'=>'width:15%'),
                 'grouping'=>true
             ))
             ->add('timbrado', null, array(
                 'attr'=>array(
-                    'style'=>'width:15%',
-                    'placeholder'=>'Nº Timbrado'
+                    'style'=>'width:10%',
+                    'placeholder'=>'Nº Timbrado',
+                    'class'=>'input-sm'
                 )
             ))
             ->add('condicion', ChoiceType::class, array(
@@ -100,24 +114,42 @@ class VentaSinType extends AbstractType
                     'Credito'=>1
                 ),
                 'expanded'=>false,
-                'placeholder'=>false
+                'placeholder'=>false,
+                'attr'=>array(
+                    'class'=>'input-sm'
+                )
             ))
             ->add('sucursal', null, array(
                 'attr'=>array(
-                    'style'=>'width:21%'
+                    'style'=>'width:21%',
+                    'class'=>'input-sm'
                 )
             ))
             ->add('entidad', null, array(
                 'attr'=>array(
-                    'style'=>'width:36%'
+                    'style'=>'width:36%',
+                    'class'=>'input-sm'
                 )
             ))
-            ->add('cliente')
+            ->add('cliente',null, array(
+                'attr'=>array(
+                    'style'=>'width:36%',
+                    'class'=>'input-sm'
+                )
+            ))
             ->add('moneda', null, array(
-                'placeholder'=>false
+                'placeholder'=>false,
+                'attr'=>array(
+                    'style'=>'width:20  %',
+                    'class'=>'input-sm'
+                )
             ))
             ->add('usuario', null, array(
-                'placeholder'=>false
+                'placeholder'=>false,
+                'attr'=>array(
+                    'style'=>'width:25%',
+                    'class'=>'input-sm'
+                )
             ))
         ;
     }

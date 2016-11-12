@@ -36,6 +36,8 @@ class VentaSin
      *
      * @ORM\Column(name="fecha", type="date")
      * @Assert\NotNull()
+     * @Assert\DateTime(format="d-/M/y", message="No es un formato válido")
+     *
      */
     private $fecha;
 
@@ -97,7 +99,7 @@ class VentaSin
      *
      * @ORM\Column(name="cotiz", type="float")
      */
-    private $cotiz;
+    private $cotiz=0.00;
 
     /**
      * @var string
@@ -111,42 +113,44 @@ class VentaSin
      *
      * @ORM\Column(name="g10", type="integer")
      */
-    private $g10;
+    private $g10=0;
 
     /**
      * @var int
      *
      * @ORM\Column(name="g5", type="integer")
+     * @ORM\Column(name="g5", type="integer")
+     * @Assert\NotNull()
      */
-    private $g5;
+    private $g5=0;
 
     /**
      * @var int
      *
      * @ORM\Column(name="iva10", type="integer")
      */
-    private $iva10;
+    private $iva10=0;
 
     /**
      * @var int
      *
      * @ORM\Column(name="iva5", type="integer")
      */
-    private $iva5;
+    private $iva5=0;
 
     /**
      * @var int
      *
      * @ORM\Column(name="exe", type="integer")
      */
-    private $exe;
+    private $exe=0;
 
     /**
      * @var int
      *
      * @ORM\Column(name="retencion", type="integer")
      */
-    private $retencion;
+    private $retencion=0;
 
     /**
      * @var \stdClass
@@ -159,6 +163,8 @@ class VentaSin
      * @var string
      *
      * @ORM\Column(name="timbrado", type="string", length=20)
+     * @Assert\NotBlank()
+     * @Assert\Length(max="8", min="8")
      */
     private $timbrado;
 
@@ -169,6 +175,11 @@ class VentaSin
      */
     private $condicion;
 
+
+    public function __construct()
+    {
+        $this->setFecha(new \DateTime());
+    }
 
     /**
      * Get id
