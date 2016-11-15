@@ -39,34 +39,34 @@ class DefaultController extends Controller
 
     }
 
-    public function loginAction(Request $request)
-    {
-//        $defaultData = array('message' => 'Texto de prueba');
-//        $form = $this->createFormBuilder($defaultData)
-//            ->add('user', TextType::class)
-//            ->add('pw', PasswordType::class)
-//            ->add('submit', SubmitType::class)
-//            ->getForm();
+//    public function loginAction(Request $request)
+//    {
+////        $defaultData = array('message' => 'Texto de prueba');
+////        $form = $this->createFormBuilder($defaultData)
+////            ->add('user', TextType::class)
+////            ->add('pw', PasswordType::class)
+////            ->add('submit', SubmitType::class)
+////            ->getForm();
+////
+////        $form->handleRequest($request);
+////
+////        if ($form->isValid()) {
+////            // data is an array with "name", "email", and "message" keys
+////            $data = $form->getData();
+////            echo "El formulario es válido";
+////            dump($data);
+////            $this->redirectToRoute('homepage');
+////        }
 //
-//        $form->handleRequest($request);
+//        $nombre=$request->request->get('usuario');
+//        $pw=$request->request->get('pw');
+//        echo 'Nombre= '.$nombre;
+//        echo '<br>';
+//        echo 'Contraseña= '.$pw;
 //
-//        if ($form->isValid()) {
-//            // data is an array with "name", "email", and "message" keys
-//            $data = $form->getData();
-//            echo "El formulario es válido";
-//            dump($data);
-//            $this->redirectToRoute('homepage');
-//        }
+//        // abre la página contacto
+//        return $this->render('@App/Default/login.html.twig');
 
-        $nombre=$request->request->get('usuario');
-        $pw=$request->request->get('pw');
-        echo 'Nombre= '.$nombre;
-        echo '<br>';
-        echo 'Contraseña= '.$pw;
-
-        // abre la página contacto
-        return $this->render('@App/Default/login.html.twig');
-
-    }
+//    }
 }
 

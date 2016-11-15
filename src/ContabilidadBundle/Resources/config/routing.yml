@@ -2,10 +2,10 @@ contabilidad_venta:
     resource: "@ContabilidadBundle/Resources/config/routing/ventasin.yml"
     prefix:   /venta
 
-contabilidad_homepage:
+contabilidad_menu:
     path:     /
     defaults: { _controller: ContabilidadBundle:Default:index }
 
-ventas:
-    path:     /ventas_sin
-    defaults: { _controller: ContabilidadBundle:Default:ventasSin }
+contabilidad_lista_clientes:
+    path:     /lista_clientes
+    defaults: { _controller: ContabilidadBundle:Default:filtrarClientes}

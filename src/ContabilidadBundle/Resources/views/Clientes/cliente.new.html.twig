@@ -1,7 +1,7 @@
 {% extends '@Contabilidad/BaseFormularios.html.twig' %}
 
 {% block areatrabajo %}
-    {{ dump(cliente) }}
+    
     <script type="text/javascript">
     
         function calculariva(){
@@ -138,8 +138,7 @@
                         <br>
                       
                             <input type="submit" value="Guardar" class="btn btn-group btn-success pull-right"/>
-                        {{ form_widget(form.cliente, {'attr':{'value':cliente}})  }}
-                        {{ form_widget(form.usuario, {'attr':{'value':user}}) }}
+                        {{ form_rest(form) }}
                         {{ form_end(form) }}
                     </div>
     

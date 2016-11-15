@@ -10,4 +10,30 @@ namespace ContabilidadBundle\Repository;
  */
 class ClienteRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function buscarCliente($opciones=array(
+                'ape1'=>'',
+                'ape2'=>'',
+                'nombres'=>'',
+                'ruc'=>''
+            ))
+    {
+        $em=$this->getEntityManager();
+
+        $query=$em->createQueryBuilder()
+            ->select('c')
+            ->from('ContabilidadBundle:Cliente', 'c')
+            ->where("c.ape1 like :ape1")
+            ->andWhere("c.ape2 like :ape2")
+            ->andWhere("c.nombres like :nombres")
+            ->andWhere("c.ruc like :ruc")
+            ->setParameter('ape1', '%'.$opciones['ape1'].'%')
+            ->setParameter('ape2', '%'.$opciones['ape2'].'%')
+            ->setParameter('nombres', '%'.$opciones['nombres'].'%')
+            ->setParameter('ruc', '%'.$opciones['ruc'].'%')
+            ->orderBy('c.nombres', 'ASC')
+            ->getQuery();
+
+        $clientes=$query->getResult();
+        return $clientes;
+    }
 }

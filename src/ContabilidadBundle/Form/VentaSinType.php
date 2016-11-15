@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CurrencyType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -131,12 +132,7 @@ class VentaSinType extends AbstractType
                     'class'=>'input-sm'
                 )
             ))
-            ->add('cliente',null, array(
-                'attr'=>array(
-                    'style'=>'width:36%',
-                    'class'=>'input-sm'
-                )
-            ))
+            ->add('cliente',HiddenType::class)
             ->add('moneda', null, array(
                 'placeholder'=>false,
                 'attr'=>array(
@@ -144,13 +140,7 @@ class VentaSinType extends AbstractType
                     'class'=>'input-sm'
                 )
             ))
-            ->add('usuario', null, array(
-                'placeholder'=>false,
-                'attr'=>array(
-                    'style'=>'width:25%',
-                    'class'=>'input-sm'
-                )
-            ))
+            ->add('usuario', HiddenType::class)
         ;
     }
     

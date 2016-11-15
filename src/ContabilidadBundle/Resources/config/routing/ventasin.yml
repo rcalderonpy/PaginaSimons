@@ -1,7 +1,7 @@
 venta_index:
     path:     /
     defaults: { _controller: "ContabilidadBundle:VentaSin:index" }
-    methods:  GET
+    methods:  [GET, POST]
 
 venta_show:
     path:     /{id}/show

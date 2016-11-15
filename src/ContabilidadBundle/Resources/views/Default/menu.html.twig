@@ -1,0 +1,38 @@
+{% extends '@Contabilidad/layout-contab.html.twig' %}
+{% block title %}Menu Contabilidad{% endblock %}
+{% block head %}
+	{{ parent() }}
+	<nav class="navbar navbar-default">
+			<!-- BOTONES -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-default navbar-btn" data-toggle="modal" data-target="#myModal">
+					Seleccionar Cliente
+				</button>
+				
+			</div>
+	</nav>
+	
+	
+	
+	
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Seleccionar Cliente</h4>
+				</div>
+				<div class="modal-body">
+					Aquí va el contenido
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+					<button type="button" class="btn btn-primary">Seleccionar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+{% endblock %}

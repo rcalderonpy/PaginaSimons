@@ -19,20 +19,28 @@ class VentaSinController extends Controller
      * Lists all VentaSin entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+//        Validación Usuario
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+        $user = $this->getUser();
+
         $em = $this->getDoctrine()->getManager();
-
         $ventaSins = $em->getRepository('ContabilidadBundle:VentaSin')->findAll();
-        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>2));
-
-//        dump($cliente);
-//        die();
+//        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneById($request->request->get('id'));
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$_GET['id']));
 
 
         return $this->render('ventasin/index.html.twig', array(
             'ventaSins' => $ventaSins,
-            'cliente'=>$cliente
+            'user'=>$user,
+            'cliente'=>$cliente,
+            'titulo'=>'Libro de Ventas',
+            'botones'=>array(
+                array('texto'=>'Nueva Venta', 'ruta'=>'venta_new')
+            )
         ));
     }
 
@@ -42,12 +50,20 @@ class VentaSinController extends Controller
      */
     public function newAction(Request $request)
     {
+        dump($request);
+        die();
+        //        Validación Usuario
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+        $user = $this->getUser();
+
         $ventaSin = new VentaSin();
         $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
         $form->handleRequest($request);
 
         $em = $this->getDoctrine()->getManager();
-        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>2));
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$request->request->get('id')));
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($ventaSin);
@@ -58,8 +74,13 @@ class VentaSinController extends Controller
 
         return $this->render('ventasin/new.html.twig', array(
             'ventaSin' => $ventaSin,
+            'user'=>$user,
             'cliente' => $cliente,
             'form' => $form->createView(),
+            'titulo'=>'Libro de Ventas',
+            'botones'=>array(
+                array('texto'=>'Volver', 'ruta'=>'venta_index')
+            )
         ));
     }
 
@@ -69,6 +90,14 @@ class VentaSinController extends Controller
      */
     public function showAction(VentaSin $ventaSin, Request $request)
     {
+        //        Validación Usuario
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+        $user = $this->getUser();
+
+//        dump($ventaSin);
+//        die();
         $deleteForm = $this->createDeleteForm($ventaSin);
         $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
         $form->handleRequest($request);
@@ -79,9 +108,15 @@ class VentaSinController extends Controller
 
         return $this->render('ventasin/show.html.twig', array(
             'ventaSin' => $ventaSin,
+            'user'=>$user,
             'cliente' => $cliente,
             'delete_form' => $deleteForm->createView(),
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'titulo'=>'Libro de Ventas',
+            'botones'=>array(
+                array('texto'=>'Editar', 'ruta'=>'venta_edit', 'id'=>$ventaSin->getId()),
+                array('texto'=>'Volver', 'ruta'=>'venta_index')
+            )
         ));
     }
 
@@ -91,6 +126,12 @@ class VentaSinController extends Controller
      */
     public function editAction(Request $request, VentaSin $ventaSin)
     {
+        //        Validación Usuario
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+        $user = $this->getUser();
+
         $deleteForm = $this->createDeleteForm($ventaSin);
         $editForm = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
         $editForm->handleRequest($request);
@@ -98,7 +139,8 @@ class VentaSinController extends Controller
         $form->handleRequest($request);
 
         $em = $this->getDoctrine()->getManager();
-        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>2));
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneById($request->request->get('id'));
+
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em->persist($ventaSin);
@@ -112,10 +154,15 @@ class VentaSinController extends Controller
 
         return $this->render('ventasin/edit.html.twig', array(
             'ventaSin' => $ventaSin,
+            'user'=>$user,
             'cliente' => $cliente,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'titulo'=>'Libro de Ventas',
+            'botones'=>array(
+                array('texto'=>'Volver', 'ruta'=>'venta_index'),
+            )
         ));
     }
 

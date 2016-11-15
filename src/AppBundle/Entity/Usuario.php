@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Usuario
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="usuario")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UsuarioRepository")
  */
-class Usuario
+class Usuario implements UserInterface
 {
     /**
      * @var int
@@ -43,11 +44,39 @@ class Usuario
     private $nombre;
 
     /**
-     * @var bool
+     * @var string
      *
-     * @ORM\Column(name="admin", type="boolean")
+     * @ORM\Column(name="role", type="string", length=20)
      */
-    private $admin;
+    private $role;
+
+
+    public function getUsername()
+    {
+        // TODO: Implement getUsername() method.
+        return $this->usuario;
+    }
+    public function getPassword()
+    {
+        // TODO: Implement getUsername() method.
+        return $this->pw;
+    }
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+        return null;
+    }
+
+    public function getRoles()
+    {
+        // TODO: Implement getRoles() method.
+        return array($this->getRole());
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
 
     public function __toString()
     {
@@ -143,9 +172,9 @@ class Usuario
      *
      * @return Usuario
      */
-    public function setAdmin($admin)
+    public function setRole($role)
     {
-        $this->admin = $admin;
+        $this->role = $role;
 
         return $this;
     }
@@ -155,9 +184,9 @@ class Usuario
      *
      * @return bool
      */
-    public function getAdmin()
+    public function getRole()
     {
-        return $this->admin;
+        return $this->role;
     }
 }
 

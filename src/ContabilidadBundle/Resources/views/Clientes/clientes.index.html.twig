@@ -1,0 +1,46 @@
+{% extends '@Contabilidad/layout-contab.html.twig' %}
+
+{% block content %}
+
+    <h2>Listado de Clientes</h2>
+    <table class="table table-striped table-condensed table-bordered">
+        <thead>
+            <tr>
+                <th class="text-center">Id</th>
+                <th class="text-center">RUC</th>
+                <th class="text-center">CLIENTE</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+        {% for cliente in clientes %}
+            
+            <tr>
+                <td><p class="small"><a href="">{{ cliente.id }}</a></p></td>
+                <td><p class="small">{{ cliente.ruc~'-'~cliente.dv }}</p></td>
+                <td><p class="small">{{ cliente.nombres~' '~cliente.ape1~' '~cliente.ape2|raw }}</p></td>
+                {#<td><p class="small">{{ ventaSin.nsuc~'-'~ventaSin.npe~'-'~ventaSin.ncomp }}</p></td>#}
+                {#<td><p class="small">{{ ventaSin.cotiz }}</p></td>#}
+                {#<td><p class="small">{{ ventaSin.comentario }}</p></td>#}
+                {#<td class="text-right"><p class="small">{{ ventaSin.g10|number_format(0, ',', '.') }}</p></td>#}
+                {#<td class="text-right">{{ ventaSin.g5|number_format(0, ',', '.') }}</td>#}
+                {#<td class="text-right">{{ ventaSin.iva10|number_format(0, ',', '.') }}</td>#}
+                {#<td class="text-right">{{ ventaSin.iva5|number_format(0, ',', '.') }}</td>#}
+                {#<td class="text-right">{{ ventaSin.exe|number_format(0, ',', '.') }}</td>#}
+                {#<td class="text-right">{{ ventaSin.retencion|number_format(0, ',', '.') }}</td>#}
+                {#<td><p class="small">{{ ventaSin.timbrado }}</p></td>#}
+                {#<td><p class="small">{{ ventaSin.condicion }}</p></td>#}
+                <td class="text-center">
+                    {#<a href="{{ path('venta_show', { 'id': ventaSin.id }) }}" class="btn btn-info btn-xs">Mostrar</a>#}
+                    <a href="{{ path('venta_index', { 'id': cliente.id }) }}" class="btn btn-info btn-xs">Seleccionar</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {{ clientes|length }} Registros encontrados.
+    
+    
+
+{% endblock %}

@@ -1,0 +1,78 @@
+html, body {
+    height: 100%;
+    margin: 0px;
+    padding: 0;
+}
+
+body {
+    background-color: #ffffff;
+    /*background-image: url("..//img/logotipo_simons (rasgado).png");*/
+
+    /*background-position: top;*/
+    /*background-repeat: repeat-y;*/
+    /*background-clip: border-box;*/
+    /*position: relative;*/
+}
+
+#contenedor {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0px;
+}
+
+header{
+    background: #204d74;
+    height: 70px;
+    margin: 0px;
+    padding: 10px 0px;
+    color: #b9b9b9;
+}
+
+#titulo{
+    color: #b9b9b9;
+    font-family: 'Domine', serif;
+    font-style: normal;
+    font-size: 25px;
+}
+header a{
+    color: #b9b9b9;
+}
+
+
+/*footer {*/
+    /*background: black;*/
+    /*height: 60px;*/
+    /*margin: 10px 0px 0px;*/
+    /*padding: 20px 20px 20px;*/
+    /*!*display: block;*!*/
+    /*position: relative;*/
+/*}*/
+
+/*footer strong {*/
+    /*color: #b9b9b9;*/
+/*}*/
+
+table{
+    background-color: #ffffff;
+}
+
+table th{
+    background-color: #204d74;
+    color: #b9b9b9;
+}
+
+#filtros{
+    border-right-style: solic;
+    border-right-width: 1px;
+    border-right-color: #4e4d4d;
+    background-color: #edf9f0;
+    /*border-radius: 0px;*/
+    box-shadow: 0px 5px 5px 3px #dad8d1;
+
+    
+}
+
+h2{
+    color: #73120d;
+}

@@ -4,13 +4,16 @@
 
 {% block body %}
 <div class="container">
-	{#<img src="{{ asset('bundles/app/img/logotipo_simons (rasgado).png') }}" alt="">#}
-	<form action="{{ path('login') }}" method="post">
+	{#{% if app.user is defined %}#}
+		{#{{ dump(app.getUser()) }}#}
+	{#{% endif %}#}
+	
+	<form action="{{ path('login_check')}}" method="post">
 
 		<h1>Inicio de Sesión</h1>
 
-		<input type="text" maxlength="20" placeholder="Ingrese su usuario" id="usuario" name="usuario">
-		<input type="password" maxlength="20" placeholder="INGRESE SU CONTRASEÑA" id="pw" name="pw">
+		<input type="text" maxlength="20" placeholder="Ingrese su usuario" id="usuario" name="_username" value="{{ last_username }}">
+		<input type="password" maxlength="20" placeholder="INGRESE SU CONTRASEÑA" id="pw" name="_password">
 		<button type="submit">Ingresar</button>
 
 	</form>

@@ -6,18 +6,52 @@
 {% block stylesheets %}
     <link href="{{ asset('bundles/app/Bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Domine:700" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/estilosForm.css') }}">
+    
 {% endblock %}
 
  {% block body %}
-    //este bloque sirve para agregar un menu superior
+     {% block head %}
+        <header>
+            <nav class="navbar">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="{{ path('contabilidad_menu') }}" id="titulo">Simons Estudio Contable</a>
+                    </div>
+            
+                    <!-- BOTONES -->
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle glyphicon glyphicon-user" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                {{ user.usuario }}
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('logout') }}">Cerrar Sesión</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.container-fluid -->
+            </nav>
+        </header>
+     {% endblock %}
+     
+     
      {% block menu %}{% endblock %}
      
      <section class="container-fluid">
          {% block content %} {% endblock %}
      </section>
      {% block javascripts %}
-         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
          <script src="{{ asset('bundles/app/Bootstrap/js/bootstrap.min.js') }}"></script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
      {% endblock %}
  {% endblock %}
 
