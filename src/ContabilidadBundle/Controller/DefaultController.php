@@ -38,7 +38,7 @@ class DefaultController extends Controller
         $em=$this->getDoctrine()->getManager();
         $clientes=$em->getRepository('ContabilidadBundle:Cliente')->buscarCliente(array(
             'ruc'=>$request->request->get('ruc'),
-            'nombres'=>$request->request->get('nombre')
+            'nombre'=>$request->request->get('nombre')
         ));
 
 //        dump($clientes);

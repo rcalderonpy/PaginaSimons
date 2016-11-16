@@ -6,9 +6,9 @@ use ContabilidadBundle\ContabilidadBundle;
 use ContabilidadBundle\Entity\Cliente;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use ContabilidadBundle\Entity\VentaSin;
 use ContabilidadBundle\Form\VentaSinType;
+use ContabilidadBundle\Repository\VentaSinRepository;
 
 
 /**
@@ -23,6 +23,8 @@ class VentaSinController extends Controller
      */
     public function indexAction(Request $request)
     {
+//        dump($request);
+//        die();
 
 //        Validación Usuario
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -31,8 +33,7 @@ class VentaSinController extends Controller
         $user = $this->getUser();
 
         $em = $this->getDoctrine()->getManager();
-        $ventaSins = $em->getRepository('ContabilidadBundle:VentaSin')->findAll();
-//        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneById($request->request->get('id'));
+//        $ventaSins = $em->getRepository('ContabilidadBundle:VentaSin')->findAll();
         $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$_GET['id']));
 
         $clisel=$this->get('app.cliente');
@@ -41,6 +42,12 @@ class VentaSinController extends Controller
         $nvocli=$this->get('app.cliente')->getCliente();
 //        dump($nvocli);
 //        die();
+
+        //filtrar ventas del cliente
+        $em=$this->getDoctrine()->getManager();
+        $ventaSins=$em->getRepository('ContabilidadBundle:VentaSin')->filtrarVentas(array(
+            'cliente'=>$_GET['id']
+        ));
 
         return $this->render('ventasin/index.html.twig', array(
             'ventaSins' => $ventaSins,
@@ -70,7 +77,9 @@ class VentaSinController extends Controller
         $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $em=$this->getDoctrine()->getManager();
             $em->persist($ventaSin);
             $em->flush();
 

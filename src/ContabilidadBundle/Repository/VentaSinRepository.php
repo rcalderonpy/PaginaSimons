@@ -15,4 +15,22 @@ class VentaSinRepository extends \Doctrine\ORM\EntityRepository
         $iva10=round(($ii10/11),0);
         return $iva10;
     }
+
+    public function filtrarVentas($opciones=array(
+        'cliente'=>0
+    ))
+    {
+        $em=$this->getEntityManager();
+
+        $query=$em->createQueryBuilder()
+            ->select('v')
+            ->from('ContabilidadBundle:VentaSin', 'v')
+            ->Where("v.cliente = :cliente")
+            ->setParameter('cliente', $opciones['cliente'])
+            ->orderBy('v.fecha', 'ASC')
+            ->getQuery();
+
+        $ventas=$query->getResult();
+        return $ventas;
+    }
 }

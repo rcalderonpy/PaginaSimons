@@ -11,9 +11,7 @@ namespace ContabilidadBundle\Repository;
 class ClienteRepository extends \Doctrine\ORM\EntityRepository
 {
     public function buscarCliente($opciones=array(
-                'ape1'=>'',
-                'ape2'=>'',
-                'nombres'=>'',
+                'nombre'=>'',
                 'ruc'=>''
             ))
     {
@@ -25,7 +23,7 @@ class ClienteRepository extends \Doctrine\ORM\EntityRepository
             ->Where("c.ruc like :ruc")
             ->andWhere("CONCAT(c.nombres, ' ', c.ape1, ' ', c.ape2) like :nombres")
             ->setParameter('ruc', '%'.$opciones['ruc'].'%')
-            ->setParameter('nombres', '%'.$opciones['nombres'].'%')
+            ->setParameter('nombres', '%'.$opciones['nombre'].'%')
             ->orderBy('c.nombres', 'ASC')
             ->getQuery();
 
