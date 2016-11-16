@@ -3,11 +3,13 @@
 namespace ContabilidadBundle\Controller;
 
 use ContabilidadBundle\ContabilidadBundle;
+use ContabilidadBundle\Entity\Cliente;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ContabilidadBundle\Entity\VentaSin;
 use ContabilidadBundle\Form\VentaSinType;
+
 
 /**
  * VentaSin controller.
@@ -21,6 +23,7 @@ class VentaSinController extends Controller
      */
     public function indexAction(Request $request)
     {
+
 //        Validación Usuario
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException();
@@ -32,6 +35,12 @@ class VentaSinController extends Controller
 //        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneById($request->request->get('id'));
         $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$_GET['id']));
 
+        $clisel=$this->get('app.cliente');
+        $clisel->setCliente($cliente);
+
+        $nvocli=$this->get('app.cliente')->getCliente();
+//        dump($nvocli);
+//        die();
 
         return $this->render('ventasin/index.html.twig', array(
             'ventaSins' => $ventaSins,
@@ -39,7 +48,7 @@ class VentaSinController extends Controller
             'cliente'=>$cliente,
             'titulo'=>'Libro de Ventas',
             'botones'=>array(
-                array('texto'=>'Nueva Venta', 'ruta'=>'venta_new')
+                array('texto'=>'Nueva Venta', 'ruta'=>'venta_new', 'id'=>$cliente->getId())
             )
         ));
     }
@@ -48,10 +57,9 @@ class VentaSinController extends Controller
      * Creates a new VentaSin entity.
      *
      */
-    public function newAction(Request $request)
+    public function newAction(Cliente $cliente, Request $request)
     {
-        dump($request);
-        die();
+
         //        Validación Usuario
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException();
@@ -61,9 +69,6 @@ class VentaSinController extends Controller
         $ventaSin = new VentaSin();
         $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
         $form->handleRequest($request);
-
-        $em = $this->getDoctrine()->getManager();
-        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$request->request->get('id')));
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($ventaSin);
@@ -90,6 +95,8 @@ class VentaSinController extends Controller
      */
     public function showAction(VentaSin $ventaSin, Request $request)
     {
+        dump($ventaSin);
+        die();
         //        Validación Usuario
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException();

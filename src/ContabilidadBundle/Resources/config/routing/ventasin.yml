@@ -9,7 +9,7 @@ venta_show:
     methods:  GET
 
 venta_new:
-    path:     /new
+    path:     /{id}/new
     defaults: { _controller: "ContabilidadBundle:VentaSin:new" }
     methods:  [GET, POST]
 

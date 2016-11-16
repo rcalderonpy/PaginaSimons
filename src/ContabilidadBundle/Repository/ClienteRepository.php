@@ -22,14 +22,10 @@ class ClienteRepository extends \Doctrine\ORM\EntityRepository
         $query=$em->createQueryBuilder()
             ->select('c')
             ->from('ContabilidadBundle:Cliente', 'c')
-            ->where("c.ape1 like :ape1")
-            ->andWhere("c.ape2 like :ape2")
-            ->andWhere("c.nombres like :nombres")
-            ->andWhere("c.ruc like :ruc")
-            ->setParameter('ape1', '%'.$opciones['ape1'].'%')
-            ->setParameter('ape2', '%'.$opciones['ape2'].'%')
-            ->setParameter('nombres', '%'.$opciones['nombres'].'%')
+            ->Where("c.ruc like :ruc")
+            ->andWhere("CONCAT(c.nombres, ' ', c.ape1, ' ', c.ape2) like :nombres")
             ->setParameter('ruc', '%'.$opciones['ruc'].'%')
+            ->setParameter('nombres', '%'.$opciones['nombres'].'%')
             ->orderBy('c.nombres', 'ASC')
             ->getQuery();
 

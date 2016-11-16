@@ -4,11 +4,13 @@ namespace ContabilidadBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ContabilidadBundle\Repository\ClienteRepository;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
     public function indexAction()
     {
+
         //        Validación Usuario
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException();
@@ -19,8 +21,13 @@ class DefaultController extends Controller
         ));
     }
 
-    public function filtrarClientesAction()
+    public function filtrarClientesAction(Request $request)
     {
+//        if($_POST){
+//            dump($request);
+//            die();
+//        }
+
         //        Validación Usuario
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException();
@@ -29,7 +36,10 @@ class DefaultController extends Controller
 
         // Filtrar Clientes
         $em=$this->getDoctrine()->getManager();
-        $clientes=$em->getRepository('ContabilidadBundle:Cliente')->buscarCliente();
+        $clientes=$em->getRepository('ContabilidadBundle:Cliente')->buscarCliente(array(
+            'ruc'=>$request->request->get('ruc'),
+            'nombres'=>$request->request->get('nombre')
+        ));
 
 //        dump($clientes);
 //        die();

@@ -1,7 +1,25 @@
 {% extends '@Contabilidad/layout-contab.html.twig' %}
 
-{% block content %}
+{% block title %} Selección de Cliente {% endblock %}
 
+{% block head %}
+    {{ parent() }}
+    <nav class="navbar navbar-default">
+    <!-- BOTONES -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <form class="navbar-form navbar-left" method="post">
+                <div class="form-group">
+                    <label for="ruc">Filtro de Datos</label>
+                    <input type="text" class="form-control" placeholder="RUC" name="ruc">
+                    <input type="text" class="form-control" placeholder="Nombres - Apellidos" name="nombre">
+                </div>
+                <input type="submit" class="btn btn-default" value="Buscar">
+            </form>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
     <h2>Listado de Clientes</h2>
     <table class="table table-striped table-condensed table-bordered">
         <thead>

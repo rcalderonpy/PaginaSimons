@@ -8,7 +8,6 @@ services:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
 
-    twig.extension.cliente_seleccionado:
-        class: ContabilidadBundle\Repository\ClienteRepository
-        tags:
-                - { name: twig.extension }
+    app.cliente:
+        class: AppBundle\Services\globales
+        arguments: ["null"]
