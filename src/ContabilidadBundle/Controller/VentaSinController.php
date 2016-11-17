@@ -21,7 +21,7 @@ class VentaSinController extends Controller
      * Lists all VentaSin entities.
      *
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, $id_cliente, $mes, $ano)
     {
 //        dump($request);
 //        die();
@@ -34,7 +34,7 @@ class VentaSinController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 //        $ventaSins = $em->getRepository('ContabilidadBundle:VentaSin')->findAll();
-        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$_GET['id']));
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$id_cliente));
 
         $clisel=$this->get('app.cliente');
         $clisel->setCliente($cliente);
@@ -45,9 +45,11 @@ class VentaSinController extends Controller
 
         //filtrar ventas del cliente
         $em=$this->getDoctrine()->getManager();
-        $ventaSins=$em->getRepository('ContabilidadBundle:VentaSin')->filtrarVentas(array(
-            'cliente'=>$_GET['id']
+        $ventaSins=$em->getRepository('ContabilidadBundle:VentaSin')->filtrarVentasPeriodo(array(
+            'cliente'=>$id_cliente, 'mes'=>$mes, 'ano'=>$ano
         ));
+
+        $periodo='02 - 2016';
 
         return $this->render('ventasin/index.html.twig', array(
             'ventaSins' => $ventaSins,
@@ -56,7 +58,8 @@ class VentaSinController extends Controller
             'titulo'=>'Libro de Ventas',
             'botones'=>array(
                 array('texto'=>'Nueva Venta', 'ruta'=>'venta_new', 'id'=>$cliente->getId())
-            )
+            ),
+            'periodo'=>$periodo
         ));
     }
 
@@ -66,7 +69,8 @@ class VentaSinController extends Controller
      */
     public function newAction(Cliente $cliente, Request $request)
     {
-
+//        dump($request);
+//        die();
         //        Validación Usuario
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException();
@@ -74,6 +78,8 @@ class VentaSinController extends Controller
         $user = $this->getUser();
 
         $ventaSin = new VentaSin();
+        $ventaSin->setCliente($cliente);
+        $ventaSin->setUsuario($user);
         $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
         $form->handleRequest($request);
 
@@ -83,7 +89,7 @@ class VentaSinController extends Controller
             $em->persist($ventaSin);
             $em->flush();
 
-            return $this->redirectToRoute('venta_show', array('id' => $ventaSin->getId()));
+            return $this->redirectToRoute('venta_new', array('id' => $cliente->getId()));
         }
 
         return $this->render('ventasin/new.html.twig', array(
@@ -93,7 +99,7 @@ class VentaSinController extends Controller
             'form' => $form->createView(),
             'titulo'=>'Libro de Ventas',
             'botones'=>array(
-                array('texto'=>'Volver', 'ruta'=>'venta_index')
+                array('texto'=>'Volver', 'ruta'=>'venta_index', 'id'=>$cliente->getId())
             )
         ));
     }
@@ -104,8 +110,8 @@ class VentaSinController extends Controller
      */
     public function showAction(VentaSin $ventaSin, Request $request)
     {
-        dump($ventaSin);
-        die();
+//        dump($ventaSin);
+//        die();
         //        Validación Usuario
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException();
@@ -119,7 +125,7 @@ class VentaSinController extends Controller
         $form->handleRequest($request);
 
         $em=$this->getDoctrine()->getManager();
-        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>2));
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$ventaSin->getCliente()));
 
 
         return $this->render('ventasin/show.html.twig', array(
@@ -131,7 +137,7 @@ class VentaSinController extends Controller
             'titulo'=>'Libro de Ventas',
             'botones'=>array(
                 array('texto'=>'Editar', 'ruta'=>'venta_edit', 'id'=>$ventaSin->getId()),
-                array('texto'=>'Volver', 'ruta'=>'venta_index')
+                array('texto'=>'Volver', 'ruta'=>'venta_index', 'id'=>$cliente->getId())
             )
         ));
     }
@@ -154,8 +160,8 @@ class VentaSinController extends Controller
         $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
         $form->handleRequest($request);
 
-        $em = $this->getDoctrine()->getManager();
-        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneById($request->request->get('id'));
+        $em=$this->getDoctrine()->getManager();
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$ventaSin->getCliente()));
 
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -177,7 +183,7 @@ class VentaSinController extends Controller
             'form'=>$form->createView(),
             'titulo'=>'Libro de Ventas',
             'botones'=>array(
-                array('texto'=>'Volver', 'ruta'=>'venta_index'),
+                array('texto'=>'Volver', 'ruta'=>'venta_index', 'id'=>$cliente->getId()),
             )
         ));
     }

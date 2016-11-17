@@ -2,9 +2,16 @@
 
 namespace ContabilidadBundle\Controller;
 
+use ContabilidadBundle\ContabilidadBundle;
+use ContabilidadBundle\Entity\Periodo;
+use ContabilidadBundle\Repository\PeriodoRepository;
+use ContabilidadBundle\Form\PeriodoType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ContabilidadBundle\Repository\ClienteRepository;
 use Symfony\Component\HttpFoundation\Request;
+use ContabilidadBundle\Entity\VentaSin;
+use ContabilidadBundle\Form\VentaSinType;
+use ContabilidadBundle\Repository\VentaSinRepository;
 
 class DefaultController extends Controller
 {
@@ -23,12 +30,7 @@ class DefaultController extends Controller
 
     public function filtrarClientesAction(Request $request)
     {
-//        if($_POST){
-//            dump($request);
-//            die();
-//        }
-
-        //        Validación Usuario
+        // Validación Usuario
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException();
         }
@@ -41,13 +43,114 @@ class DefaultController extends Controller
             'nombre'=>$request->request->get('nombre')
         ));
 
-//        dump($clientes);
-//        die();
-
         return $this->render('@Contabilidad/Clientes/clientes.index.html.twig', array(
             'user'=>$user,
             'clientes'=>$clientes
         ));
     }
 
+    public function fichaClienteAction(Request $request, $id)
+    {
+//        dump($request);
+//        die();
+
+
+        // Validación Usuario
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+        $user = $this->getUser();
+
+        // Cliente Selccionado
+        $em=$this->getDoctrine()->getManager();
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$id));
+
+        // Crea Formulario Periodo
+        $period=new Periodo();
+        $period->setCliente($cliente);
+
+        $form = $this->createForm('ContabilidadBundle\Form\PeriodoType', $period);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            echo 'formulario enviado';
+            $em=$this->getDoctrine()->getManager();
+            $em->persist($period);
+            $em->flush();
+
+            return $this->redirectToRoute('contabilidad_ficha_cliente', array('id' => $cliente->getId()));
+        }
+
+        //filtrar periodos del cliente
+        $em=$this->getDoctrine()->getManager();
+        $periodos=$em->getRepository('ContabilidadBundle:Periodo')->filtrarPeriodos(array(
+            'cliente'=>$id
+        ));
+
+        $periodo='10-2016';
+
+
+
+        return $this->render('@Contabilidad/Clientes/clientes.ficha.html.twig', array(
+            'user'=>$user,
+            'cliente'=>$cliente,
+            'titulo'=>'Ficha del Cliente',
+            'botones'=>null,
+            'periodo'=>$periodo,
+            'form'=>$form->createView(),
+            'periodos'=>$periodos
+        ));
+    }
+
+    public function periodoClienteAction(Request $request, $id, $mes, $ano)
+    {
+//        dump($request);
+//        die();
+
+        // Validación Usuario
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+        $user = $this->getUser();
+
+        // Cliente Selccionado
+        $em=$this->getDoctrine()->getManager();
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$id));
+
+        //filtrar periodos del cliente
+//        $em=$this->getDoctrine()->getManager();
+//        $periodos=$em->getRepository('ContabilidadBundle:Periodo')->filtrarPeriodos(array(
+//            'cliente'=>$id
+//        ));
+
+        return $this->render('@Contabilidad/Clientes/clientes.periodo.html.twig', array(
+            'user'=>$user,
+            'cliente'=>$cliente,
+            'titulo'=>'Periodo '.$mes.' - '.$ano,
+            'botones'=>null,
+            'mes'=>$mes,
+            'ano'=>$ano
+        ));
+    }
+
+    public function periodoDeleteAction(Request $request, $periodo_id, $cliente_id)
+    {
+
+        // Validación Usuario
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $em=$this->getDoctrine()->getManager();
+        $periodo=$em->getRepository('ContabilidadBundle:Periodo')->find($periodo_id);
+        $em->remove($periodo);
+        $em->flush();
+
+//        dump($periodo_id);
+//        die();
+
+        return $this->redirectToRoute('contabilidad_ficha_cliente', array(
+            'id'=>$cliente_id
+        ));
+    }
 }

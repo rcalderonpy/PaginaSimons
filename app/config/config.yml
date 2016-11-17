@@ -62,6 +62,39 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        dql:
+            datetime_functions:
+                convert_tz: AppBundle\Query\Mysql\ConvertTz
+                date: AppBundle\Query\Mysql\Date
+                date_format: AppBundle\Query\Mysql\DateFormat
+                dateadd: AppBundle\Query\Mysql\DateAdd
+                datesub: AppBundle\Query\Mysql\DateSub
+                datediff: AppBundle\Query\Mysql\DateDiff
+                day: AppBundle\Query\Mysql\Day
+                dayname: AppBundle\Query\Mysql\DayName
+                dayofweek: AppBundle\Query\Mysql\DayOfWeek
+                dayofyear: AppBundle\Query\Mysql\DayOfYear
+                div: AppBundle\Query\Mysql\Div
+                from_unixtime: AppBundle\Query\Mysql\FromUnixtime
+                hour: AppBundle\Query\Mysql\Hour
+                last_day: AppBundle\Query\Mysql\LastDay
+                minute: AppBundle\Query\Mysql\Minute
+                now: AppBundle\Query\Mysql\Now
+                month: AppBundle\Query\Mysql\Month
+                monthname: AppBundle\Query\Mysql\MonthName
+                second: AppBundle\Query\Mysql\Second
+                strtodate: AppBundle\Query\Mysql\StrToDate
+                time: AppBundle\Query\Mysql\Time
+                timediff: AppBundle\Query\Mysql\TimeDiff
+                timestampadd: AppBundle\Query\Mysql\TimestampAdd
+                timestampdiff: AppBundle\Query\Mysql\TimestampDiff
+                timetosec: AppBundle\Query\Mysql\TimeToSec
+                week: AppBundle\Query\Mysql\Week
+                weekday: AppBundle\Query\Mysql\WeekDay
+                year: AppBundle\Query\Mysql\Year
+                yearweek: AppBundle\Query\Mysql\YearWeek
+                unix_timestamp: AppBundle\Query\Mysql\UnixTimestamp
+
 
 # Swiftmailer Configuration
 swiftmailer:

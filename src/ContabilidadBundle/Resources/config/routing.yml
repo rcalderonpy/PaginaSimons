@@ -9,3 +9,15 @@ contabilidad_menu:
 contabilidad_lista_clientes:
     path:     /lista_clientes
     defaults: { _controller: ContabilidadBundle:Default:filtrarClientes}
+
+contabilidad_ficha_cliente:
+    path:     /cliente/{id}
+    defaults: { _controller: ContabilidadBundle:Default:fichaCliente}
+
+contabilidad_periodo_cliente:
+    path:     /cliente_periodo/{id}/{mes}/{ano}
+    defaults: { _controller: ContabilidadBundle:Default:periodoCliente}
+
+contabilidad_periodo_delete:
+    path:     /cliente_periodo_delete/{periodo_id}/{cliente_id}
+    defaults: { _controller: ContabilidadBundle:Default:periodoDelete}

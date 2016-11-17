@@ -51,7 +51,7 @@
                 {#<td><p class="small">{{ ventaSin.condicion }}</p></td>#}
                 <td class="text-center">
                     {#<a href="{{ path('venta_show', { 'id': ventaSin.id }) }}" class="btn btn-info btn-xs">Mostrar</a>#}
-                    <a href="{{ path('venta_index', { 'id': cliente.id }) }}" class="btn btn-info btn-xs">Seleccionar</a>
+                    <a href="{{ path('contabilidad_ficha_cliente', { 'id': cliente.id }) }}" class="btn btn-info btn-xs">Seleccionar</a>
                 </td>
             </tr>
         {% endfor %}

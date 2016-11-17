@@ -8,12 +8,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ path('venta_index') }}">{{ titulo }}</a>
+            <a class="navbar-brand" href="#">{{ titulo }}</a>
         </div>
         
         <!-- BOTONES -->
         <div class="collapse navbar-collapse pull-right" id="bs-example-navbar-collapse-1">
             {#<ul class="nav navbar-nav nav-pills pull-right" style="vertical-align: middle">#}
+            {% if botones != null %}
                 {% for boton in botones %}
                     {% if boton|length>2 %}
                         {#<li role="presentation" class="btn btn-default navbar-btn">#}
@@ -25,6 +26,7 @@
                         {#</li>#}
                     {% endif %}
                 {% endfor %}
+            {% endif %}
             {#</ul>#}
             <span class="sr-only">(current)</span>
         </div><!-- /.navbar-collapse -->
