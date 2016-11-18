@@ -3,18 +3,18 @@ venta_index:
     defaults: { _controller: "ContabilidadBundle:VentaSin:index" }
     methods:  [GET, POST]
 
-venta_show:
-    path:     /{id}/show
-    defaults: { _controller: "ContabilidadBundle:VentaSin:show" }
-    methods:  GET
-
 venta_new:
-    path:     /{id}/new
+    path:     /{id_cliente}/{mes}/{ano}/new
     defaults: { _controller: "ContabilidadBundle:VentaSin:new" }
     methods:  [GET, POST]
 
+venta_show:
+    path:     /{id_cliente}/{mes}/{ano}/{id_venta}/show
+    defaults: { _controller: "ContabilidadBundle:VentaSin:show" }
+    methods:  GET
+
 venta_edit:
-    path:     /{id}/edit
+    path:     /{id_cliente}/{mes}/{ano}/{id_venta}/edit
     defaults: { _controller: "ContabilidadBundle:VentaSin:edit" }
     methods:  [GET, POST]
 

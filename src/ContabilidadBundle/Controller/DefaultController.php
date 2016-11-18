@@ -49,7 +49,7 @@ class DefaultController extends Controller
         ));
     }
 
-    public function fichaClienteAction(Request $request, $id)
+    public function fichaClienteAction(Request $request, $id_cliente)
     {
 //        dump($request);
 //        die();
@@ -63,7 +63,7 @@ class DefaultController extends Controller
 
         // Cliente Selccionado
         $em=$this->getDoctrine()->getManager();
-        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$id));
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$id_cliente));
 
         // Crea Formulario Periodo
         $period=new Periodo();
@@ -78,31 +78,26 @@ class DefaultController extends Controller
             $em->persist($period);
             $em->flush();
 
-            return $this->redirectToRoute('contabilidad_ficha_cliente', array('id' => $cliente->getId()));
+            return $this->redirectToRoute('contabilidad_ficha_cliente', array('id_cliente' => $cliente->getId()));
         }
 
         //filtrar periodos del cliente
         $em=$this->getDoctrine()->getManager();
         $periodos=$em->getRepository('ContabilidadBundle:Periodo')->filtrarPeriodos(array(
-            'cliente'=>$id
+            'cliente'=>$id_cliente
         ));
-
-        $periodo='10-2016';
-
-
 
         return $this->render('@Contabilidad/Clientes/clientes.ficha.html.twig', array(
             'user'=>$user,
             'cliente'=>$cliente,
             'titulo'=>'Ficha del Cliente',
             'botones'=>null,
-            'periodo'=>$periodo,
             'form'=>$form->createView(),
             'periodos'=>$periodos
         ));
     }
 
-    public function periodoClienteAction(Request $request, $id, $mes, $ano)
+    public function periodoClienteAction(Request $request, $id_cliente, $mes, $ano)
     {
 //        dump($request);
 //        die();
@@ -115,7 +110,7 @@ class DefaultController extends Controller
 
         // Cliente Selccionado
         $em=$this->getDoctrine()->getManager();
-        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$id));
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$id_cliente));
 
         //filtrar periodos del cliente
 //        $em=$this->getDoctrine()->getManager();
@@ -123,13 +118,22 @@ class DefaultController extends Controller
 //            'cliente'=>$id
 //        ));
 
+        //contar y sumar libro ventas
+        $totales=$em->getRepository('ContabilidadBundle:VentaSin')->totalesVentas(array(
+            'cliente'=>$id_cliente, 'mes'=>$mes, 'ano'=>$ano
+        ));
+
+//        dump($totales);
+//        die();
+
         return $this->render('@Contabilidad/Clientes/clientes.periodo.html.twig', array(
             'user'=>$user,
             'cliente'=>$cliente,
             'titulo'=>'Periodo '.$mes.' - '.$ano,
             'botones'=>null,
             'mes'=>$mes,
-            'ano'=>$ano
+            'ano'=>$ano,
+            'totales'=>$totales
         ));
     }
 

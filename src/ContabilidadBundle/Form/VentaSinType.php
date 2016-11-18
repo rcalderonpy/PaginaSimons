@@ -141,8 +141,8 @@ class VentaSinType extends AbstractType
                         'class'=>'input-sm'
                     )
                 ))
-                ->add('cliente')
-                ->add('usuario')
+//                ->add('cliente')
+//                ->add('usuario')
         ;
     }
 

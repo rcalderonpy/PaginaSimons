@@ -1,6 +1,11 @@
 {% extends '@Contabilidad/BaseFormularios.html.twig' %}
 
+{% block funciones %}
+    {% include 'ContabilidadBundle:Partials:cuadroFunciones.html.twig' %}
+{% endblock %}
+
 {% block areatrabajo %}
+    {#{{ dump(titulo) }}#}
     <table class="table table-striped table-condensed table-bordered">
         <thead>
             <tr>
@@ -19,7 +24,7 @@
         {% for ventaSin in ventaSins %}
             
             <tr>
-                <td><p class="small"><a href="{{ path('venta_show', { 'id': ventaSin.id }) }}">{{ ventaSin.id }}</a></p></td>
+                <td><p class="small"><a href="{{ path('venta_show', {'id_cliente':id_cliente, 'mes':mes, 'ano':ano, 'id_venta': ventaSin.id }) }}">{{ ventaSin.id }}</a></p></td>
                 <td><p class="small">{% if ventaSin.fecha %}{{ ventaSin.fecha|date('d/m/Y') }}{% endif %}</p></td>
                 <td><p class="small">{{ ventaSin.nsuc~'-'~ventaSin.npe~'-'~ventaSin.ncomp }}</p></td>
                 <td><p class="small">{{ ventaSin.cotiz }}</p></td>
@@ -33,8 +38,8 @@
                 <td><p class="small">{{ ventaSin.timbrado }}</p></td>
                 <td><p class="small">{{ ventaSin.condicion }}</p></td>
                 <td class="text-center">
-                    <a href="{{ path('venta_show', { 'id': ventaSin.id }) }}" class="btn btn-info btn-xs">Mostrar</a>
-                    <a href="{{ path('venta_edit', { 'id': ventaSin.id }) }}" class="btn btn-warning btn-xs">Editar</a>
+                    <a href="{{ path('venta_show', { 'id_cliente':id_cliente, 'mes':mes, 'ano':ano, 'id_venta': ventaSin.id }) }}" class="btn btn-info btn-xs">Mostrar</a>
+                    <a href="{{ path('venta_edit', { 'id_cliente': id_cliente, 'mes':mes, 'ano':ano, 'id_venta':ventaSin.id }) }}" class="btn btn-warning btn-xs">Editar</a>
                 </td>
             </tr>
         {% endfor %}

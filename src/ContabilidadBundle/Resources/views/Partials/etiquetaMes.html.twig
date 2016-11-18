@@ -1,0 +1,11 @@
+<div class="col-md-3">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong><a href="{{ path(objetivo.ruta,{'id_cliente':objetivo.id_cliente, 'mes':objetivo.mes, 'ano':objetivo.ano}) }}">{{ titulo }}</a></strong>
+            <span class="badge pull-right">{{ cantidad }}</span>
+        </div>
+        <div class="panel-body">
+            <p><strong>Suma: </strong>{{ total|number_format(0, ',', '.')}}</p>
+        </div>
+    </div>
+</div>

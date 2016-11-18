@@ -114,10 +114,10 @@
 								<td><p class="small text-center" > {{ periodo.mes }} </p></td>
 								<td class="text-center"><input type="checkbox" class="small" value="" disabled {% if periodo.bloqueado==1 %} checked {% endif %}></input></td>
 								<td class="text-center">
-									<a href="{{ path('contabilidad_periodo_cliente', {'id':cliente.id, 'mes':periodo.mes, 'ano':periodo.ano}) }}" class="fa fa-arrow-circle-right"> Seleccionar</a>
+									<a href="{{ path('contabilidad_periodo_cliente', {'id_cliente':cliente.id, 'mes':periodo.mes, 'ano':periodo.ano}) }}" class="fa fa-arrow-circle-right"> Seleccionar</a>
 								</td>
 								<td class="text-center">
-									<a href="{{ path('contabilidad_periodo_delete', {'periodo_id':periodo.id, 'cliente_id':cliente.id}) }}" class="fa fa-times"> Borrar</a>
+									<a href="{{ path('contabilidad_periodo_delete', {'id_periodo':periodo.id, 'id_cliente':cliente.id}) }}" class="fa fa-times"> Borrar</a>
 								</td>
 							</tr>
 						{% endfor %}

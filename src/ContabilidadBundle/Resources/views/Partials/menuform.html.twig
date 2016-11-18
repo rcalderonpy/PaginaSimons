@@ -16,9 +16,9 @@
             {#<ul class="nav navbar-nav nav-pills pull-right" style="vertical-align: middle">#}
             {% if botones != null %}
                 {% for boton in botones %}
-                    {% if boton|length>2 %}
+                    {% if boton|length>1 %}
                         {#<li role="presentation" class="btn btn-default navbar-btn">#}
-                            <a href="{{ path(boton.ruta, {id:boton.id})  }}" class="btn btn-default navbar-btn">{{ boton.texto }} </a>
+                            <a href="{{ path(boton.ruta, {'id_cliente':id_cliente, 'mes':mes, 'ano':ano})  }}" class="btn btn-default navbar-btn">{{ boton.texto }} </a>
                         {#</li>#}
                     {% else %}
                         {#<li role="presentation" class="btn btn-default navbar-btn">#}

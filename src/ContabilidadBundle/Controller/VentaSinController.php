@@ -23,8 +23,7 @@ class VentaSinController extends Controller
      */
     public function indexAction(Request $request, $id_cliente, $mes, $ano)
     {
-//        dump($request);
-//        die();
+
 
 //        Validación Usuario
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -49,17 +48,17 @@ class VentaSinController extends Controller
             'cliente'=>$id_cliente, 'mes'=>$mes, 'ano'=>$ano
         ));
 
-        $periodo='02 - 2016';
-
         return $this->render('ventasin/index.html.twig', array(
             'ventaSins' => $ventaSins,
             'user'=>$user,
             'cliente'=>$cliente,
-            'titulo'=>'Libro de Ventas',
+            'titulo'=>'Ventas '.$mes.' - '.$ano,
+            'id_cliente'=>$id_cliente,
+            'mes'=>$mes,
+            'ano'=>$ano,
             'botones'=>array(
-                array('texto'=>'Nueva Venta', 'ruta'=>'venta_new', 'id'=>$cliente->getId())
-            ),
-            'periodo'=>$periodo
+                array('texto'=>'Nueva Venta', 'ruta'=>'venta_new')
+            )
         ));
     }
 
@@ -67,15 +66,16 @@ class VentaSinController extends Controller
      * Creates a new VentaSin entity.
      *
      */
-    public function newAction(Cliente $cliente, Request $request)
+    public function newAction($id_cliente, $mes, $ano, Request $request)
     {
-//        dump($request);
-//        die();
         //        Validación Usuario
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException();
         }
         $user = $this->getUser();
+
+        $em=$this->getDoctrine()->getManager();
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->find($id_cliente);
 
         $ventaSin = new VentaSin();
         $ventaSin->setCliente($cliente);
@@ -83,13 +83,13 @@ class VentaSinController extends Controller
         $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em=$this->getDoctrine()->getManager();
             $em->persist($ventaSin);
             $em->flush();
 
-            return $this->redirectToRoute('venta_new', array('id' => $cliente->getId()));
+            return $this->redirectToRoute('venta_new', array(
+                'id_cliente' => $id_cliente, 'mes'=>$mes, 'ano'=>$ano));
         }
 
         return $this->render('ventasin/new.html.twig', array(
@@ -97,9 +97,12 @@ class VentaSinController extends Controller
             'user'=>$user,
             'cliente' => $cliente,
             'form' => $form->createView(),
+            'id_cliente'=>$id_cliente,
+            'mes'=>$mes,
+            'ano'=>$ano,
             'titulo'=>'Libro de Ventas',
             'botones'=>array(
-                array('texto'=>'Volver', 'ruta'=>'venta_index', 'id'=>$cliente->getId())
+                array('texto'=>'Volver', 'ruta'=>'venta_index')
             )
         ));
     }
@@ -108,7 +111,7 @@ class VentaSinController extends Controller
      * Finds and displays a VentaSin entity.
      *
      */
-    public function showAction(VentaSin $ventaSin, Request $request)
+    public function showAction(VentaSin $ventaSin, Request $request, $id_cliente, $mes, $ano, $id_venta)
     {
 //        dump($ventaSin);
 //        die();
@@ -136,8 +139,8 @@ class VentaSinController extends Controller
             'form'=>$form->createView(),
             'titulo'=>'Libro de Ventas',
             'botones'=>array(
-                array('texto'=>'Editar', 'ruta'=>'venta_edit', 'id'=>$ventaSin->getId()),
-                array('texto'=>'Volver', 'ruta'=>'venta_index', 'id'=>$cliente->getId())
+                array('texto'=>'Editar', 'ruta'=>'venta_edit', 'id_cliente'=>$id_cliente, 'mes'=>$mes, 'ano'=>$ano),
+                array('texto'=>'Volver', 'ruta'=>'venta_index', 'id_cliente'=>$id_cliente, 'mes'=>$mes, 'ano'=>$ano)
             )
         ));
     }
@@ -146,7 +149,7 @@ class VentaSinController extends Controller
      * Displays a form to edit an existing VentaSin entity.
      *
      */
-    public function editAction(Request $request, VentaSin $ventaSin)
+    public function editAction(Request $request, VentaSin $ventaSin, $id_cliente, $mes, $ano, $id_venta)
     {
         //        Validación Usuario
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {

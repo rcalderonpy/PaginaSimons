@@ -9,7 +9,7 @@
 		<div class="col-sm-3" id="filtros">
 			<h2 class="text-center">Empresa</h2>
 			<div class="panel panel-default">
-				<div class="panel-heading" ><a href="{{ path('contabilidad_ficha_cliente', {'id': cliente.id}) }}"><strong>Datos Generales</strong> </a></div>
+				<div class="panel-heading" ><a href="{{ path('contabilidad_ficha_cliente', {'id_cliente': cliente.id}) }}"><strong>Datos Generales</strong> </a></div>
 				<div class="panel-body">
 					<strong>Nombre: </strong>{{ cliente.nombres ~' '~ cliente.ape1 ~' '~ cliente.ape2}}
 					<br>
@@ -17,31 +17,7 @@
 				</div>
 			</div>
 			
-			<div class="panel panel-default">
-				<div class="panel-heading" ><strong> Funciones </strong></div>
-				<div class="panel-body">
-					<div class="row">
-						<div class="btn-group col-md-12 btn-group-justified" role="group" aria-label="x">
-							<a href="{{ path('venta_index', {'id_cliente':cliente.id, 'mes':mes, 'ano':ano}) }}" class="btn btn-default {% if app.request.attributes.get('_route') == 'venta_index' %} active {% endif %}">Ventas</a>
-							<a href="#" class="btn btn-default">NC Emitidas</a>
-						</div>
-					</div>
-					<br>
-					<div class="row">
-						<div class="btn-group col-md-12 btn-group-justified" role="group" aria-label="x">
-							<a href="#" class="btn btn-default">Compras</a>
-							<a href="#" class="btn btn-default">NC Recibidas</a>
-						</div>
-					</div>
-					<br>
-					<div class="row">
-						<div class="btn-group col-md-12 btn-group-justified" role="group" aria-label="x">
-							<a href="#" class="btn btn-default">Resumen IVA</a>
-							<a href="#" class="btn btn-default">Resumen IRPC</a>
-						</div>
-					</div>
-				</div>
-			</div>
+			{% block funciones %} {% endblock %}
 			
 		</div>
 
