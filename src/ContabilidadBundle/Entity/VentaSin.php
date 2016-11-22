@@ -65,6 +65,7 @@ class VentaSin
      * @ORM\Column(name="nsuc", type="string", length=5)
      * @Assert\NotBlank()
      * @Assert\Length(max="3")
+     * @Assert\Regex(pattern="/^\d*$/")
      *
      */
     private $nsuc;
@@ -75,6 +76,7 @@ class VentaSin
      * @ORM\Column(name="npe", type="string", length=5)
      * @Assert\NotBlank()
      * @Assert\Length(max="3")
+     * @Assert\Regex(pattern="/^\d*$/")
      */
     private $npe;
 
@@ -165,6 +167,7 @@ class VentaSin
      * @ORM\Column(name="timbrado", type="string", length=20)
      * @Assert\NotBlank()
      * @Assert\Length(max="8", min="8")
+     * @Assert\Regex(pattern="/^\d{8}$/")
      */
     private $timbrado;
 

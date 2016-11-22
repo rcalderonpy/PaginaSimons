@@ -41,19 +41,19 @@ class VentaSinType extends AbstractType
                     )
                 ))
                 ->add('nsuc', null, array(
-                    'attr'=>array('style'=>'width:6%',
-                        'placeholder'=>'SUC',
-                        'class'=>'input-sm')
+                    'attr'=>array('style'=>'width:5%',
+                        'placeholder'=>'Suc',
+                        'class'=>'input-sm text-center'),
                 ))
                 ->add('npe', null, array(
-                    'attr'=>array('style'=>'width:6%',
-                        'placeholder'=>'PE',
-                        'class'=>'input-sm')
+                    'attr'=>array('style'=>'width:5%',
+                        'placeholder'=>'Ex',
+                        'class'=>'input-sm text-center')
                 ))
                 ->add('ncomp', null, array(
-                    'attr'=>array('style'=>'width:11%',
-                        'placeholder'=>'COMPROB',
-                        'class'=>'input-sm')
+                    'attr'=>array('style'=>'width:9%',
+                        'placeholder'=>'Comprob',
+                        'class'=>'input-sm text-center')
                 ))
                 ->add('cotiz',NumberType::class, array(
                     'attr'=>array(
@@ -128,12 +128,12 @@ class VentaSinType extends AbstractType
                         'class'=>'input-sm'
                     )
                 ))
-                ->add('entidad', null, array(
-                    'attr'=>array(
-                        'style'=>'width:36%',
-                        'class'=>'input-sm'
-                    )
-                ))
+//                ->add('entidad', null, array(
+//                    'attr'=>array(
+//                        'style'=>'width:36%',
+//                        'class'=>'input-sm'
+//                    )
+//                ))
                 ->add('moneda', null, array(
                     'placeholder'=>false,
                     'attr'=>array(

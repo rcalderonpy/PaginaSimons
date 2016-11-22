@@ -10,4 +10,15 @@ namespace ContabilidadBundle\Repository;
  */
 class EntidadRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function encontrarEntidad($ruc)
+    {
+        $em=$this->getEntityManager()->getRepository('ContabilidadBundle:Entidad');
+        $entidad = $em->findOneByRUC($ruc);
+
+        if($entidad=null){
+            $entidad='NO ENCONTRADO';
+        }
+
+        return $entidad;
+    }
 }

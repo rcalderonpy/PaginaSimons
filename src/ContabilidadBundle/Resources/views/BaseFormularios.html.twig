@@ -1,6 +1,14 @@
 {% extends '@Contabilidad/layout-contab.html.twig' %}
 {#{% block body %}#}
+
+{% block title %}
+	{%  set nombres = (cliente.nombres~' '~cliente.ape1~' '~cliente.ape2)|split(' ') %}
+	{{ nombres[0] }} |
+{% endblock %}
+
 {% block content %}
+	
+	
 	<div class="row">
 		
 		<!-- *** MENUS AND FILTERS ***
@@ -21,8 +29,10 @@
 			
 		</div>
 
+
 	<!-- *** AREA DE TRABAJO ***
 	_________________________________________________________ -->
+
 		<div class="col-sm-9">
 			{% include '@Contabilidad/Partials/menuform.html.twig' %}
 			{% block areatrabajo %}

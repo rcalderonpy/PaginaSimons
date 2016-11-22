@@ -27,6 +27,7 @@
                 <th class="text-center">Id</th>
                 <th class="text-center">RUC</th>
                 <th class="text-center">CLIENTE</th>
+                <th class="text-center">MARCA</th>
                 <th class="text-center">Acciones</th>
             </tr>
         </thead>
@@ -38,6 +39,7 @@
                 <td><p class="small"><a href="">{{ cliente.id }}</a></p></td>
                 <td><p class="small">{{ cliente.ruc~'-'~cliente.dv }}</p></td>
                 <td><p class="small">{{ cliente.nombres~' '~cliente.ape1~' '~cliente.ape2|raw }}</p></td>
+                <td class="text-center"><input type="checkbox" class="small" value=""></input></td>
                 {#<td><p class="small">{{ ventaSin.nsuc~'-'~ventaSin.npe~'-'~ventaSin.ncomp }}</p></td>#}
                 {#<td><p class="small">{{ ventaSin.cotiz }}</p></td>#}
                 {#<td><p class="small">{{ ventaSin.comentario }}</p></td>#}
@@ -51,7 +53,7 @@
                 {#<td><p class="small">{{ ventaSin.condicion }}</p></td>#}
                 <td class="text-center">
                     {#<a href="{{ path('venta_show', { 'id': ventaSin.id }) }}" class="btn btn-info btn-xs">Mostrar</a>#}
-                    <a href="{{ path('contabilidad_ficha_cliente', { 'id_cliente': cliente.id }) }}" class="btn btn-info btn-xs">Seleccionar</a>
+                    <a href="{{ path('contabilidad_ficha_cliente', { 'id_cliente': cliente.id }) }}" class="btn btn-info btn-xs" target="_blank">Seleccionar</a>
                 </td>
             </tr>
         {% endfor %}

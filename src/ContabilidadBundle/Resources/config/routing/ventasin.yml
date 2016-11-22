@@ -1,5 +1,5 @@
 venta_index:
-    path:     /lista_ventas/{id_cliente}/{mes}/{ano}
+    path:     /{id_cliente}/{mes}/{ano}/ventas_lista
     defaults: { _controller: "ContabilidadBundle:VentaSin:index" }
     methods:  [GET, POST]
 

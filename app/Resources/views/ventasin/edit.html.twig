@@ -1,5 +1,10 @@
 {% extends '@Contabilidad/BaseFormularios.html.twig' %}
 
+{% block title %}
+    {{ parent() }}
+    {{ ventaSin.nsuc ~'-'~ ventaSin.npe ~'-'~ ventaSin.ncomp}}
+{% endblock %}
+
 {% block areatrabajo %}
     
 <div>
@@ -18,12 +23,7 @@
     <div class="panel panel-default">
         <div class="panel-body bg-info">
             {{ form_start(form) }}
-            <div class="row form-inline">
-                <div class="col-md-12">
-                    {{ form_widget(form.usuario) }}
-                    {{ form_widget(form.cliente) }}
-                </div>
-            </div>
+            
             {#//primera fila#}
             <div class="row form-inline">
                 <div class="col-md-12">
@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-md-12">
                     {{ form_widget(form.fecha) }}
-                    {{ form_widget(form.entidad) }}
+                    {#{{ form_widget(form.entidad) }}#}
                     {{ form_widget(form.sucursal) }}
                     {#<div class="panel panel-info visible-lg-inline-block">#}
                     {#<div class="bg-info">#}

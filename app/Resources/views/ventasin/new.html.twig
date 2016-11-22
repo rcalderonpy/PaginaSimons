@@ -28,6 +28,7 @@
             resultado=number_format(valor);
             document.getElementById(campo.id).value=resultado;
         }
+        
     
     </script>
     
@@ -64,15 +65,13 @@
                             </div>
                             <div class="col-md-12">
                                 {{ form_widget(form.fecha) }}
-                                {{ form_widget(form.entidad) }}
+                                {#{{ form_widget(form.entidad) }}#}
+                                <input type="text" class="form-control input-sm" style="width: 10%">
+                                <input type="text" class="form-control input-sm" style="width: 25%" placeholder="NOMBRE DEL CLIENTE">
                                 {{ form_widget(form.sucursal) }}
-                                {#<div class="panel panel-info visible-lg-inline-block">#}
-                                {#<div class="bg-info">#}
                                 {{ form_widget(form.nsuc) }}
                                 {{ form_widget(form.npe) }}
                                 {{ form_widget(form.ncomp) }}
-                                {#</div>#}
-                                {#</div>#}
                             </div>
                         </div>
                         {#//segunda fila#}

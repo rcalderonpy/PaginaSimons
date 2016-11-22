@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ContabilidadBundle\Entity\VentaSin;
 use ContabilidadBundle\Form\VentaSinType;
 use ContabilidadBundle\Repository\VentaSinRepository;
+use ContabilidadBundle\Repository\EntidadRepository;
 
 
 /**
@@ -111,7 +112,7 @@ class VentaSinController extends Controller
      * Finds and displays a VentaSin entity.
      *
      */
-    public function showAction(VentaSin $ventaSin, Request $request, $id_cliente, $mes, $ano, $id_venta)
+    public function showAction(Request $request, $id_cliente, $mes, $ano, $id_venta)
     {
 //        dump($ventaSin);
 //        die();
@@ -120,6 +121,9 @@ class VentaSinController extends Controller
             throw $this->createAccessDeniedException();
         }
         $user = $this->getUser();
+        $em=$this->getDoctrine()->getManager();
+
+        $ventaSin=$em->getRepository('ContabilidadBundle:VentaSin')->find($id_venta);
 
 //        dump($ventaSin);
 //        die();
@@ -127,7 +131,6 @@ class VentaSinController extends Controller
         $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
         $form->handleRequest($request);
 
-        $em=$this->getDoctrine()->getManager();
         $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$ventaSin->getCliente()));
 
 
@@ -136,11 +139,15 @@ class VentaSinController extends Controller
             'user'=>$user,
             'cliente' => $cliente,
             'delete_form' => $deleteForm->createView(),
+            'id_cliente'=>$id_cliente,
+            'id_venta'=>$id_venta,
+            'mes'=>$mes,
+            'ano'=>$ano,
             'form'=>$form->createView(),
             'titulo'=>'Libro de Ventas',
             'botones'=>array(
-                array('texto'=>'Editar', 'ruta'=>'venta_edit', 'id_cliente'=>$id_cliente, 'mes'=>$mes, 'ano'=>$ano),
-                array('texto'=>'Volver', 'ruta'=>'venta_index', 'id_cliente'=>$id_cliente, 'mes'=>$mes, 'ano'=>$ano)
+                array('texto'=>'Editar', 'ruta'=>'venta_edit'),
+                array('texto'=>'Volver', 'ruta'=>'venta_index')
             )
         ));
     }
@@ -149,13 +156,15 @@ class VentaSinController extends Controller
      * Displays a form to edit an existing VentaSin entity.
      *
      */
-    public function editAction(Request $request, VentaSin $ventaSin, $id_cliente, $mes, $ano, $id_venta)
+    public function editAction(Request $request, $id_cliente, $mes, $ano, $id_venta)
     {
         //        Validación Usuario
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException();
         }
         $user = $this->getUser();
+        $em=$this->getDoctrine()->getManager();
+        $ventaSin=$em->getRepository('ContabilidadBundle:VentaSin')->find($id_venta);
 
         $deleteForm = $this->createDeleteForm($ventaSin);
         $editForm = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
@@ -163,7 +172,6 @@ class VentaSinController extends Controller
         $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
         $form->handleRequest($request);
 
-        $em=$this->getDoctrine()->getManager();
         $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$ventaSin->getCliente()));
 
 
@@ -172,8 +180,8 @@ class VentaSinController extends Controller
             $em->flush();
 
             return $this->redirectToRoute('venta_show', array(
-                'id' => $ventaSin->getId(),
-                'form'=>$form
+                'id_venta' => $id_venta,
+                'form'=>$form->createView()
             ));
         }
 
@@ -181,12 +189,16 @@ class VentaSinController extends Controller
             'ventaSin' => $ventaSin,
             'user'=>$user,
             'cliente' => $cliente,
+            'id_cliente'=>$id_cliente,
+            'id_venta'=>$id_venta,
+            'mes'=>$mes,
+            'ano'=>$ano,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'form'=>$form->createView(),
             'titulo'=>'Libro de Ventas',
             'botones'=>array(
-                array('texto'=>'Volver', 'ruta'=>'venta_index', 'id'=>$cliente->getId()),
+                array('texto'=>'Volver', 'ruta'=>'venta_show'),
             )
         ));
     }

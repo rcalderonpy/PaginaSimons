@@ -1,5 +1,11 @@
 {% extends '@Contabilidad/BaseFormularios.html.twig' %}
 
+{% block title %}
+    {{ parent() }}
+    Ventas
+    {{ mes }} - {{ ano }}
+{% endblock %}
+
 {% block funciones %}
     {% include 'ContabilidadBundle:Partials:cuadroFunciones.html.twig' %}
 {% endblock %}
