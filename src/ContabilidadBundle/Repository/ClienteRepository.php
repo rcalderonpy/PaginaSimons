@@ -30,4 +30,21 @@ class ClienteRepository extends \Doctrine\ORM\EntityRepository
         $clientes=$query->getResult();
         return $clientes;
     }
+
+    public function tieneCedula($ruc){
+        //tiene cédula anverso
+        if(file_exists('cedulas/'.$ruc.'cianv.jpeg')){
+            $cianv='cedulas/'.$ruc.'cianv.jpeg';
+        } else {
+            $cianv='cedulas/sincedula.jpeg';
+        }
+
+        if(file_exists('cedulas/'.$ruc.'cirev.jpeg')){
+            $cirev='cedulas/'.$ruc.'cirev.jpeg';
+        } else {
+            $cirev='cedulas/sincedula.jpeg';
+        }
+
+        return array('cianv'=>$cianv, 'cirev'=>$cirev);
+    }
 }

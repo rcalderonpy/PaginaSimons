@@ -7,8 +7,8 @@
 	Ficha
 {% endblock %}
 
-{% block cianv %}
-		<img src="{{ asset(cianv) }}" alt="Cédula Anverso" class="img-rounded center-block">
+{% block cedulas %}
+	{% include '@Contabilidad/Partials/cedulas.html.twig' %}
 {% endblock %}
 
 
@@ -106,6 +106,8 @@
 	
 	
 	<div class="row">
+		
+		{#SELECCIÓN DE PERIODOS#}
 		<div class="col-md-6">
 			<div class="panel panel-default" id="periodo_seleccionado">
 				<div class="panel-heading" >
@@ -122,6 +124,7 @@
 							<th class="text-center">Bloq</th>
 							<th class="text-center">Seleccionar</th>
 							<th class="text-center">Borrar</th>
+							<th class="text-center">Bloquear</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -130,12 +133,15 @@
 							<tr {% if periodo.bloqueado ==1 %} class="bg-success" {% endif %}>
 								<td><p class="small text-center"  > {{ periodo.ano }} </p></td>
 								<td><p class="small text-center" > {{ periodo.mes }} </p></td>
-								<td class="text-center"><input type="checkbox" class="small" value="" disabled {% if periodo.bloqueado==1 %} checked {% endif %}></input></td>
+								<td class="text-center"><input type="checkbox" class="small" value="" disabled {% if periodo.bloqueado %} checked {% endif %}></input></td>
 								<td class="text-center">
 									<a href="{{ path('contabilidad_periodo_cliente', {'id_cliente':cliente.id, 'mes':periodo.mes, 'ano':periodo.ano}) }}" class="fa fa-arrow-circle-right"> Seleccionar</a>
 								</td>
 								<td class="text-center">
 									<a href="{{ path('contabilidad_periodo_delete', {'id_periodo':periodo.id, 'id_cliente':cliente.id}) }}" class="fa fa-times"> Borrar</a>
+								</td>
+								<td class="text-center">
+									<a href="{{ path('contabilidad_periodo_block', {'id_periodo':periodo.id, 'id_cliente':cliente.id}) }}" class="fa fa-lock"> Bloquear</a>
 								</td>
 							</tr>
 						{% endfor %}
@@ -145,6 +151,32 @@
 				</div>
 			</div>
 		</div>
+		
+		{#GRUPO ADICIONAL#}
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading" >
+					<strong>Varios</strong>
+				</div>
+				<div class="panel-body">
+				
+				</div>
+			</div>
+		</div>
+		
+		{#GRUPO ADICIONAL#}
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading" >
+					<strong>Varios</strong>
+				</div>
+				<div class="panel-body">
+				
+				</div>
+			</div>
+		</div>
+		
+		
 	</div>
 	
 	<!-- Small modal -->

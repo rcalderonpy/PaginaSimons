@@ -75,7 +75,11 @@ class DefaultController extends Controller
             $file_name=$form['ruc']->getData().'cianv'.'.'.$ext;
             $cianv->move('cedulas', $file_name);
 
-
+            // guarda cédula reverso
+            $cirev=$form['cirev']->getData();
+            $ext=$cirev->guessExtension();
+            $file_name=$form['ruc']->getData().'cirev'.'.'.$ext;
+            $cirev->move('cedulas', $file_name);
 
             $em=$this->getDoctrine()->getManager();
             $em->persist($cliente);
@@ -96,6 +100,73 @@ class DefaultController extends Controller
             'form'=>$form->createView()
         ));
     }
+
+    public function editClienteAction(Request $request, $id_cliente)
+    {
+
+        // Validación Usuario
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+        $user = $this->getUser();
+        $em=$this->getDoctrine()->getManager();
+
+        // Cliente Selccionado
+        $cliente=$em->getRepository('ContabilidadBundle:Cliente')->find($id_cliente);
+        // Crea el formulario del cliente
+        $form = $this->createForm('ContabilidadBundle\Form\ClienteType', $cliente);
+        $form->handleRequest($request);
+
+        // si el formulario es ejecutado
+        if ($form->isSubmitted() && $form->isValid()) {
+            // reemplaza cédula anverso si es que se carga
+            if($form['cianv']->getData() != null){
+                $cianv=$form['cianv']->getData();
+                $ext=$cianv->guessExtension();
+                $file_name=$form['ruc']->getData().'cianv'.'.'.$ext;
+                $cianv->move('cedulas', $file_name);
+            }
+
+            // reemplaza cédula reverso si es que se carga
+            if($form['cirev']->getData() != null) {
+                $cirev = $form['cirev']->getData();
+                $ext = $cirev->guessExtension();
+                $file_name = $form['ruc']->getData() . 'cirev' . '.' . $ext;
+                $cirev->move('cedulas', $file_name);
+            }
+            $em->persist($cliente);
+            $em->flush();
+            return $this->redirectToRoute('contabilidad_ficha_cliente', array('id_cliente'=>$id_cliente));
+        }
+
+        //tiene cédula anverso
+        if(file_exists('cedulas/'.$cliente->getRuc().'cianv.jpeg')){
+            $cianv='cedulas/'.$cliente->getRuc().'cianv.jpeg';
+        } else {
+            $cianv='cedulas/sincedula.jpeg';
+        }
+
+        if(file_exists('cedulas/'.$cliente->getRuc().'cirev.jpeg')){
+            $cirev='cedulas/'.$cliente->getRuc().'cirev.jpeg';
+        } else {
+            $cirev='cedulas/sincedula.jpeg';
+        }
+
+        return $this->render('@Contabilidad/Clientes/cliente.edit.html.twig', array(
+            'user'=>$user,
+            'cliente'=>$cliente,
+            'titulo'=>'Editar Cliente',
+            'botones'=>null,
+//                array(
+//                array('texto'=>'Editar', 'ruta'=>'contabilidad_lista_clientes')
+//            ),
+            'id_cliente'=>$id_cliente,
+            'form'=>$form->createView(),
+            'cianv'=>$cianv,
+            'cirev'=>$cirev
+        ));
+    }
+
 
     public function fichaClienteAction(Request $request, $id_cliente)
     {
@@ -123,12 +194,24 @@ class DefaultController extends Controller
 
         $deleteForm=$this->createDeleteForm($cliente);
 
-        //tiene cédula anverso
-        if(file_exists('cedulas/'.$cliente->getRuc().'cianv.jpeg')){
-            $cianv='cedulas/'.$cliente->getRuc().'cianv.jpeg';
-        } else {
-            $cianv='cedulas/sincedula.jpeg';
-        }
+        //tiene cédulas
+        $imagenes=$em->getRepository('ContabilidadBundle:Cliente')->tieneCedula($cliente->getRuc());
+        $cianv=$imagenes['cianv'];
+        $cirev=$imagenes['cirev'];
+//        dump($imagenes);
+//        die();
+
+//        if(file_exists('cedulas/'.$cliente->getRuc().'cianv.jpeg')){
+//            $cianv='cedulas/'.$cliente->getRuc().'cianv.jpeg';
+//        } else {
+//            $cianv='cedulas/sincedula.jpeg';
+//        }
+//
+//        if(file_exists('cedulas/'.$cliente->getRuc().'cirev.jpeg')){
+//            $cirev='cedulas/'.$cliente->getRuc().'cirev.jpeg';
+//        } else {
+//            $cirev='cedulas/sincedula.jpeg';
+//        }
 //        dump($cianv);
 //        die();
 
@@ -153,14 +236,15 @@ class DefaultController extends Controller
             'cliente'=>$cliente,
             'titulo'=>'Ficha del Cliente',
             'botones'=>array(
-                array('texto'=>'Editar', 'ruta'=>'contabilidad_lista_clientes')
+                array('texto'=>'Editar', 'ruta'=>'contabilidad_cliente_edit')
             ),
             'mes'=>null,
             'id_cliente'=>$id_cliente,
             'form'=>$form->createView(),
             'periodos'=>$periodos,
             'delete_form' => $deleteForm->createView(),
-            'cianv'=>$cianv
+            'cianv'=>$cianv,
+            'cirev'=>$cirev
         ));
     }
 
@@ -185,6 +269,12 @@ class DefaultController extends Controller
 //            'cliente'=>$id
 //        ));
 
+        //tiene cédulas
+        $imagenes=$em->getRepository('ContabilidadBundle:Cliente')->tieneCedula($cliente->getRuc());
+        $cianv=$imagenes['cianv'];
+        $cirev=$imagenes['cirev'];
+
+
         //contar y sumar libro ventas
         $totales=$em->getRepository('ContabilidadBundle:VentaSin')->totalesVentas(array(
             'cliente'=>$id_cliente, 'mes'=>$mes, 'ano'=>$ano
@@ -200,12 +290,16 @@ class DefaultController extends Controller
             'botones'=>null,
             'mes'=>$mes,
             'ano'=>$ano,
-            'totales'=>$totales
+            'totales'=>$totales,
+            'cianv'=>$cianv,
+            'cirev'=>$cirev
         ));
     }
 
-    public function periodoDeleteAction(Request $request, $periodo_id, $cliente_id)
+    public function periodoDeleteAction($id_periodo, $id_cliente)
     {
+//        dump($id_periodo);
+//        die();
 
         // Validación Usuario
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -213,17 +307,40 @@ class DefaultController extends Controller
         }
 
         $em=$this->getDoctrine()->getManager();
-        $periodo=$em->getRepository('ContabilidadBundle:Periodo')->find($periodo_id);
+        $periodo=$em->getRepository('ContabilidadBundle:Periodo')->findOneBy(array('id'=>$periodo_id));
         $em->remove($periodo);
         $em->flush();
 
-//        dump($periodo_id);
-//        die();
 
         return $this->redirectToRoute('contabilidad_ficha_cliente', array(
-            'id'=>$cliente_id
+            'id_cliente'=>$id_cliente
         ));
     }
+
+    public function periodoBlockAction($id_periodo, $id_cliente)
+    {
+
+        // Validación Usuario
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+//        dump($id_periodo);
+//        die();
+
+
+        $em=$this->getDoctrine()->getManager();
+        $periodo=$em->getRepository('ContabilidadBundle:Periodo')->findOneBy(array('id'=>$id_periodo));
+
+        $periodo->setBloqueado(true);
+        $em->persist($periodo);
+        $em->flush();
+
+
+        return $this->redirectToRoute('contabilidad_ficha_cliente', array(
+            'id_cliente'=>$id_cliente
+        ));
+    }
+
     public function deleteClienteAction(Request $request, Cliente $cliente)
     {
         $form = $this->createDeleteForm($cliente);

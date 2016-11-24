@@ -22,7 +22,7 @@ class PeriodoRepository extends \Doctrine\ORM\EntityRepository
             ->Where("p.cliente = :cliente")
             ->setParameter('cliente', $opciones['cliente'])
             ->orderBy('p.ano', 'DESC')
-            ->orderBy('p.mes', 'DESC')
+            ->addorderBy('p.mes', 'DESC')
             ->getQuery();
 
         $ventas=$query->getResult();

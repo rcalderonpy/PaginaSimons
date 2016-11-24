@@ -14,9 +14,19 @@ contabilidad_cliente_new:
     path:     /new
     defaults: { _controller: ContabilidadBundle:Default:newCliente}
 
+contabilidad_cliente_edit:
+    path:     /edit/{id_cliente}
+    defaults: { _controller: ContabilidadBundle:Default:editCliente}
+
 contabilidad_periodo_delete:
     path:     /periodo_delete/{id_periodo}/{id_cliente}
     defaults: { _controller: ContabilidadBundle:Default:periodoDelete}
+    methods: GET
+
+contabilidad_periodo_block:
+    path:     /periodo_block/{id_periodo}/{id_cliente}
+    defaults: { _controller: ContabilidadBundle:Default:periodoBlock}
+    methods: GET
 
 contabilidad_cliente_delete:
     path:     /delete/{id}

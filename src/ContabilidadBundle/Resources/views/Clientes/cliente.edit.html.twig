@@ -1,99 +1,29 @@
 {% extends '@Contabilidad/BaseFormularios.html.twig' %}
 
+{% block title %}
+    {{ parent() }}
+    Editar
+{% endblock %}
+
+{% block cedulas %}
+    {% include '@Contabilidad/Partials/cedulas.html.twig' %}
+{% endblock %}
+
 {% block areatrabajo %}
-    
-<div>
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Cabecera</a></li>
-        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Detalle</a></li>
-        <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Asiento</a></li>
-        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Revalúo</a></li>
-    </ul>
-    
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane fade in active" id="home">
-            
-    <div class="panel panel-default">
-        <div class="panel-body bg-info">
-            {{ form_start(form) }}
-            <div class="row form-inline">
-                <div class="col-md-12">
-                    {{ form_widget(form.usuario) }}
-                    {{ form_widget(form.cliente) }}
-                </div>
-            </div>
-            {#//primera fila#}
-            <div class="row form-inline">
-                <div class="col-md-12">
-                    <label class="" style="width: 17%">Fecha</label>
-                    <label class="" style="width: 36%">Cliente</label>
-                    <label class="" style="width: 21%">Sucursal</label>
-                    <label class="" style="width: 20%">Comprobante</label>
-                </div>
-                <div class="col-md-12">
-                    {{ form_widget(form.fecha) }}
-                    {{ form_widget(form.entidad) }}
-                    {{ form_widget(form.sucursal) }}
-                    {#<div class="panel panel-info visible-lg-inline-block">#}
-                    {#<div class="bg-info">#}
-                    {{ form_widget(form.nsuc) }}
-                    {{ form_widget(form.npe) }}
-                    {{ form_widget(form.ncomp) }}
-                    {#</div>#}
-                    {#</div>#}
-                </div>
-            </div>
-            {#//segunda fila#}
-            <div class="row form-inline">
-                <div class="col-md-12">
-                    <label class="" style="width: 15%">Timbrado</label>
-                    <label class="" style="width: 12%">Condición</label>
-                    <label class="" style="width: 21%">Moneda</label>
-                    <label class="" style="width: 10%">Cambio</label>
-                    <label class="" style="width: 20%">Comentario</label>
-                </div>
-                <div class="col-md-12">
-                    {{ form_widget(form.timbrado) }}
-                    {{ form_widget(form.condicion) }}
-                    {{ form_widget(form.moneda) }}
-                    {{ form_widget(form.cotiz) }}
-                    {{ form_widget(form.comentario) }}
-                </div>
-            </div>
-    
-            {#//tercera fila#}
-            <div class="row form-inline">
-                <div class="col-md-12">
-                    <label class="control-label" style="width: 17%">Gravadas 10%</label>
-                    <label class="control-label" style="width: 17%">Gravadas 5%</label>
-                    <label class="control-label" style="width: 16%">IVA 10%</label>
-                    <label class="control-label" style="width: 16%">IVA 5%</label>
-                    <label class="control-label" style="width: 16%">Exentas</label>
-                    <label class="control-label" style="width: 14%">Retención IVA</label>
-                </div>
-                <div class="col-md-12">
-                    {{ form_widget(form.g10) }}
-                    {{ form_widget(form.g5) }}
-                    {{ form_widget(form.iva10) }}
-                    {{ form_widget(form.iva5) }}
-                    {{ form_widget(form.exe) }}
-                    {{ form_widget(form.retencion) }}
-                </div>
-            </div>
-            
-            <br>
-            
+    <div class="row">
+        <div class="col-md-12">
+            {{ form_start(form, {'enctype':'multipart/form-data'}) }}
+            {{ form_row(form.ruc) }}
+            {{ form_row(form.dv) }}
+            {{ form_row(form.nombres) }}
+            {{ form_row(form.ape1, {'label':'Apellido 1'}) }}
+            {{ form_row(form.ape2, {'label':'Apellido 2'}) }}
+            {{ form_row(form.estado) }}
+            {{ form_row(form.cianv, {'label':'C.I. Anverso'}) }}
+            {{ form_row(form.cirev, {'label':'C.I. Reverso'}) }}
             <input type="submit" value="Guardar" class="btn btn-group btn-success pull-right"/>
+            {{ form_end(form) }}
         </div>
-        {{ form_end(form) }}
-    
     </div>
-        </div>
-        <div role="tabpanel" class="tab-pane fade" id="profile">...</div>
-        <div role="tabpanel" class="tab-pane fade" id="messages">...</div>
-        <div role="tabpanel" class="tab-pane fade" id="settings">...</div>
-    </div>
-    
+
 {% endblock %}

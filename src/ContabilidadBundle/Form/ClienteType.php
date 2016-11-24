@@ -45,7 +45,12 @@ class ClienteType extends AbstractType
                 'placeholder'=>false
             ))
             ->add('cianv', FileType::class, array(
-                'mapped'=>false
+                'mapped'=>false,
+                'required'=>false
+            ))
+            ->add('cirev', FileType::class, array(
+                'mapped'=>false,
+                'required'=>false
             ))
         ;
     }
