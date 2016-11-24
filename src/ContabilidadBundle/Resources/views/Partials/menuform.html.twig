@@ -16,14 +16,14 @@
             {#<ul class="nav navbar-nav nav-pills pull-right" style="vertical-align: middle">#}
             {% if botones != null %}
                 {% for boton in botones %}
-                    {% if app.request.attributes.get('_route') ends with 'edit' or app.request.attributes.get('_route') ends with 'show'%}
-                        {#<li role="presentation" class="btn btn-default navbar-btn">#}
+                    {% if app.request.attributes.get('_route') ends with 'edit' or app.request.attributes.get('_route') ends with 'show' %}
                             <a href="{{ path(boton.ruta, {'id_cliente':id_cliente, 'mes':mes, 'ano':ano, 'id_venta':id_venta})  }}" class="btn btn-default navbar-btn">{{ boton.texto }} </a>
-                        {#</li>#}
-                    {% else %}
-                        {#<li role="presentation" class="btn btn-default navbar-btn">#}
+                    {% else  %}
+                        {% if id_cliente is not null and mes is null %}
+                            <a href="{{ path(boton.ruta, {'id_cliente':id_cliente}) }}" class="btn btn-default navbar-btn">{{ boton.texto }} </a>
+                        {% else %}
                             <a href="{{ path(boton.ruta, {'id_cliente':id_cliente, 'mes':mes, 'ano':ano})  }}" class="btn btn-default navbar-btn">{{ boton.texto }} </a>
-                        {#</li>#}
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
             {% endif %}

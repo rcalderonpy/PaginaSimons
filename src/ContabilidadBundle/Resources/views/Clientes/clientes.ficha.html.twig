@@ -1,8 +1,16 @@
 {% extends '@Contabilidad/BaseFormularios.html.twig' %}
+
+
+
 {% block title %}
 	{{ parent() }}
 	Ficha
 {% endblock %}
+
+{% block cianv %}
+		<img src="{{ asset(cianv) }}" alt="Cédula Anverso" class="img-rounded center-block">
+{% endblock %}
+
 
 {% block areatrabajo %}
 	<div>
@@ -16,6 +24,9 @@
 			<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Impositivos</a></li>
 			<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Facturas</a></li>
 			<li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Otros</a></li>
+				{{ form_start(delete_form) }}
+				<input type="submit" value="Eliminar Cliente" class="btn btn-danger pull-right">
+				{{ form_end(delete_form) }}
 		</ul>
 		
 		<!-- Tab panes -->
@@ -150,8 +161,6 @@
 				<div class="modal-body">
 					{{ form_row(form.mes, {'attr':{'autofocus':true}}) }}
 					{{ form_row(form.ano) }}
-					{#{{ form_row(form.bloqueado) }}#}
-					{{ form_row(form.cliente) }}
 					
 				</div>
 				<div class="modal-footer">
@@ -163,6 +172,5 @@
 			</div>
 		</div>
 	</div>
-
 
 {% endblock %}

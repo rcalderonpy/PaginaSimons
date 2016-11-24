@@ -25,7 +25,6 @@ class VentaSinController extends Controller
     public function indexAction(Request $request, $id_cliente, $mes, $ano)
     {
 
-
 //        Validación Usuario
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException();
@@ -62,6 +61,20 @@ class VentaSinController extends Controller
             )
         ));
     }
+//
+//    public function printIndexAction(Request $request)
+//    {
+//        $last_username='hola';
+//        $this->get('knp_snappy.pdf')->generateFromHtml(
+//            $this->renderView(
+//                '@App/Default/login.html.twig',
+//                array(
+//                    'last_username'  => $last_username
+//                )
+//            ),
+//            '/lista.pdf'
+//        );
+//    }
 
     /**
      * Creates a new VentaSin entity.
@@ -130,6 +143,7 @@ class VentaSinController extends Controller
         $deleteForm = $this->createDeleteForm($ventaSin);
         $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaSin);
         $form->handleRequest($request);
+
 
         $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$ventaSin->getCliente()));
 

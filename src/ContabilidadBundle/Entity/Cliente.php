@@ -3,6 +3,7 @@
 namespace ContabilidadBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Cliente
@@ -25,6 +26,8 @@ class Cliente
      * @var string
      *
      * @ORM\Column(name="ruc", type="string", length=20)
+     * @Assert\Length(min="5")
+     * @Assert\NotBlank()
      */
     private $ruc;
 
@@ -32,6 +35,8 @@ class Cliente
      * @var string
      *
      * @ORM\Column(name="dv", type="string", length=5)
+     * @Assert\NotBlank()
+     * @Assert\Length(max="1")
      */
     private $dv;
 
@@ -39,20 +44,21 @@ class Cliente
      * @var string
      *
      * @ORM\Column(name="nombres", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $nombres;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ape1", type="string", length=100)
+     * @ORM\Column(name="ape1", type="string", length=100, nullable=true)
      */
     private $ape1;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ape2", type="string", length=100)
+     * @ORM\Column(name="ape2", type="string", length=100, nullable=true)
      */
     private $ape2;
 
@@ -60,12 +66,19 @@ class Cliente
      * @var string
      *
      * @ORM\Column(name="estado", type="string", length=20)
+     * @Assert\NotBlank()
      */
     private $estado;
+
 
     public function __toString()
     {
         return $this->getNombres().' '.$this->getApe1().' '.$this->getApe2();
+    }
+
+    public function __construct()
+    {
+        $this->setApe2("")->setApe1("");
     }
 
     /**
@@ -135,7 +148,7 @@ class Cliente
      */
     public function setNombres($nombres)
     {
-        $this->nombres = $nombres;
+        $this->nombres = strtoupper($nombres);
 
         return $this;
     }
@@ -159,7 +172,7 @@ class Cliente
      */
     public function setApe1($ape1)
     {
-        $this->ape1 = $ape1;
+        $this->ape1 = strtoupper($ape1);
 
         return $this;
     }
@@ -183,7 +196,7 @@ class Cliente
      */
     public function setApe2($ape2)
     {
-        $this->ape2 = $ape2;
+        $this->ape2 = strtoupper($ape2);
 
         return $this;
     }

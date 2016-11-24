@@ -4,10 +4,12 @@ namespace ContabilidadBundle\Controller;
 
 use ContabilidadBundle\ContabilidadBundle;
 use ContabilidadBundle\Entity\Periodo;
+use ContabilidadBundle\Entity\Cliente;
 use ContabilidadBundle\Repository\PeriodoRepository;
 use ContabilidadBundle\Form\PeriodoType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ContabilidadBundle\Repository\ClienteRepository;
+use ContabilidadBundle\Form\ClienteType;
 use Symfony\Component\HttpFoundation\Request;
 use ContabilidadBundle\Entity\VentaSin;
 use ContabilidadBundle\Form\VentaSinType;
@@ -43,9 +45,55 @@ class DefaultController extends Controller
             'nombre'=>$request->request->get('nombre')
         ));
 
+
+
         return $this->render('@Contabilidad/Clientes/clientes.index.html.twig', array(
             'user'=>$user,
             'clientes'=>$clientes
+        ));
+    }
+
+    public function newClienteAction(Request $request)
+    {
+
+        // Validación Usuario
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+        $user = $this->getUser();
+
+        // Cliente Selccionado
+        $cliente=new Cliente();
+        $form = $this->createForm('ContabilidadBundle\Form\ClienteType', $cliente);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // guarda cédula anverso
+            $cianv=$form['cianv']->getData();
+            $ext=$cianv->guessExtension();
+            $file_name=$form['ruc']->getData().'cianv'.'.'.$ext;
+            $cianv->move('cedulas', $file_name);
+
+
+
+            $em=$this->getDoctrine()->getManager();
+            $em->persist($cliente);
+            $em->flush();
+
+            return $this->redirectToRoute('contabilidad_lista_clientes');
+        }
+
+        return $this->render('@Contabilidad/Clientes/cliente.new.html.twig', array(
+            'user'=>$user,
+            'cliente'=>$cliente,
+            'titulo'=>'Nuevo Cliente',
+//            'botones'=>array(
+//                array('texto'=>'Editar', 'ruta'=>'contabilidad_lista_clientes')
+//            ),
+//            'mes'=>null,
+//            'id_cliente'=>$id_cliente,
+            'form'=>$form->createView()
         ));
     }
 
@@ -68,9 +116,22 @@ class DefaultController extends Controller
         // Crea Formulario Periodo
         $period=new Periodo();
         $period->setCliente($cliente);
+        $period->setCliente($cliente);
 
         $form = $this->createForm('ContabilidadBundle\Form\PeriodoType', $period);
         $form->handleRequest($request);
+
+        $deleteForm=$this->createDeleteForm($cliente);
+
+        //tiene cédula anverso
+        if(file_exists('cedulas/'.$cliente->getRuc().'cianv.jpeg')){
+            $cianv='cedulas/'.$cliente->getRuc().'cianv.jpeg';
+        } else {
+            $cianv='cedulas/sincedula.jpeg';
+        }
+//        dump($cianv);
+//        die();
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             echo 'formulario enviado';
@@ -91,9 +152,15 @@ class DefaultController extends Controller
             'user'=>$user,
             'cliente'=>$cliente,
             'titulo'=>'Ficha del Cliente',
-            'botones'=>null,
+            'botones'=>array(
+                array('texto'=>'Editar', 'ruta'=>'contabilidad_lista_clientes')
+            ),
+            'mes'=>null,
+            'id_cliente'=>$id_cliente,
             'form'=>$form->createView(),
-            'periodos'=>$periodos
+            'periodos'=>$periodos,
+            'delete_form' => $deleteForm->createView(),
+            'cianv'=>$cianv
         ));
     }
 
@@ -157,4 +224,36 @@ class DefaultController extends Controller
             'id'=>$cliente_id
         ));
     }
+    public function deleteClienteAction(Request $request, Cliente $cliente)
+    {
+        $form = $this->createDeleteForm($cliente);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($cliente);
+            $em->flush();
+        }
+        echo "<script languaje='javascript' type='text/javascript'>window.close();</script>";
+        die();
+//        return $this->redirectToRoute('contabilidad_lista_clientes');
+    }
+
+    /**
+     * Creates a form to delete a VentaSin entity.
+     *
+     * @param VentaSin $ventaSin The VentaSin entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(Cliente $cliente)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('contabilidad_cliente_delete', array('id' => $cliente->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+            ;
+    }
+
+
 }

@@ -1,0 +1,24 @@
+contabilidad_lista_clientes:
+    path:     /lista
+    defaults: { _controller: ContabilidadBundle:Default:filtrarClientes}
+
+contabilidad_ficha_cliente:
+    path:     /ficha/{id_cliente}
+    defaults: { _controller: ContabilidadBundle:Default:fichaCliente}
+
+contabilidad_periodo_cliente:
+    path:     /periodo/{id_cliente}/{mes}/{ano}
+    defaults: { _controller: ContabilidadBundle:Default:periodoCliente}
+
+contabilidad_cliente_new:
+    path:     /new
+    defaults: { _controller: ContabilidadBundle:Default:newCliente}
+
+contabilidad_periodo_delete:
+    path:     /periodo_delete/{id_periodo}/{id_cliente}
+    defaults: { _controller: ContabilidadBundle:Default:periodoDelete}
+
+contabilidad_cliente_delete:
+    path:     /delete/{id}
+    defaults: { _controller: ContabilidadBundle:Default:deleteCliente}
+    methods: DELETE

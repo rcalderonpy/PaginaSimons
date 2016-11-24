@@ -1,157 +1,33 @@
-{% extends '@Contabilidad/BaseFormularios.html.twig' %}
+{% extends '@Contabilidad/layout-contab.html.twig' %}
+{% block title %}
+    Nuevo Cliente
+{% endblock %}
 
-{% block areatrabajo %}
-    
-    <script type="text/javascript">
-    
-        function calculariva(){
-            numero1=parseInt(document.getElementById('ii10').value); // o parseFlaot si los queres flotantes
-            
-            resultado=Math.round(numero1/11);
-//            document.getElementById('resultado').value=resultado.toFixed(0); // 2 decimales
-            return resultado;
-        }
 
-        function novacio(campo)
-        {
-    
-            if(campo.value.length == 0)
-            {
-                campo.value=0;
-                return false;
-            }
-            return true;
-        }
-        
-        function puntitos(campo) {
-            valor=campo.value;
-            resultado=number_format(valor);
-            document.getElementById(campo.id).value=resultado;
-        }
-    
-    </script>
-    
-    
-    {#<div class="container-fluid bg-danger">#}
-    
-    <div>
-        
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Cabecera</a></li>
-            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Detalle</a></li>
-            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Asiento</a></li>
-            <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Revalúo</a></li>
-        </ul>
-        
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane fade in active" id="home">
-                
-              <p>
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        {{ form_start(form) }}
-                        {{ form_errors(form) }}
-                        
-                        {#//primera fila#}
-                        <div class="row form-inline">
-                            <div class="col-md-12">
-                                <label class="" style="width: 17%">Fecha</label>
-                                <label class="" style="width: 36%">Cliente</label>
-                                <label class="" style="width: 21%">Sucursal</label>
-                                <label class="" style="width: 20%">Comprobante</label>
-                            </div>
-                            <div class="col-md-12">
-                                {{ form_widget(form.fecha) }}
-                                {{ form_widget(form.entidad) }}
-                                {{ form_widget(form.sucursal) }}
-                                {#<div class="panel panel-info visible-lg-inline-block">#}
-                                {#<div class="bg-info">#}
-                                {{ form_widget(form.nsuc) }}
-                                {{ form_widget(form.npe) }}
-                                {{ form_widget(form.ncomp) }}
-                                {#</div>#}
-                                {#</div>#}
-                            </div>
-                        </div>
-                        {#//segunda fila#}
-                        <div class="row form-inline">
-                            <div class="col-md-12">
-                                <label class="" style="width: 15%">Timbrado</label>
-                                <label class="" style="width: 12%">Condición</label>
-                                <label class="" style="width: 21%">Moneda</label>
-                                <label class="" style="width: 10%">Cambio</label>
-                                <label class="" style="width: 20%">Comentario</label>
-                            </div>
-                            <div class="col-md-12">
-                                {{ form_widget(form.timbrado) }}
-                                {{ form_widget(form.condicion) }}
-                                {{ form_widget(form.moneda) }}
-                                {{ form_widget(form.cotiz) }}
-                                {{ form_widget(form.comentario) }}
-                            </div>
-                        </div>
-            
-                        {#//tercera fila#}
-                        <div class="row form-inline">
-                            <div class="col-md-12">
-                                <label class="" style="width: 17%">Gravadas 10%</label>
-                                <label class="" style="width: 17%">Gravadas 5%</label>
-                                <label class="" style="width: 16%">IVA 10%</label>
-                                <label class="" style="width: 16%">IVA 5%</label>
-                                <label class="" style="width: 16%">Exentas</label>
-                                <label class="" style="width: 14%">Retención IVA</label>
-                            </div>
-                            <div class="col-md-12">
-                                {{ form_widget(form.g10) }}
-                                {{ form_widget(form.g5) }}
-                                {{ form_widget(form.iva10) }}
-                                {{ form_widget(form.iva5) }}
-                                {{ form_widget(form.exe) }}
-                                {{ form_widget(form.retencion) }}
-                            </div>
-                        </div>
-    
-                        {#//cuarta fila#}
-                        <div class="row form-inline">
-                            <div class="col-md-12">
-                                <label class="" style="width: 17%">Gravadas 10%</label>
-                                <label class="" style="width: 17%">Gravadas 5%</label>
-                                <label class="" style="width: 16%">IVA 10%</label>
-                                <label class="" style="width: 16%">IVA 5%</label>
-                                <label class="" style="width: 16%">Exentas</label>
-                                <label class="" style="width: 14%">Retención IVA</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control text-right" value="0" autofocus id="ii10" required
-                                       onkeyup="novacio(this),
-                                                document.getElementById('venta_sin_g10').value=(this.value-calculariva()).toFixed(0),
-                                                document.getElementById('venta_sin_iva10').value=calculariva().toFixed(0)
-                                                ">
-                                <input type="text" id="resultado" class="form-control text-right" value="0" disabled>
-    
-                                <input data-val="true" data-val-greaterthan="El monto tiene que ser mayor a '0'." data-val-greaterthan-allownull="False" data-val-greaterthan-value="0" data-val-number="El campo 'importe' tiene que ser numérico." data-val-required="El campo 'importe' es obligatorio." id="rwb_transferencia_importe" moneda="Guaranies" name="Importe" type="text" value="0" autocomplete="off" class="valid">
-                            </div>
-                        </div>
-            
-                        <br>
-                      
-                            <input type="submit" value="Guardar" class="btn btn-group btn-success pull-right"/>
-                        {{ form_rest(form) }}
-                        {{ form_end(form) }}
-                    </div>
-    
-                </div>
-    
-                </p>
-            </div>
-            <div role="tabpanel" class="tab-pane fade" id="profile">...</div>
-            <div role="tabpanel" class="tab-pane fade" id="messages">...</div>
-            <div role="tabpanel" class="tab-pane fade" id="settings">...</div>
+{% block head %}
+    {{ parent() }}
+    <nav class="navbar navbar-default">
+        <!-- BOTONES -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <a href="{{ path('contabilidad_lista_clientes') }}" class="btn btn-default navbar-btn">Volver</a>
         </div>
-    
+    </nav>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        {{ form_start(form, {'enctype':'multipart/form-data'}) }}
+            {{ form_row(form.ruc) }}
+            {{ form_row(form.dv) }}
+            {{ form_row(form.nombres) }}
+            {{ form_row(form.ape1) }}
+            {{ form_row(form.ape2) }}
+            {{ form_row(form.estado) }}
+            {{ form_row(form.cianv) }}
+            <input type="submit" value="Guardar" class="btn btn-group btn-success pull-right"/>
+        {{ form_end(form) }}
     </div>
-    {#<a href="{{ path('venta_index') }}" class="btn btn-default">Volver al Listado</a>#}
-    
+</div>
+
 {% endblock %}

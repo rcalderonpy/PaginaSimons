@@ -3,6 +3,11 @@ venta_index:
     defaults: { _controller: "ContabilidadBundle:VentaSin:index" }
     methods:  [GET, POST]
 
+venta_imprimir_index:
+    path:     /imprimir_index
+    defaults: { _controller: "ContabilidadBundle:VentaSin:printIndex" }
+    methods:  [GET]
+
 venta_new:
     path:     /{id_cliente}/{mes}/{ano}/new
     defaults: { _controller: "ContabilidadBundle:VentaSin:new" }

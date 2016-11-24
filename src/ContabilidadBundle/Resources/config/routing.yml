@@ -1,23 +1,14 @@
-contabilidad_venta:
-    resource: "@ContabilidadBundle/Resources/config/routing/ventasin.yml"
-    prefix:   /venta
-
 contabilidad_menu:
     path:     /
     defaults: { _controller: ContabilidadBundle:Default:index }
 
-contabilidad_lista_clientes:
-    path:     /lista_clientes
-    defaults: { _controller: ContabilidadBundle:Default:filtrarClientes}
+contabilidad_venta:
+    resource: "@ContabilidadBundle/Resources/config/routing/ventasin.yml"
+    prefix:   /venta
 
-contabilidad_ficha_cliente:
-    path:     /cliente/{id_cliente}
-    defaults: { _controller: ContabilidadBundle:Default:fichaCliente}
+contabilidad_cliente:
+    resource: "@ContabilidadBundle/Resources/config/routing/cliente.yml"
+    prefix:   /cliente
 
-contabilidad_periodo_cliente:
-    path:     /cliente_periodo/{id_cliente}/{mes}/{ano}
-    defaults: { _controller: ContabilidadBundle:Default:periodoCliente}
 
-contabilidad_periodo_delete:
-    path:     /cliente_periodo_delete/{id_periodo}/{id_cliente}
-    defaults: { _controller: ContabilidadBundle:Default:periodoDelete}
+

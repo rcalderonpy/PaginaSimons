@@ -17,7 +17,6 @@ class PeriodoType extends AbstractType
         $builder
             ->add('mes')
             ->add('ano')
-            ->add('cliente')
         ;
     }
     
