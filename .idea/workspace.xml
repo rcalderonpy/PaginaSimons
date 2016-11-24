@@ -2,28 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="77201580-e986-4789-9293-1eee9eb03cf5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/cedulas/sincedula.jpeg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ContabilidadBundle/Resources/config/routing/cliente.yml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/ContabilidadBundle/Resources/config/services.yml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/AppKernel.php" afterPath="$PROJECT_DIR$/app/AppKernel.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/ventasin/index.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/ventasin/index.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config.yml" afterPath="$PROJECT_DIR$/app/config/config.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/security.yml" afterPath="$PROJECT_DIR$/app/config/security.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.json" afterPath="$PROJECT_DIR$/composer.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.lock" afterPath="$PROJECT_DIR$/composer.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ContabilidadBundle/Controller/DefaultController.php" afterPath="$PROJECT_DIR$/src/ContabilidadBundle/Controller/DefaultController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ContabilidadBundle/Controller/VentaSinController.php" afterPath="$PROJECT_DIR$/src/ContabilidadBundle/Controller/VentaSinController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ContabilidadBundle/Entity/Cliente.php" afterPath="$PROJECT_DIR$/src/ContabilidadBundle/Entity/Cliente.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ContabilidadBundle/Form/PeriodoType.php" afterPath="$PROJECT_DIR$/src/ContabilidadBundle/Form/PeriodoType.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ContabilidadBundle/Resources/config/routing.yml" afterPath="$PROJECT_DIR$/src/ContabilidadBundle/Resources/config/routing.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ContabilidadBundle/Resources/config/routing/ventasin.yml" afterPath="$PROJECT_DIR$/src/ContabilidadBundle/Resources/config/routing/ventasin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ContabilidadBundle/Resources/views/BaseFormularios.html.twig" afterPath="$PROJECT_DIR$/src/ContabilidadBundle/Resources/views/BaseFormularios.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ContabilidadBundle/Resources/views/Clientes/cliente.new.html.twig" afterPath="$PROJECT_DIR$/src/ContabilidadBundle/Resources/views/Clientes/cliente.new.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ContabilidadBundle/Resources/views/Clientes/clientes.ficha.html.twig" afterPath="$PROJECT_DIR$/src/ContabilidadBundle/Resources/views/Clientes/clientes.ficha.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ContabilidadBundle/Resources/views/Clientes/clientes.index.html.twig" afterPath="$PROJECT_DIR$/src/ContabilidadBundle/Resources/views/Clientes/clientes.index.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ContabilidadBundle/Resources/views/Partials/menuform.html.twig" afterPath="$PROJECT_DIR$/src/ContabilidadBundle/Resources/views/Partials/menuform.html.twig" />
     </list>
     <ignored path="PaginaSimons.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,7 +24,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="DefaultController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DefaultController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ContabilidadBundle/Controller/DefaultController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="153">
@@ -57,10 +37,20 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="16" column="12" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Cliente.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ContabilidadBundle/Entity/Cliente.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1207">
+            <state relative-caret-position="1190">
               <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
               <folding />
             </state>
@@ -94,7 +84,7 @@
       <file leaf-file-name="BaseFormularios.html.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ContabilidadBundle/Resources/views/BaseFormularios.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
+            <state relative-caret-position="476">
               <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
               <folding />
             </state>
@@ -104,7 +94,7 @@
       <file leaf-file-name="ClienteType.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ContabilidadBundle/Form/ClienteType.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="799">
+            <state relative-caret-position="731">
               <caret line="47" column="26" selection-start-line="47" selection-start-column="26" selection-end-line="47" selection-end-column="26" />
               <folding />
             </state>
@@ -126,16 +116,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="323">
               <caret line="19" column="59" selection-start-line="19" selection-start-column="59" selection-end-line="19" selection-end-column="59" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="new.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Resources/views/ventasin/new.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2431">
-              <caret line="143" column="28" selection-start-line="143" selection-start-column="28" selection-end-line="143" selection-end-column="111" />
               <folding />
             </state>
           </provider>
@@ -181,7 +161,6 @@
         <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/src/ContabilidadBundle/Resources/config/routing/ventasin.yml" />
         <option value="$PROJECT_DIR$/app/Resources/views/ventasin/index.html.twig" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/AppBundle/Resources/views/Default/login.html.twig" />
         <option value="$PROJECT_DIR$/src/ContabilidadBundle/Controller/VentaSinController.php" />
         <option value="$PROJECT_DIR$/src/ContabilidadBundle/Resources/config/services.yml" />
@@ -200,6 +179,7 @@
         <option value="$PROJECT_DIR$/src/ContabilidadBundle/Resources/views/BaseFormularios.html.twig" />
         <option value="$PROJECT_DIR$/src/ContabilidadBundle/Resources/views/Clientes/clientes.ficha.html.twig" />
         <option value="$PROJECT_DIR$/src/ContabilidadBundle/Controller/DefaultController.php" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -304,8 +284,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -604,6 +582,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -741,11 +721,12 @@
       <workItem from="1479924834138" duration="8540000" />
       <workItem from="1479947414896" duration="11910000" />
       <workItem from="1479959780287" duration="2370000" />
+      <workItem from="1479962339115" duration="39000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="422756000" />
+    <option name="totallyTimeSpent" value="422795000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="1370" height="735" extended-state="0" />
@@ -938,13 +919,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Resources/views/ventasin/index.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="404">
@@ -1064,9 +1038,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="61" selection-start-line="8" selection-start-column="61" selection-end-line="8" selection-end-column="61" />
-          <folding>
-            <element signature="e#325#352#0#Twig" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1097,7 +1068,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1119,7 +1089,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ContabilidadBundle/Entity/Cliente.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1207">
+        <state relative-caret-position="1190">
           <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
           <folding />
         </state>
@@ -1136,7 +1106,7 @@
     <entry file="file://$PROJECT_DIR$/web/ContabilidadBundle/Resources/public/cedulas/80009735cianv.jpeg" />
     <entry file="file://$PROJECT_DIR$/src/ContabilidadBundle/Form/ClienteType.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="799">
+        <state relative-caret-position="731">
           <caret line="47" column="26" selection-start-line="47" selection-start-column="26" selection-end-line="47" selection-end-column="26" />
           <folding />
         </state>
@@ -1149,7 +1119,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ContabilidadBundle/Resources/views/BaseFormularios.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
+        <state relative-caret-position="476">
           <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
           <folding />
         </state>
@@ -1176,6 +1146,14 @@
             <element signature="e#49#91#0#PHP" expanded="true" />
             <marker date="1479962135926" expanded="false" signature="6144:6170" ph="Periodo" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="12" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
+          <folding />
         </state>
       </provider>
     </entry>
