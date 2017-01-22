@@ -1,0 +1,33 @@
+venta_index:
+    path:     /{id_cliente}/{mes}/{ano}/ventas_lista
+    defaults: { _controller: "ContabilidadBundle:Venta:index" }
+    methods:  [GET, POST]
+
+venta_new:
+    path:     /{id_cliente}/{mes}/{ano}/new
+    defaults: { _controller: "ContabilidadBundle:Venta:new" }
+    methods:  [GET, POST]
+
+venta_show:
+    path:     /{id_cliente}/{mes}/{ano}/{id_venta}/show
+    defaults: { _controller: "ContabilidadBundle:Venta:show" }
+    methods:  GET
+
+venta_edit:
+    path:     /{id_cliente}/{mes}/{ano}/{id_venta}/edit
+    defaults: { _controller: "ContabilidadBundle:Venta:edit" }
+    methods:  [GET, POST]
+
+venta_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ContabilidadBundle:Venta:delete" }
+    methods:  DELETE
+
+venta_ajax:
+    path:     /ajax_venta
+    defaults: { _controller: "AppBundle:Ajax:ajaxVentas" }
+    methods:  GET
+
+get_entidad_json:
+    path:     /entidad/{ruc}
+    defaults: { _controller: "ContabilidadBundle:Venta:getEntidad" }

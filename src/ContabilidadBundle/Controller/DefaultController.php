@@ -5,15 +5,15 @@ namespace ContabilidadBundle\Controller;
 use ContabilidadBundle\ContabilidadBundle;
 use ContabilidadBundle\Entity\Periodo;
 use ContabilidadBundle\Entity\Cliente;
+use ContabilidadBundle\Entity\VentaCab;
 use ContabilidadBundle\Repository\PeriodoRepository;
+use ContabilidadBundle\Repository\VentaCabRepository;
+use ContabilidadBundle\Repository\ClienteRepository;
 use ContabilidadBundle\Form\PeriodoType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use ContabilidadBundle\Repository\ClienteRepository;
 use ContabilidadBundle\Form\ClienteType;
-use Symfony\Component\HttpFoundation\Request;
-use ContabilidadBundle\Entity\VentaSin;
 use ContabilidadBundle\Form\VentaSinType;
-use ContabilidadBundle\Repository\VentaSinRepository;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
@@ -139,18 +139,11 @@ class DefaultController extends Controller
             return $this->redirectToRoute('contabilidad_ficha_cliente', array('id_cliente'=>$id_cliente));
         }
 
-        //tiene cédula anverso
-        if(file_exists('cedulas/'.$cliente->getRuc().'cianv.jpeg')){
-            $cianv='cedulas/'.$cliente->getRuc().'cianv.jpeg';
-        } else {
-            $cianv='cedulas/sincedula.jpeg';
-        }
+        //muestra las cédulas almacenadas
+        $imagenes=$em->getRepository('ContabilidadBundle:Cliente')->tieneCedula($cliente->getRuc());
+        $cianv=$imagenes['cianv'];
+        $cirev=$imagenes['cirev'];
 
-        if(file_exists('cedulas/'.$cliente->getRuc().'cirev.jpeg')){
-            $cirev='cedulas/'.$cliente->getRuc().'cirev.jpeg';
-        } else {
-            $cirev='cedulas/sincedula.jpeg';
-        }
 
         return $this->render('@Contabilidad/Clientes/cliente.edit.html.twig', array(
             'user'=>$user,
@@ -276,7 +269,7 @@ class DefaultController extends Controller
 
 
         //contar y sumar libro ventas
-        $totales=$em->getRepository('ContabilidadBundle:VentaSin')->totalesVentas(array(
+        $totales=$em->getRepository('ContabilidadBundle:VentaCab')->totalesVentas(array(
             'cliente'=>$id_cliente, 'mes'=>$mes, 'ano'=>$ano
         ));
 

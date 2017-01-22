@@ -3,7 +3,7 @@ contabilidad_menu:
     defaults: { _controller: ContabilidadBundle:Default:index }
 
 contabilidad_venta:
-    resource: "@ContabilidadBundle/Resources/config/routing/ventasin.yml"
+    resource: "@ContabilidadBundle/Resources/config/routing/ventas.yml"
     prefix:   /venta
 
 contabilidad_cliente:

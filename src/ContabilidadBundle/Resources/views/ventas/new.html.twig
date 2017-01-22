@@ -1,0 +1,142 @@
+{% extends '@Contabilidad/BaseFormularios.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset("js/entidades.js") }}"></script>
+    <script src="{{ asset("js/ventas.js") }}"></script>
+{% endblock %}
+
+{% block title %}
+    {{ parent() }}
+    Nueva Venta
+{% endblock %}
+
+{% block cedulas %}
+    {% include '@Contabilidad/Partials/cedulas.html.twig' %}
+{% endblock %}
+
+{% block areatrabajo %}
+    
+    
+    {#<div class="container-fluid bg-danger">#}
+    
+    <div>
+        
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Cabecera</a></li>
+            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Detalle</a></li>
+            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Asiento</a></li>
+            <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Revalúo</a></li>
+        </ul>
+        
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="home">
+                <p>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <form class="formulario" id="formu_vta" method="post" name="formu_vta" action="">
+                                <div class="linea col-lg-12">
+                                    <div class="widget"><label for="tipo_comp">TIPO COMPROBANTE</label>
+                                        <select>
+                                            <option value="1">Factura</option>
+                                            <option value="2">Boleta de Venta</option>
+                                            <option value="3">Nota de Crédito</option>
+                                            <option value="4">Nota de Débito</option>
+                                        </select>
+                                    </div>
+                                    <div class="widget"><label for="dia">Día</label><input type="text" id="dia" name="dia" style="width: 40px" maxlength="2"></div>
+                                    <div class="widget"><label for="rucent">RUC</label><input type="text" id="rucent" name="rucent" style="width: 100px"></div>
+                                    <div class="widget"><label for="dv">DV</label><input type="text" id="dv" name="dv" style="width: 30px" maxlength="1"></div>
+                                    <div class="widget"><label for="nombres">CLIENTE</label><input type="text" id="nombres" name="nombres" style="width: 500px"></div>
+                                    <div class="widget"><label for="condicion">CONDICION</label>
+                                        <select name="condicion">
+                                            <option value="0">Contado</option>
+                                            <option value="1">Plazo</option>
+                                        </select>
+                                    </div>
+                                    <div class="widget"><label for="condicion">RENTA</label>
+                                        <select name="renta">
+                                            <option value="0">IRACIS</option>
+                                            <option value="1">IRAGRO</option>
+                                            <option value="2">IRP</option>
+                                            <option value="3">IRPC</option>
+                                        </select>
+                                    </div>
+    
+                                    <div class="widget"><label for="nsuc">SUC</label><input type="text" id="nsuc" name="nsuc" style="width: 50px" maxlength="3"></div>
+                                    <div class="widget"><label for="npe">PE</label><input type="text" id="npe" name="npe" style="width: 50px" maxlength="3"></div>
+                                    <div class="widget"><label for="ncomp">NCOMP</label><input type="text" id="ncomp" name="ncomp" style="width: 100px" maxlength="7"></div>
+                                    <div class="widget"><label for="timbrado">TIMBRADO</label><input type="text" id="timbrado" name="timbrado" style="width: 100px" maxlength="8"></div>
+                                    <div class="widget"><label for="moneda">MONEDA</label>
+                                        <select name="moneda">
+                                            <option value="1">Gs</option>
+                                            <option value="2">U$D</option>
+                                        </select>
+                                    </div>
+                                    <div class="widget"><label for="cotiz">COTIZ</label><input type="text" id="cotiz" name="cotiz" style="width: 90px"></div>
+                                </div>
+                                {#<div class="linea col-lg-12">#}
+                                <div class="enlinea"><label for="comentarios">COMENTARIOS</label>
+                                    <textarea id="comentario" name="comentario"></textarea>
+                                </div>
+                                {#</div>#}
+                                <div class="row">
+                                    <div class="col-lg-7">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" ><strong>Valores Cargados</strong></div>
+                                            <div class="panel-body">
+                                                <div class="col-lg-12">
+                                                    <div class="widget"><label for="total_comprobante">Total Comprobante</label><input type="text" value="0" id="total_comprobante" style="width: 130px"></div>
+                                                    <div class="widget"><label for="cargado">Cargado</label><input type="text" value="0" id="cargado" style="width: 130px"></div>
+                                                    <div class="widget"><label for="diferencia">Diferencia</label><input type="text" value="0" id="diferencia" style="width: 130px"></div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="widget"><label for="gravado10">IVA Incluido al 10%</label><input type="text" value="0" id="gravado10" name="gravado10" style="width: 130px"></div>
+                                                    <div class="widget"><label for="gravado5">IVA Incluido al 5%</label><input type="text" value="0" id="gravado5" name="gravado5" style="width: 130px"></div>
+                                                    <div class="widget"><label for="exento">Exento</label><input type="text" value="0" id="exento" name="exento" style="width: 130px"></div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="widget"><label for="iva10">IVA al 10%</label><input type="text" value="0" id="iva10" name="iva10" style="width: 130px" class="inactivo" readonly></div>
+                                                    <div class="widget"><label for="iva5">IVA al 5%</label><input type="text" value="0" id="iva5" name="iva5" style="width: 130px" class="inactivo" readonly></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="col-lg-5">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" ><strong>Valores Almacenados</strong></div>
+                                            <div class="panel-body">
+                                                <div class="col-lg-12">
+                                                    <div class="widget"><label for="g10">Gravado al 10%</label><input type="text" value="0" id="g10" name="g10" style="width: 130px" class="inactivo" readonly></div>
+                                                    <div class="widget"><label for="g5">Gravado al 5%</label><input type="text" value="0" id="g5" name="g5" style="width: 130px" class="inactivo" readonly></div>
+                                                    <div class="widget"><label for="al_iva10">IVA al 10%</label><input type="text" value="0" id="al_iva10" name="al_iva10" style="width: 130px" class="inactivo" readonly></div>
+                                                    <div class="widget"><label for="al_iva5">IVA al 5%</label><input type="text" value="0" id="al_iva5" name="al_iva5" style="width: 130px" class="inactivo" readonly></div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="widget"><label for="total_comprobante">Total Comprobante</label><input type="text" value="0" id="total_comprobante" style="width: 130px" class="inactivo" readonly></div>
+                                                    <div class="widget"><label for="exe">Exento</label><input type="text" value="0" id="exe" name="exe" style="width: 130px" class="inactivo" readonly></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button type="button" id="btn_guardar" class="btn btn-success pull-right">Guardar</button>
+                                {#<input type="submit" id="btn_guardar" class="pull-right" value="Guardar">#}
+                            </form>
+                        </div>
+                    </div>
+                </p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="profile">...</div>
+            <div role="tabpanel" class="tab-pane fade" id="messages">...</div>
+            <div role="tabpanel" class="tab-pane fade" id="settings">...</div>
+        </div>
+    
+    </div>
+    {#<a href="{{ path('venta_index') }}" class="btn btn-default">Volver al Listado</a>#}
+    
+{% endblock %}

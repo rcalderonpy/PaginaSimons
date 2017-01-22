@@ -40,6 +40,14 @@ class VentaSinType extends AbstractType
                         'class'=>'input-sm'
                     )
                 ))
+                ->add('dia', null, array(
+                    'attr'=>array('style'=>'width:5%',
+                        'placeholder'=>'Día',
+                        'maxlength'=>'2',
+                        'class'=>'input-sm text-center'),
+                    'required'=>true,
+                    'mapped'=>false
+                ))
                 ->add('nsuc', null, array(
                     'attr'=>array('style'=>'width:5%',
                         'placeholder'=>'Suc',

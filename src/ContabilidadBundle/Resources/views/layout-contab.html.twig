@@ -46,13 +46,10 @@
      
      {% block menu %}{% endblock %}
      
-     <section class="container-fluid">
+     <section class="padre">
          {% block content %} {% endblock %}
      </section>
-     {% block javascripts %}
-         <script src="{{ asset('bundles/app/Bootstrap/js/bootstrap.min.js') }}"></script>
-         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-     {% endblock %}
+
  {% endblock %}
 
 {#PIE DE PAGINA#}
