@@ -66,7 +66,7 @@ form input, select{
     margin: 0px 2px;
     color: #6d6d6d;
     /*text-align: center;*/
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     /*bootstrap*/
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -78,15 +78,19 @@ form input, select{
     display: block;
 }
 
+form .numero{
+    text-align: right;
+}
+
 form textarea{
     padding: 0px 10px;
     margin: 0px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     width: 100%;
     max-width: 100%;
     min-width: 100%;
-    height: 70px;
-    max-height: 110px;
+    height: 50px;
+    max-height: 80px;
     /*background: #000;*/
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -125,13 +129,13 @@ form label{
 }
 
 .filtros{
-    width:30%;
+    width:25%;
     background: #d5e6e9;
     padding: 0 15px 10px;
 }
 
 .area_trabajo{
-    width:70%;
+    width:75%;
     padding: 0 10px;
 }
 
@@ -148,7 +152,17 @@ form label{
 .linea{
     padding: 0;
     display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     flex-wrap: wrap;
     /*margin-bottom:5px;*/
+}
+
+.error{
+    color: #FFFFFF;
+    background: #eb4a47;
+}
+
+#borrar_linea span:hover{
+    cursor: pointer;
+    font-size:15px;
 }
