@@ -41,30 +41,53 @@ $(document).ready(function(){
 
     // BOTON AGREGAR LÍNEA
     $("#add_linea").on('click', function(){
-        var suma_venta=valor($('#gravado10'))+valor($('#gravado5'))+valor($('#exento'));
-        var suma_iva=valor($('#iva10'))+valor($('#iva5'));
-        // alert(suma_venta);
+        // validaciones carga
+        var codigo=$('#codCta').val();
+        var cuenta=$('#cuenta').val();
+        var g10=$('#gravado10').val();
+        var g5=$('#gravado5').val();
+        var exe=$('#exento').val();
+        var sumanum = g10+g5+exe;
 
-        var nuevaFila=
-            "<tr>"+
+        if(codigo!='' && cuenta!='' && sumanum >0){
+            var suma_venta=valor($('#gravado10'))+valor($('#gravado5'))+valor($('#exento'));
+            var suma_iva=valor($('#iva10'))+valor($('#iva5'));
+            // alert(suma_venta);
+
+            var nuevaFila=
+                "<tr>"+
                 "<td class='text-center'>"+$('#codCta').val()+"</td> " +
                 "<td>"+$('#cuenta').val()+"</td> " +
                 "<td class='text-right'>"+ $.number(suma_venta) +"</td> " +
                 "<td class='text-right'>"+$.number(suma_iva) +"</td> " +
                 "<td>"+"Col 1"+"</td> " +
                 "<td class='text-center' id='borrar_linea'><span class='glyphicon glyphicon-remove text-danger'></span></td>" +
-            "</tr>";
-        $("#tabla tbody").append(nuevaFila);
-        nuevaFila="";
-        camposControl();
-        limpiarDetalle();
-        $('#codCta').focus();
+                "</tr>";
+            $("#tabla tbody").append(nuevaFila);
+            nuevaFila="";
+            camposControl();
+            limpiarDetalle();
+
+            // Balancea Comprobante
+            if($('#diferencia').val()==0){
+                alert('desea Guardar comprobante?');
+            } else {
+                $('#codCta').focus();
+            }
+        } else {
+            alert('Complete todos los campos');
+            $('#codCta').focus();
+        }
+
+
 
     });
-
     // BOTON BORRAR LÍNEA
     $("tbody").on('click', "#borrar_linea", function(){
         $(this).parent().remove();
+        camposControl();
+        limpiarDetalle();
+        $('#codCta').focus();
     });
 
     //Pasar de texto a numero
@@ -72,6 +95,8 @@ $(document).ready(function(){
         var input=objeto;
         return parseFloat(input.val());
     }
+
+
 
     //Calcular IVA al 10%
     function getIva10(valor, decimales){
