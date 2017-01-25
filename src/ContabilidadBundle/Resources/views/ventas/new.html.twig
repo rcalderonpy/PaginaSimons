@@ -13,7 +13,7 @@
             <form class="formulario" id="formu_vta" method="post" name="formu_vta" action="">
                 <div class="linea col-lg-12">
                     <div class="widget"><label for="tipo_comp">Tipo Comprobante</label>
-                        <select tabindex="-1">
+                        <select tabindex="-1" name="tipo_comp" id="tipo_comp">
                             <option value="1">Factura</option>
                             <option value="2">Boleta de Venta</option>
                             <option value="3">Nota de Crédito</option>
@@ -30,7 +30,7 @@
                     <div class="widget"><label for="ncomp">Nº Comprob.</label><input type="text" id="ncomp" name="ncomp" style="width: 100px" maxlength="7"></div>
                     <div class="widget"><label for="timbrado">Timbrado</label><input type="text" id="timbrado" name="timbrado" style="width: 100px" maxlength="8"></div>
                     <div class="widget"><label for="condicion">Condición</label>
-                        <select name="condicion">
+                        <select name="condicion" id="condicion">
                             <option value="0">Contado</option>
                             <option value="1">Plazo</option>
                         </select>

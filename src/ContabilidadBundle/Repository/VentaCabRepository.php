@@ -2,7 +2,6 @@
 
 namespace ContabilidadBundle\Repository;
 
-
 /**
  * VentaCabRepository
  *

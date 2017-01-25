@@ -191,22 +191,6 @@ class DefaultController extends Controller
         $imagenes=$em->getRepository('ContabilidadBundle:Cliente')->tieneCedula($cliente->getRuc());
         $cianv=$imagenes['cianv'];
         $cirev=$imagenes['cirev'];
-//        dump($imagenes);
-//        die();
-
-//        if(file_exists('cedulas/'.$cliente->getRuc().'cianv.jpeg')){
-//            $cianv='cedulas/'.$cliente->getRuc().'cianv.jpeg';
-//        } else {
-//            $cianv='cedulas/sincedula.jpeg';
-//        }
-//
-//        if(file_exists('cedulas/'.$cliente->getRuc().'cirev.jpeg')){
-//            $cirev='cedulas/'.$cliente->getRuc().'cirev.jpeg';
-//        } else {
-//            $cirev='cedulas/sincedula.jpeg';
-//        }
-//        dump($cianv);
-//        die();
 
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -256,12 +240,6 @@ class DefaultController extends Controller
         $em=$this->getDoctrine()->getManager();
         $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$id_cliente));
 
-        //filtrar periodos del cliente
-//        $em=$this->getDoctrine()->getManager();
-//        $periodos=$em->getRepository('ContabilidadBundle:Periodo')->filtrarPeriodos(array(
-//            'cliente'=>$id
-//        ));
-
         //tiene cédulas
         $imagenes=$em->getRepository('ContabilidadBundle:Cliente')->tieneCedula($cliente->getRuc());
         $cianv=$imagenes['cianv'];
@@ -269,9 +247,9 @@ class DefaultController extends Controller
 
 
         //contar y sumar libro ventas
-        $totales=$em->getRepository('ContabilidadBundle:VentaCab')->totalesVentas(array(
-            'cliente'=>$id_cliente, 'mes'=>$mes, 'ano'=>$ano
-        ));
+//        $totales=$em->getRepository('ContabilidadBundle:VentaCab')->totalesVentas(array(
+//            'cliente'=>$id_cliente, 'mes'=>$mes, 'ano'=>$ano
+//        ));
 
 //        dump($totales);
 //        die();
@@ -283,7 +261,7 @@ class DefaultController extends Controller
             'botones'=>null,
             'mes'=>$mes,
             'ano'=>$ano,
-            'totales'=>$totales,
+//            'totales'=>$totales,
             'cianv'=>$cianv,
             'cirev'=>$cirev
         ));
@@ -300,7 +278,7 @@ class DefaultController extends Controller
         }
 
         $em=$this->getDoctrine()->getManager();
-        $periodo=$em->getRepository('ContabilidadBundle:Periodo')->findOneBy(array('id'=>$periodo_id));
+        $periodo=$em->getRepository('ContabilidadBundle:Periodo')->findOneBy(array('id'=>$id_periodo));
         $em->remove($periodo);
         $em->flush();
 
@@ -344,9 +322,9 @@ class DefaultController extends Controller
             $em->remove($cliente);
             $em->flush();
         }
-        echo "<script languaje='javascript' type='text/javascript'>window.close();</script>";
-        die();
-//        return $this->redirectToRoute('contabilidad_lista_clientes');
+//        echo "<script languaje='javascript' type='text/javascript'>window.close();</script>";
+//        die();
+        return $this->redirectToRoute('contabilidad_lista_clientes');
     }
 
     /**

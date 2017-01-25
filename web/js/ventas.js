@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    var detalleglobal = [];
+
     // -------------------- FUNCIONES GENERALES --------------------
 
     //Pasar de texto a numero
@@ -99,6 +101,40 @@ $(document).ready(function(){
         $('#exento').val('0');
     }
 
+    // Limpia la cabecera
+    function limpiarCabecera(){
+        $('#tipo_comp').val('1');
+        $('#dia').val('1');
+        $('#rucent').val('');
+        $('#nsuc').val('');
+        $('#npe').val('');
+        $('#ncomp').val('');
+        $('#timbrado').val('');
+        $('#condicion').val('0');
+        $('#moneda').val('1');
+        $('#cotiz').val('0');
+        $('#anul').prop('checked', false);
+        $('#comentario').val('');
+    }
+
+    // --- DATOS CABECERA ---
+    var ruta = window.location.pathname.split("/");
+    var idcliente = ruta[3];
+    var tipo_comp=valorId('tipo_comp');
+    var dia=valorId('dia');
+    var mes = ruta[4];
+    var ano = ruta[5];
+    var rucent=$('#rucent').val();
+    var nsuc=valorId('nsuc');
+    var npe=valorId('npe');
+    var ncomp=valorId('ncomp');
+    var timbrado=valorId('timbrado');
+    var condicion=valorId('condicion');
+    var moneda=valorId('moneda');
+    var cotiz=valorId('cotiz');
+    var anul=$("#anul").prop('checked');
+    var comentario=valorId('comentario');
+
     // -------------------- EVENTOS --------------------
 
 
@@ -135,13 +171,14 @@ $(document).ready(function(){
         var codigo=$('#codCta').val();
         var cuenta=$('#cuenta').val();
         var g10=$('#gravado10').val();
+        var iva10=$('#iva10').val();
         var g5=$('#gravado5').val();
+        var iva5=$('#iva5').val();
         var exe=$('#exento').val();
         var sumanum = g10+g5+exe;
 
         if(codigo!='' && cuenta!='' && sumanum >0){
             var suma_venta=valor($('#gravado10'))+valor($('#gravado5'))+valor($('#exento'));
-            alert(suma_venta);
             var suma_iva=valor($('#iva10'))+valor($('#iva5'));
 
             var nuevaFila=
@@ -154,6 +191,8 @@ $(document).ready(function(){
                 "<td class='text-center' id='borrar_linea'><span class='glyphicon glyphicon-remove text-danger'></span></td>" +
                 "</tr>";
             $("#tabla tbody").append(nuevaFila);
+            detalleglobal.push({'codigo':codigo, 'cuenta':cuenta, 'g10':g10, 'g5':g5, 'iva10':iva10, 'iva5':iva5, 'exe':exe});
+            console.log(detalleglobal);
             camposControl();
             limpiarDetalle();
             nuevaFila="";
@@ -230,58 +269,61 @@ $(document).ready(function(){
         });
     });
 
-    // Ajax guardar Venta
+    // AJAX GUARDAR VENTAS
     $('#btn_guardar').on('click', function(e){
 
         e.preventDefault();
+
+        // --- DATOS CABECERA ---
+        var ruta = window.location.pathname.split("/");
+        var idcliente = ruta[3];
+        var tipo_comp=valorId('tipo_comp');
         var dia=valorId('dia');
+        var mes = ruta[4];
+        var ano = ruta[5];
         var rucent=$('#rucent').val();
         var nsuc=valorId('nsuc');
         var npe=valorId('npe');
         var ncomp=valorId('ncomp');
         var timbrado=valorId('timbrado');
+        var condicion=valorId('condicion');
         var moneda=valorId('moneda');
         var cotiz=valorId('cotiz');
         var anul=$("#anul").prop('checked');
         var comentario=valorId('comentario');
+        var detalle = detalleglobal;
 
-        var codigo=$('#codCta').val();
-        var cuenta=$('#cuenta').val();
-        var g10=$('#gravado10').val();
-        var g5=$('#gravado5').val();
-        var exe=$('#exento').val();
-        var sumanum = g10+g5+exe;
 
-        //PARÁMETROS QUE SE VAN A ENVIAR PARA GUARDAR
+        console.log('Detalle = '+detalle);
+
+        //PARÁMETROS QUE SE VAN A ENVIAR PARA GUARDAR CABECERA
         var parametros = {
+            'tipo_comp': tipo_comp,
+            'idcliente': idcliente,
             'dia': dia,
+            'mes': mes,
+            'ano': ano,
             'rucent':rucent,
             'nsuc':nsuc,
             'npe':npe,
             'ncomp':ncomp,
             'timbrado':timbrado,
+            'condicion':condicion,
             'moneda':moneda,
             'cotiz':cotiz,
             'anul':anul,
             'comentario':comentario,
-
-            'codigo':codigo,
-            'cuenta':cuenta,
-            'g10':g10,
-            'g5':g5,
-            'exe':exe,
+            'detalle':detalle
         };
         console.log(parametros);
 
+
+
         $.post("/contab/venta/guardar_venta", parametros, function(data){
-            console.log('se reciben los datos');
+            // console.log('datos almacenados');
             console.log(data);
-            // var datos=data;
-            // if(datos['cuenta']!=null){
-            //     $('#cuenta').attr({'value': datos['cuenta'],'readonly':true, 'class':'inactivo' }).val(datos['cuenta']);
-            // } else {
-            //     $('#cuenta').attr({'value': '','readonly':false, 'class':'' }).val('');
-            // }
+            limpiarCabecera();
+            $('#dia').focus();
         });
 
     });

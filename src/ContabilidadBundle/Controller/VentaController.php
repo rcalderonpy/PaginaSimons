@@ -368,22 +368,83 @@ class VentaController extends Controller
 
     public function guardarVentaAction(Request $request)
     {
-        $codigo=utf8_decode($_POST['codigo']);
-        $em=$this->getDoctrine()->getManager();
-        $cuenta =  $em->getRepository('ContabilidadBundle:PlanCta')->findOneBy(array('codigo'=>$codigo));
-        if($cuenta){
-            $respuesta = array(
-                'codigo'=>$cuenta->getCodigo(),
-                'cuenta'=>$cuenta->getcuenta(),
-                'imputable'=>$cuenta->getImputable(),
-                'renta'=>$cuenta->getRenta()
-            );
-        } else {
-            $respuesta=null;
+        // Validación Usuario
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
         }
-//        $respuesta = $codigo;
-//        echo $respuesta;
-        return new JsonResponse($respuesta);
 
+        $user = $this->getUser();
+
+        $ventaCab = new VentaCab();
+
+
+        // --------------- CABECERA --------------- //
+        $id_cliente=$_POST['idcliente'];
+        $tipo_comp=$_POST['tipo_comp'];
+        $dia=$_POST['dia'];
+        $mes=$_POST['mes'];
+        $ano=$_POST['ano'];
+        $fecha_texto=$mes.'/'.$dia.'/'.$ano;
+        $fecha=date_create($fecha_texto);
+        $ruc_entidad=$_POST['rucent'];
+        $nsuc=$_POST['nsuc'];
+        $npe=$_POST['npe'];
+        $ncomp=$_POST['ncomp'];
+        $timbrado=$_POST['timbrado'];
+        $condicion=$_POST['condicion'];
+        $id_moneda=$_POST['moneda'];
+        $cotiz=$_POST['cotiz'];
+        $anul=$_POST['anul'];
+        $comentario=$_POST['comentario'];
+
+        // --------------- DETALLE --------------- //
+
+        $datos=[
+            'dia'=>$dia,
+            'mes'=>$mes,
+            'ano'=>$ano,
+            'fecha'=>$fecha,
+            'ruc_entidad'=>$ruc_entidad,
+            'nsuc'=>$nsuc,
+            'npe'=>$npe,
+            'ncomp'=>$ncomp,
+            'timbrado'=>$timbrado,
+            'condicion'=>$condicion,
+            'moneda'=>$id_moneda,
+            'cotiz'=>$cotiz,
+            'anul'=>$anul,
+            'comentario'=>$comentario
+        ];
+
+        $em=$this->getDoctrine()->getManager();
+
+        // Conseguir objetos
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->find($id_cliente);
+        $entidad=$em->getRepository('ContabilidadBundle:Entidad')->findOneBy(['ruc'=>$ruc_entidad]);
+        $moneda=$em->getRepository('ContabilidadBundle:Moneda')->findOneBy(['id'=>$id_moneda]);
+        $sucursal=$em->getRepository('ContabilidadBundle:Sucursal')->findOneBy(['id'=>1]);
+
+        $ventaCab->setCliente($cliente)
+            ->setUsuario($user)
+            ->setSucursal($sucursal)
+            ->setFecha($fecha)
+            ->setEntidad($entidad)
+            ->setNsuc($nsuc)
+            ->setNpe($npe)
+            ->setNcomp($ncomp)
+            ->setTimbrado($timbrado)
+            ->setCondicion($condicion)
+            ->setMoneda($moneda)
+            ->setCotiz($cotiz)
+            ->setAnul($anul)
+            ->setComentario($comentario);
+
+        $em->persist($ventaCab);
+
+        $em->flush();
+        $respuesta = 'Datos almacenados exitosamente';
+
+        return new JsonResponse($respuesta);
     }
+
 }
