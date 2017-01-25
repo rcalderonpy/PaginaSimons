@@ -104,6 +104,13 @@ class VentaCab
     private $cotiz=0.00;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="anul", type="boolean")
+     */
+    private $anul=false;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="comentario", type="string", length=1000)
@@ -633,5 +640,26 @@ class VentaCab
     {
         return $this->condicion;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isAnul()
+    {
+        return $this->anul;
+    }
+
+    /**
+     * @param boolean $anul
+     * @return VentaCab
+     */
+    public function setAnul($anul)
+    {
+        $this->anul = $anul;
+        return $this;
+    }
+
+
+
 }
 

@@ -1,94 +1,6 @@
 $(document).ready(function(){
 
-    // selecciona el contenido del imput
-
-    $("input[type=text]").focus(function(){
-        this.select();
-    });
-
-
-    // BOTON GUARDAR
-    $('#btn_guardar').on('click', function(e){
-        e.preventDefault();
-        if(valor($('#diferencia'))!=0){
-            alert('Comprobante No Balancea!!!')
-        } else {
-            $('#formu_vta').submit();
-        }
-
-    });
-
-    function camposControl(){
-        // Control de carga
-        $('#cargado').val(SumarColumna('tabla', 2));
-        $('#diferencia').val($('#total_comprobante').val()-$('#cargado').val());
-        if($('#diferencia').val()!=0){
-            $('#diferencia').addClass('error');
-        } else {
-            $('#diferencia').removeClass('error');
-        }
-    }
-
-    function limpiarDetalle(){
-        $('#codCta').val('');
-        $('#cuenta').val('');
-        $('#gravado10').val($('#diferencia').val());
-        $('#gravado5').val('0');
-        $('#iva10').val('0');
-        $('#iva5').val('0');
-        $('#exento').val('0');
-    }
-
-    // BOTON AGREGAR LÍNEA
-    $("#add_linea").on('click', function(){
-        // validaciones carga
-        var codigo=$('#codCta').val();
-        var cuenta=$('#cuenta').val();
-        var g10=$('#gravado10').val();
-        var g5=$('#gravado5').val();
-        var exe=$('#exento').val();
-        var sumanum = g10+g5+exe;
-
-        if(codigo!='' && cuenta!='' && sumanum >0){
-            var suma_venta=valor($('#gravado10'))+valor($('#gravado5'))+valor($('#exento'));
-            var suma_iva=valor($('#iva10'))+valor($('#iva5'));
-            // alert(suma_venta);
-
-            var nuevaFila=
-                "<tr>"+
-                "<td class='text-center'>"+$('#codCta').val()+"</td> " +
-                "<td>"+$('#cuenta').val()+"</td> " +
-                "<td class='text-right'>"+ $.number(suma_venta) +"</td> " +
-                "<td class='text-right'>"+$.number(suma_iva) +"</td> " +
-                "<td>"+"Col 1"+"</td> " +
-                "<td class='text-center' id='borrar_linea'><span class='glyphicon glyphicon-remove text-danger'></span></td>" +
-                "</tr>";
-            $("#tabla tbody").append(nuevaFila);
-            nuevaFila="";
-            camposControl();
-            limpiarDetalle();
-
-            // Balancea Comprobante
-            if($('#diferencia').val()==0){
-                alert('desea Guardar comprobante?');
-            } else {
-                $('#codCta').focus();
-            }
-        } else {
-            alert('Complete todos los campos');
-            $('#codCta').focus();
-        }
-
-
-
-    });
-    // BOTON BORRAR LÍNEA
-    $("tbody").on('click', "#borrar_linea", function(){
-        $(this).parent().remove();
-        camposControl();
-        limpiarDetalle();
-        $('#codCta').focus();
-    });
+    // -------------------- FUNCIONES GENERALES --------------------
 
     //Pasar de texto a numero
     function valor(objeto){
@@ -96,7 +8,11 @@ $(document).ready(function(){
         return parseFloat(input.val());
     }
 
-
+    //Se carga el valor del 'id' del elemento y devuelve ('#nombre_id').val();
+    function valorId(nombre){
+        var selector = $("#"+ nombre ).val();
+        return selector;
+    }
 
     //Calcular IVA al 10%
     function getIva10(valor, decimales){
@@ -111,6 +27,156 @@ $(document).ready(function(){
         iva=iva.toFixed(decimales);
         return iva;
     }
+
+    //total cargado
+    function SumarColumna(grilla, columna) {
+        var resultVal = 0;
+        var texto='';
+
+        $("#" + grilla + " tbody tr").each(
+            function() {
+
+                var celdaValor = $(this).find('td:eq(' + columna + ')');
+
+                if (celdaValor.val() != null){
+                    texto=celdaValor.html().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','');
+                    resultVal += parseFloat(texto);
+                }
+
+            } //function
+
+        )
+        console.log(resultVal);
+        return resultVal;
+    }
+
+    // -------------------- FUNCIONES ESPECÍFICAS --------------------
+
+
+    // Función Anular
+    function anularVenta(estado){
+        if(estado==true){
+            $('#gravado10').addClass('inactivo');
+            $('#gravado5').addClass('inactivo');
+            $('#exento').addClass('inactivo');
+            $('#codCta').addClass('inactivo').val('');
+            $('#cuenta').addClass('inactivo').val('');
+            $('#total_comprobante').addClass('inactivo');
+            $('.numero').val('0');
+            $('#comentario').text('Comprobante Anulado');
+
+        } else {
+            $('#gravado10').removeClass('inactivo');
+            $('#gravado5').removeClass('inactivo');
+            $('#exento').removeClass('inactivo');
+            $('#codCta').removeClass('inactivo');
+            $('#cuenta').removeClass('inactivo');
+            $('#total_comprobante').removeClass('inactivo');
+            $('#comentario').text('');
+        }
+    }
+    //
+    // Agrega Valores a los campos Total Cargado y Diferencia
+    function camposControl(){
+        // Control de carga
+        $('#cargado').val(SumarColumna('tabla', 2));
+        $('#diferencia').val($('#total_comprobante').val()-$('#cargado').val());
+        if($('#diferencia').val()!=0){
+            $('#diferencia').addClass('error');
+        } else {
+            $('#diferencia').removeClass('error');
+        }
+    }
+
+    // Limpia el detalle
+    function limpiarDetalle(){
+        $('#codCta').val('');
+        $('#cuenta').val('');
+        $('#gravado10').val($('#diferencia').val());
+        $('#gravado5').val('0');
+        $('#iva10').val('0');
+        $('#iva5').val('0');
+        $('#exento').val('0');
+    }
+
+    // -------------------- EVENTOS --------------------
+
+
+    // selecciona el contenido del imput
+    $("input[type=text]").focus(function(){
+        this.select();
+    });
+
+
+    // BOTON GUARDAR
+    // $('#btn_guardar').on('click', function(e){
+    //     e.preventDefault();
+    //     if(valor($('#diferencia'))!=0){
+    //         alert('Comprobante No Balancea!!!')
+    //     } else {
+    //         $('#formu_vta').submit();
+    //     }
+    // });
+
+    // Boton Anular
+    $('#anul').on('click', function(){
+        if(this.checked){
+            $('#chklabel').text('Anulado');
+        } else {
+            $('#chklabel').text('Anular?');
+        }
+        var estado = this.checked;
+        anularVenta(estado);
+    });
+
+    // BOTON AGREGAR LÍNEA
+    $("#add_linea").on('click', function(){
+        // validaciones carga
+        var codigo=$('#codCta').val();
+        var cuenta=$('#cuenta').val();
+        var g10=$('#gravado10').val();
+        var g5=$('#gravado5').val();
+        var exe=$('#exento').val();
+        var sumanum = g10+g5+exe;
+
+        if(codigo!='' && cuenta!='' && sumanum >0){
+            var suma_venta=valor($('#gravado10'))+valor($('#gravado5'))+valor($('#exento'));
+            alert(suma_venta);
+            var suma_iva=valor($('#iva10'))+valor($('#iva5'));
+
+            var nuevaFila=
+                "<tr>"+
+                "<td class='text-center'>"+$('#codCta').val()+"</td> " +
+                "<td>"+$('#cuenta').val()+"</td> " +
+                "<td class='text-right'>"+ $.number(suma_venta) +"</td> " +
+                "<td class='text-right'>"+$.number(suma_iva) +"</td> " +
+                "<td>"+exe+"</td> " +
+                "<td class='text-center' id='borrar_linea'><span class='glyphicon glyphicon-remove text-danger'></span></td>" +
+                "</tr>";
+            $("#tabla tbody").append(nuevaFila);
+            camposControl();
+            limpiarDetalle();
+            nuevaFila="";
+
+            // Balancea Comprobante
+            if($('#diferencia').val()==0){
+                alert('desea Guardar comprobante?');
+            } else {
+                $('#codCta').focus();
+            }
+        } else {
+            alert('Complete todos los campos');
+            $('#codCta').focus();
+        }
+    });
+
+    // BOTON BORRAR LÍNEA
+    $("tbody").on('click', "#borrar_linea", function(){
+        $(this).parent().remove();
+        camposControl();
+        limpiarDetalle();
+        $('#codCta').focus();
+    });
 
     //validación total comprobante
     $('#total_comprobante').on('blur', function (e) {
@@ -132,61 +198,91 @@ $(document).ready(function(){
         var g10 = $('#gravado10').val()-iva10;
         var g5 = $('#gravado5').val()-iva5;
         var exe = $('#exento').val()
-
-
         $('#iva10').val(iva10);
         $('#iva5').val(iva5);
-
-        // Control de carga
         camposControl();
-        // $('#cargado').val(SumarColumna('tabla', 2));
-        // $('#diferencia').val($('#total_comprobante').val()-$('#cargado').val());
-        // if($('#diferencia').val()!=0){
-        //     $('#diferencia').addClass('error');
-        // } else {
-        //     $('#diferencia').removeClass('error');
-        // }
-
-        //Valores almacenados
-        // $('#g10').val(g10);
-        // $('#g5').val(g5);
-        // $('#exe').val(exe);
-        // $('#al_iva10').val(iva10);
-        // $('#al_iva5').val(iva5);
-
     });
 
+    // coloca separador de miles a todos los campos con la clase .numero
     $('.numero').number( true, 0 );
 
-    //total cargado
-    function SumarColumna(grilla, columna) {
-        var resultVal = 0;
-        var texto='';
 
-        $("#" + grilla + " tbody tr").each(
-            function() {
+    // Ajax solicita datos de Cuenta Contable
+    $('#codCta').on('blur', function(e){
 
-                var celdaValor = $(this).find('td:eq(' + columna + ')');
+        e.preventDefault();
+        var codCta = $('#codCta').val();
+        if(codCta!=''){
+            var url = "/contab/venta/cuenta/"+codCta;
+        } else {
+            var url = "/contab/venta/cuenta";
+        }
 
-                if (celdaValor.val() != null){
-                    texto=celdaValor.html().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','');
-                    resultVal += parseFloat(texto);
-                }
-
-            } //function
-
-        )
-        return resultVal;
-        console.log(resultVal);
-
-        // $("#" + grilla + " tbody tr:last td:eq(" + columna + ")").html(resultVal.toFixed(2).toString().replace('.',','));
-    }
-
-    $('#add_btn').on('click', function(){
-        $('#espacio').html("<button type='button' class='btn btn-xs btn-danger' id='nuevo_boton'>Boton</button>");
+        $.post(url, function(data){
+            console.log('se reciben los datos');
+            console.log(data);
+            var datos=data;
+            if(datos['cuenta']!=null){
+                $('#cuenta').attr({'value': datos['cuenta'],'readonly':true, 'class':'inactivo' }).val(datos['cuenta']);
+            } else {
+                $('#cuenta').attr({'value': '','readonly':false, 'class':'' }).val('');
+            }
+        });
     });
 
-    $('#detalle').on('click', '#nuevo_boton', function () {
-        alert('hola prueba boton');
-    })
+    // Ajax guardar Venta
+    $('#btn_guardar').on('click', function(e){
+
+        e.preventDefault();
+        var dia=valorId('dia');
+        var rucent=$('#rucent').val();
+        var nsuc=valorId('nsuc');
+        var npe=valorId('npe');
+        var ncomp=valorId('ncomp');
+        var timbrado=valorId('timbrado');
+        var moneda=valorId('moneda');
+        var cotiz=valorId('cotiz');
+        var anul=$("#anul").prop('checked');
+        var comentario=valorId('comentario');
+
+        var codigo=$('#codCta').val();
+        var cuenta=$('#cuenta').val();
+        var g10=$('#gravado10').val();
+        var g5=$('#gravado5').val();
+        var exe=$('#exento').val();
+        var sumanum = g10+g5+exe;
+
+        //PARÁMETROS QUE SE VAN A ENVIAR PARA GUARDAR
+        var parametros = {
+            'dia': dia,
+            'rucent':rucent,
+            'nsuc':nsuc,
+            'npe':npe,
+            'ncomp':ncomp,
+            'timbrado':timbrado,
+            'moneda':moneda,
+            'cotiz':cotiz,
+            'anul':anul,
+            'comentario':comentario,
+
+            'codigo':codigo,
+            'cuenta':cuenta,
+            'g10':g10,
+            'g5':g5,
+            'exe':exe,
+        };
+        console.log(parametros);
+
+        $.post("/contab/venta/guardar_venta", parametros, function(data){
+            console.log('se reciben los datos');
+            console.log(data);
+            // var datos=data;
+            // if(datos['cuenta']!=null){
+            //     $('#cuenta').attr({'value': datos['cuenta'],'readonly':true, 'class':'inactivo' }).val(datos['cuenta']);
+            // } else {
+            //     $('#cuenta').attr({'value': '','readonly':false, 'class':'' }).val('');
+            // }
+        });
+
+    });
 });

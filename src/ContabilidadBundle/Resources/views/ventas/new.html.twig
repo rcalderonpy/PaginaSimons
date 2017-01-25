@@ -12,46 +12,44 @@
         <div class="panel-body">
             <form class="formulario" id="formu_vta" method="post" name="formu_vta" action="">
                 <div class="linea col-lg-12">
-                    <div class="widget"><label for="tipo_comp">TIPO COMPROBANTE</label>
-                        <select>
+                    <div class="widget"><label for="tipo_comp">Tipo Comprobante</label>
+                        <select tabindex="-1">
                             <option value="1">Factura</option>
                             <option value="2">Boleta de Venta</option>
                             <option value="3">Nota de Crédito</option>
                             <option value="4">Nota de Débito</option>
                         </select>
                     </div>
-                    <div class="widget"><label for="dia">DÍA</label><input type="text" id="dia" name="dia" style="width: 40px" maxlength="2"></div>
+                    <div class="widget"><label for="dia">Día</label><input type="text" id="dia" name="dia" style="width: 40px" maxlength="2" autofocus></div>
                     <div class="widget"><label for="rucent">RUC</label><input type="text" id="rucent" name="rucent" style="width: 100px"></div>
                     <div class="widget"><label for="dv">DV</label><input type="text" id="dv" name="dv" style="width: 30px" maxlength="1"></div>
-                    <div class="widget"><label for="nombres">CLIENTE</label><input type="text" id="nombres" name="nombres" style="width: 500px"></div>
-                    <div class="widget"><label for="condicion">CONDICION</label>
+                    <div class="widget"><label for="nombres">Cliente</label><input type="text" id="nombres" name="nombres" style="width: 500px"></div>
+                    
+                    <div class="widget"><label for="nsuc">Suc</label><input type="text" id="nsuc" name="nsuc" style="width: 50px" maxlength="3"></div>
+                    <div class="widget"><label for="npe">PE</label><input type="text" id="npe" name="npe" style="width: 50px" maxlength="3"></div>
+                    <div class="widget"><label for="ncomp">Nº Comprob.</label><input type="text" id="ncomp" name="ncomp" style="width: 100px" maxlength="7"></div>
+                    <div class="widget"><label for="timbrado">Timbrado</label><input type="text" id="timbrado" name="timbrado" style="width: 100px" maxlength="8"></div>
+                    <div class="widget"><label for="condicion">Condición</label>
                         <select name="condicion">
                             <option value="0">Contado</option>
                             <option value="1">Plazo</option>
                         </select>
                     </div>
-                    <div class="widget"><label for="condicion">RENTA</label>
-                        <select name="renta">
-                            <option value="0">IRACIS</option>
-                            <option value="1">IRAGRO</option>
-                            <option value="2">IRP</option>
-                            <option value="3">IRPC</option>
-                        </select>
-                    </div>
-                    
-                    <div class="widget"><label for="nsuc">SUC</label><input type="text" id="nsuc" name="nsuc" style="width: 50px" maxlength="3"></div>
-                    <div class="widget"><label for="npe">PE</label><input type="text" id="npe" name="npe" style="width: 50px" maxlength="3"></div>
-                    <div class="widget"><label for="ncomp">NCOMP</label><input type="text" id="ncomp" name="ncomp" style="width: 100px" maxlength="7"></div>
-                    <div class="widget"><label for="timbrado">TIMBRADO</label><input type="text" id="timbrado" name="timbrado" style="width: 100px" maxlength="8"></div>
-                    <div class="widget"><label for="moneda">MONEDA</label>
-                        <select name="moneda">
+                    <div class="widget"><label for="moneda">Moneda</label>
+                        <select name="moneda" id="moneda">
                             <option value="1">Gs</option>
                             <option value="2">U$D</option>
                         </select>
                     </div>
-                    <div class="widget"><label for="cotiz">COTIZ</label><input type="text" id="cotiz" name="cotiz" style="width: 90px"></div>
+                    <div class="widget"><label for="cotiz">Cotiz.</label><input type="text" id="cotiz" name="cotiz" style="width: 90px"></div>
+                    <div class="widget">
+                        <input type="checkbox" name="anul" id="anul">
+                        <label for="anul" class="chklabel" id="chklabel">Anular?</label>
+                    </div>
+                    
+                    
                 </div>
-                <div class="enlinea"><label for="comentarios">COMENTARIOS</label>
+                <div class="enlinea"><label for="comentarios">Comentarios</label>
                     <textarea id="comentario" name="comentario"></textarea>
                 </div>
                 
@@ -61,9 +59,9 @@
                     
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Detalle</a></li>
-                        <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Asiento</a></li>
-                        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Revalúo</a></li>
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"  tabindex="-1">Detalle</a></li>
+                        <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" tabindex="-1">Asiento</a></li>
+                        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" tabindex="-1">Revalúo</a></li>
                     </ul>
                     
                     <!-- Tab panes -->
@@ -84,8 +82,18 @@
                                             <div class="panel panel-default">
                                                 <div class="panel-body">
                                                     <div class="col-lg-12" id="detalle">
+                                                        <div class="widget"><label for="condicion">Renta</label>
+                                                            <select name="renta" tabindex="-1">
+                                                                <option value="0">IRACIS</option>
+                                                                <option value="1">IRAGRO</option>
+                                                                <option value="2">IRP</option>
+                                                                <option value="3">IRPC</option>
+                                                            </select>
+                                                        </div>
                                                         <div class="widget"><label for="codCta">Código</label><input type="text" id="codCta" name="codCta" style="width: 80px" class=""></div>
-                                                        <div class="widget"><label for="cuenta">Cuenta</label><input type="text" id="cuenta" name="cuenta" style="width: 200px"></div>
+                                                        <div class="widget"><label for="cuenta">Cuenta</label><input type="text" id="cuenta" name="cuenta" style="width: 400px"></div>
+                                                    </div>
+                                                    <div class="col-lg-12" id="detalle">
                                                         <div class="widget"><label for="gravado10">IVA Incl. 10%</label><input type="text" value="0" id="gravado10" name="gravado10" style="width: 100px" class="numero"></div>
                                                         <div class="widget"><label for="gravado5">IVA Incl. 5%</label><input type="text" value="0" id="gravado5" name="gravado5" style="width: 100px" class="numero"></div>
                                                         <div class="widget"><label for="exento">Exento</label><input type="text" value="0" id="exento" name="exento" style="width: 100px" class="numero"></div>
@@ -109,6 +117,7 @@
                                                                 <tbody>
                                                                 </tbody>
                                                             </table>
+                                                            <input type="hidden" value="{{ datosDet[0] }}" name="ventaDet">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -150,6 +159,7 @@
             </form>
         </div>
     </div>
+    
     
     {# ------------------------------- CABECERA ------------------------------- #}
 

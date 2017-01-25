@@ -1,3 +1,4 @@
+
 contabilidad:
     resource: "@ContabilidadBundle/Resources/config/routing.yml"
     prefix:   /contab

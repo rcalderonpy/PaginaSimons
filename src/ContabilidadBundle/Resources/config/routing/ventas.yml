@@ -30,4 +30,13 @@ venta_ajax:
 
 get_entidad_json:
     path:     /entidad/{ruc}
-    defaults: { _controller: "ContabilidadBundle:Venta:getEntidad" }
+    defaults: { _controller: "ContabilidadBundle:Venta:getEntidad", ruc:'' }
+
+get_cuenta_json:
+    path:     /cuenta/{cod}
+    defaults: { _controller: "ContabilidadBundle:Venta:getCuenta", cod:'' }
+
+
+ajax_guardar_ventas:
+    path:     /guardar_venta
+    defaults: { _controller: "ContabilidadBundle:Venta:guardarVenta"}

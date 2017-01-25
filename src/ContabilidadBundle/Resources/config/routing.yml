@@ -10,5 +10,7 @@ contabilidad_cliente:
     resource: "@ContabilidadBundle/Resources/config/routing/cliente.yml"
     prefix:   /cliente
 
-
+contabilidad_plancta:
+        resource: "@ContabilidadBundle/Resources/config/routing/plancta.yml"
+        prefix:   /plancta
 

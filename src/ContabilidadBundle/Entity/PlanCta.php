@@ -31,9 +31,9 @@ class PlanCta
     /**
      * @var string
      *
-     * @ORM\Column(name="cuentaç", type="string", length=150)
+     * @ORM\Column(name="cuenta", type="string", length=150)
      */
-    private $cuentaç;
+    private $cuenta;
 
     /**
      * @var bool
@@ -42,6 +42,13 @@ class PlanCta
      */
     private $imputable;
 
+
+    /**
+     * @var renta
+     *
+     * @ORM\Column(name="renta", type="smallint")
+     */
+    private $renta=0;
 
     /**
      * Get id
@@ -78,27 +85,27 @@ class PlanCta
     }
 
     /**
-     * Set cuentaç
+     * Set cuenta
      *
-     * @param string $cuentaç
+     * @param string $cuenta
      *
      * @return PlanCta
      */
-    public function setCuentaç($cuentaç)
+    public function setcuenta($cuenta)
     {
-        $this->cuentaç = $cuentaç;
+        $this->cuenta = $cuenta;
 
         return $this;
     }
 
     /**
-     * Get cuentaç
+     * Get cuenta
      *
      * @return string
      */
-    public function getCuentaç()
+    public function getcuenta()
     {
-        return $this->cuentaç;
+        return $this->cuenta;
     }
 
     /**
@@ -123,6 +130,24 @@ class PlanCta
     public function getImputable()
     {
         return $this->imputable;
+    }
+
+    /**
+     * @return renta
+     */
+    public function getRenta()
+    {
+        return $this->renta;
+    }
+
+    /**
+     * @param renta $renta
+     * @return PlanCta
+     */
+    public function setRenta($renta)
+    {
+        $this->renta = $renta;
+        return $this;
     }
 }
 

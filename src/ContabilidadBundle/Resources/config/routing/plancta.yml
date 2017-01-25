@@ -1,0 +1,24 @@
+plancta_index:
+    path:     /
+    defaults: { _controller: "ContabilidadBundle:PlanCta:index" }
+    methods:  GET
+
+plancta_show:
+    path:     /{id}/show
+    defaults: { _controller: "ContabilidadBundle:PlanCta:show" }
+    methods:  GET
+
+plancta_new:
+    path:     /new
+    defaults: { _controller: "ContabilidadBundle:PlanCta:new" }
+    methods:  [GET, POST]
+
+plancta_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ContabilidadBundle:PlanCta:edit" }
+    methods:  [GET, POST]
+
+plancta_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ContabilidadBundle:PlanCta:delete" }
+    methods:  DELETE

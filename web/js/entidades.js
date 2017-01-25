@@ -4,7 +4,11 @@ $(document).ready(function(){
     $('#rucent').on('blur', function(e){
         e.preventDefault();
         var ruc_entidad = $('#rucent').val();
-        var url = "/contab/venta/entidad/"+ruc_entidad;
+        if(ruc_entidad!=''){
+            var url = "/contab/venta/entidad/"+ruc_entidad;
+        } else {
+            var url = "/contab/venta/entidad";
+        }
 
         $.post(url, function(data){
             console.log('se reciben los datos');

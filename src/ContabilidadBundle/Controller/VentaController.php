@@ -64,21 +64,6 @@ class VentaController extends Controller
             )
         ));
     }
-//
-//    public function printIndexAction(Request $request)
-//    {
-//        $last_username='hola';
-//        $this->get('knp_snappy.pdf')->generateFromHtml(
-//            $this->renderView(
-//                '@App/Default/login.html.twig',
-//                array(
-//                    'last_username'  => $last_username
-//                )
-//            ),
-//            '/lista.pdf'
-//        );
-//    }
-
 
     public function newAction($id_cliente, $mes, $ano, Request $request)
     {
@@ -97,8 +82,9 @@ class VentaController extends Controller
         // si el formulario fue enviado por POST
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $formulario = $request->request;
-//            dump($formulario);
-
+            dump($formulario);
+            die();
+//            --------------- CABECERA --------------- //
             $ruc_entidad=$formulario->get('rucent');
             $dia=$formulario->get('dia');
             $cotiz=$formulario->get('cotiz');
@@ -108,14 +94,20 @@ class VentaController extends Controller
             $npe=$formulario->get('npe');
             $ncomp=$formulario->get('ncomp');
             $comentario=$formulario->get('comentario');
-            $g10=$formulario->get('g10');
-            $g5=$formulario->get('g5');
-            $iva10=$formulario->get('al_iva10');
-            $iva5=$formulario->get('al_iva5');
-            $exe=$formulario->get('exe');
+            $anul=$formulario->get('anul');
+//            --------------- DETALLE --------------- //
+            $codCta=$formulario->get('codCta');
+            $cuenta=$formulario->get('cuenta');
+            $g10=$formulario->get('gravado10');
+            $g5=$formulario->get('gravado5');
+            $iva10=$formulario->get('iva10');
+            $iva5=$formulario->get('iva5');
+            $exe=$formulario->get('exento');
             $timbrado=$formulario->get('timbrado');
             $fecha_texto=$mes.'/'.$dia.'/'.$ano;
             $fecha=date_create($fecha_texto);
+            $renta = $formulario->get('renta');
+
 
             $datos=['ruc_entidad'=>$ruc_entidad,
                 'dia'=>$dia,
@@ -131,7 +123,10 @@ class VentaController extends Controller
                 'iva10'=>$iva10,
                 'iva5'=>$iva5,
                 'exe'=>$exe,
-                'timbrado'=>$timbrado
+                'timbrado'=>$timbrado,
+                'anul'=>$anul,
+                'renta'=>$renta,
+                'codCta'=>$codCta
             ];
             dump($datos);
 
@@ -158,11 +153,13 @@ class VentaController extends Controller
                 ->setExe($exe)
                 ->setTimbrado($timbrado)
                 ->setCondicion($condicion);
-
             $em->persist($ventaCab);
+
+
+
             $em->flush();
         }
-
+        $datosDet=['111.01', 'CAJA M/L', '100000', '10000'];
 
 //        $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaCab);
 //        $form->handleRequest($request);
@@ -192,6 +189,7 @@ class VentaController extends Controller
             'cianv'=>$cianv,
             'cirev'=>$cirev,
             'titulo'=>'Nueva Venta - Periodo '.$mes.' - '.$ano,
+            'datosDet'=>$datosDet,
             'botones'=>array(
                 array('texto'=>'Volver', 'ruta'=>'venta_index')
             )
@@ -328,7 +326,6 @@ class VentaController extends Controller
 
     public function getEntidadAction($ruc)
     {
-
         $em=$this->getDoctrine()->getManager();
        // ----------- METODO 1 -------------------
         $entidad =  $em->getRepository('ContabilidadBundle:Entidad')->findOneBy(array('ruc'=>$ruc));
@@ -344,28 +341,48 @@ class VentaController extends Controller
             $respuesta=null;
         }
 
-        // ----------- METODO 2 -------------------
-//        $entidad_tabla=$em->getRepository('ContabilidadBundle:Entidad');
-//        $query =  $entidad_tabla->createQueryBuilder('e')
-//            ->where('e.ruc = :ruc')
-//            ->setParameter('ruc', $ruc)
-//            ->getQuery();
-//        $entidad = $query->getScalarResult();
-//
-//        if($entidad!=null){
-//            $respuesta = array(
-//                'ruc'=>$entidad[0]['e_ruc'],
-//                'dv'=>$entidad[0]['e_dv'],
-//                'nombre'=>$entidad[0]['e_nombre']
-//            );
-//        } else {
-//            $respuesta=null;
-//        }
+        return new JsonResponse($respuesta);
 
-        // ----------- RETORNO DE VALOR -------------------
-//        dump($respuesta['ruc']);
-//        die();
+    }
 
+    public function getCuentaAction($cod)
+    {
+        $em=$this->getDoctrine()->getManager();
+        // ----------- METODO 1 -------------------
+        $codcta =  $em->getRepository('ContabilidadBundle:PlanCta')->findOneBy(array('codigo'=>$cod));
+
+        if($codcta){
+            $respuesta = array(
+                'codigo'=>$codcta->getCodigo(),
+                'cuenta'=>$codcta->getcuenta(),
+                'imputable'=>$codcta->getImputable(),
+                'renta'=>$codcta->getRenta()
+            );
+        } else {
+            $respuesta=null;
+        }
+
+        return new JsonResponse($respuesta);
+
+    }
+
+    public function guardarVentaAction(Request $request)
+    {
+        $codigo=utf8_decode($_POST['codigo']);
+        $em=$this->getDoctrine()->getManager();
+        $cuenta =  $em->getRepository('ContabilidadBundle:PlanCta')->findOneBy(array('codigo'=>$codigo));
+        if($cuenta){
+            $respuesta = array(
+                'codigo'=>$cuenta->getCodigo(),
+                'cuenta'=>$cuenta->getcuenta(),
+                'imputable'=>$cuenta->getImputable(),
+                'renta'=>$cuenta->getRenta()
+            );
+        } else {
+            $respuesta=null;
+        }
+//        $respuesta = $codigo;
+//        echo $respuesta;
         return new JsonResponse($respuesta);
 
     }

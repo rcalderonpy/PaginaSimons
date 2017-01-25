@@ -1,0 +1,61 @@
+*{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0px;
+    padding: 0;
+}
+
+body {
+    background-color: #ffffff;
+    /*background-image: url("..//img/logotipo_simons (rasgado).png");*/
+
+    /*background-position: top;*/
+    /*background-repeat: repeat-y;*/
+    /*background-clip: border-box;*/
+    /*position: relative;*/
+}
+
+header{
+    background: #204d74;
+    height: 70px;
+    margin: 0px;
+    padding: 10px 0px;
+    color: #b9b9b9;
+}
+
+#titulo{
+    color: #b9b9b9;
+    font-family: 'Domine', serif;
+    font-style: normal;
+    font-size: 25px;
+}
+header a{
+    color: #b9b9b9;
+}
+
+table{
+    background-color: #ffffff;
+}
+
+table th{
+    background-color: #204d74;
+    color: #b9b9b9;
+}
+
+
+#trabajo{
+    float: inherit;
+}
+
+h2{
+    color: #73120d;
+}
+
+#periodo p{
+    color: #73120d;
+    font-size: 15px;
+}

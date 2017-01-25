@@ -1,66 +1,5 @@
-*{
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
 
-html, body {
-    margin: 0px;
-    padding: 0;
-}
-
-body {
-    background-color: #ffffff;
-    /*background-image: url("..//img/logotipo_simons (rasgado).png");*/
-
-    /*background-position: top;*/
-    /*background-repeat: repeat-y;*/
-    /*background-clip: border-box;*/
-    /*position: relative;*/
-}
-
-header{
-    background: #204d74;
-    height: 70px;
-    margin: 0px;
-    padding: 10px 0px;
-    color: #b9b9b9;
-}
-
-#titulo{
-    color: #b9b9b9;
-    font-family: 'Domine', serif;
-    font-style: normal;
-    font-size: 25px;
-}
-header a{
-    color: #b9b9b9;
-}
-
-table{
-    background-color: #ffffff;
-}
-
-table th{
-    background-color: #204d74;
-    color: #b9b9b9;
-}
-
-
-#trabajo{
-    float: inherit;
-}
-
-h2{
-    color: #73120d;
-}
-
-#periodo p{
-    color: #73120d;
-    font-size: 15px;
-}
-
-form input, select{
+form input[type=text], select{
     height: 25px;
     padding: 0px 10px;
     margin: 0px 2px;
@@ -101,7 +40,51 @@ form textarea{
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
-form input:focus, textarea:focus, select:focus {
+
+form input[type=checkbox]{
+    display: none;
+}
+
+form  .chklabel{
+    margin:18px 0 0 5px;
+    padding: 5px 15px 5px 35px;
+    display: inline-block;
+    position: relative;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all .3s ease;
+    border-radius: 5px;
+}
+
+form  .chklabel:hover{
+    background: rgba(198, 63, 60, 0.2);
+}
+
+form  .chklabel:before{
+    content: '';
+    width: 17px;
+    height: 17px;
+    display: inline-block;
+    background: none;
+    border:2px solid #9cb7da;
+    border-radius: 5px;
+    position: absolute;
+    left: 10px;
+    top:6px;
+}
+
+form input[type=checkbox]:checked + label{
+    padding: 5px 15px;
+    background: rgba(198, 63, 60, 0.87);
+    /*border-radius: 5px;*/
+    color: #FFFFFF;
+}
+
+form input[type=checkbox]:checked + label:before{
+    display: none;
+}
+
+form input[type=text]:focus, textarea:focus, select:focus {
     border-color: #66afe9;
     outline: 0;
     -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
@@ -120,7 +103,7 @@ form label{
 
 .inactivo{
     background-color: #e2e2e2;
-    color: #000;
+    color: #5b5b5b;
 }
 
 .padre{
@@ -158,7 +141,7 @@ form label{
 }
 
 .error{
-    color: #FFFFFF;
+    color: #FFFFFF !important;
     background: #eb4a47;
 }
 

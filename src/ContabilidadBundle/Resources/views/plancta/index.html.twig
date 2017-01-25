@@ -1,0 +1,43 @@
+{% extends 'layout-responsive.html.twig' %}
+
+{% block body %}
+    <h1>Plan de Cuentas</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Codigo</th>
+                <th>Cuenta</th>
+                <th>Imputable</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for planCta in planCtas %}
+            <tr>
+                <td><a href="{{ path('plancta_show', { 'id': planCta.id }) }}">{{ planCta.id }}</a></td>
+                <td>{{ planCta.codigo }}</td>
+                <td>{{ planCta.cuenta }}</td>
+                <td>{% if planCta.imputable %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('plancta_show', { 'id': planCta.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('plancta_edit', { 'id': planCta.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('plancta_new') }}">Nuevo Plan de Cuenta</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Plan de Cuentas</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ planCta.id }}</td>
+            </tr>
+            <tr>
+                <th>Codigo</th>
+                <td>{{ planCta.codigo }}</td>
+            </tr>
+            <tr>
+                <th>Cuenta</th>
+                <td>{{ planCta.cuenta }}</td>
+            </tr>
+            <tr>
+                <th>Imputable</th>
+                <td>{% if planCta.imputable %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('plancta_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('plancta_edit', { 'id': planCta.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
