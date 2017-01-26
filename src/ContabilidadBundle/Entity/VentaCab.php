@@ -108,7 +108,7 @@ class VentaCab
      *
      * @ORM\Column(name="anul", type="boolean")
      */
-    private $anul=false;
+    private $anul;
 
     /**
      * @var string

@@ -6,6 +6,7 @@ use ContabilidadBundle\ContabilidadBundle;
 use ContabilidadBundle\Entity\Cliente;
 use ContabilidadBundle\Entity\VentaCab;
 use ContabilidadBundle\Entity\Entidad;
+use ContabilidadBundle\Entity\VentaDet;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -375,9 +376,6 @@ class VentaController extends Controller
 
         $user = $this->getUser();
 
-        $ventaCab = new VentaCab();
-
-
         // --------------- CABECERA --------------- //
         $id_cliente=$_POST['idcliente'];
         $tipo_comp=$_POST['tipo_comp'];
@@ -395,27 +393,12 @@ class VentaController extends Controller
         $id_moneda=$_POST['moneda'];
         $cotiz=$_POST['cotiz'];
         $anul=$_POST['anul'];
+        $anulado=$anul==='true'?true:false;
         $comentario=$_POST['comentario'];
-
-        // --------------- DETALLE --------------- //
-
-        $datos=[
-            'dia'=>$dia,
-            'mes'=>$mes,
-            'ano'=>$ano,
-            'fecha'=>$fecha,
-            'ruc_entidad'=>$ruc_entidad,
-            'nsuc'=>$nsuc,
-            'npe'=>$npe,
-            'ncomp'=>$ncomp,
-            'timbrado'=>$timbrado,
-            'condicion'=>$condicion,
-            'moneda'=>$id_moneda,
-            'cotiz'=>$cotiz,
-            'anul'=>$anul,
-            'comentario'=>$comentario
-        ];
-
+        if($anul=='false'){
+            $detalles = $_POST['detalle'];
+        }
+        $respuesta=$anulado;
         $em=$this->getDoctrine()->getManager();
 
         // Conseguir objetos
@@ -424,6 +407,9 @@ class VentaController extends Controller
         $moneda=$em->getRepository('ContabilidadBundle:Moneda')->findOneBy(['id'=>$id_moneda]);
         $sucursal=$em->getRepository('ContabilidadBundle:Sucursal')->findOneBy(['id'=>1]);
 
+        // --------- CABECERA ------------ //
+
+        $ventaCab = new VentaCab();
         $ventaCab->setCliente($cliente)
             ->setUsuario($user)
             ->setSucursal($sucursal)
@@ -436,13 +422,34 @@ class VentaController extends Controller
             ->setCondicion($condicion)
             ->setMoneda($moneda)
             ->setCotiz($cotiz)
-            ->setAnul($anul)
+            ->setAnul($anulado)
             ->setComentario($comentario);
 
         $em->persist($ventaCab);
+//        dump($detalles);
+
+        // --------- DETALLE ------------ //
+        if(isset($detalles)){
+            foreach ($detalles as $detalle) {
+                $ventaDet = new VentaDet();
+                $codigo = $detalle['codigo'];
+                $cuenta=$em->getRepository('ContabilidadBundle:PlanCta')->findOneBy(['codigo'=>$codigo]);
+                $ventaDet->setVenta($ventaCab)
+                    ->setNcuenta($cuenta)
+                    ->setG10($detalle['g10'])
+                    ->setG5($detalle['g5'])
+                    ->setExe($detalle['exe'])
+                    ->setIva10($detalle['iva10'])
+                    ->setIva5($detalle['iva5'])
+                    ->setAfecta($detalle['afecta']);
+
+                $em->persist($ventaDet);
+            }
+        }
+
 
         $em->flush();
-        $respuesta = 'Datos almacenados exitosamente';
+//        $respuesta = 'Datos almacenados exitosamente';
 
         return new JsonResponse($respuesta);
     }

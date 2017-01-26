@@ -48,12 +48,11 @@ $(document).ready(function(){
             } //function
 
         )
-        console.log(resultVal);
+        // console.log(resultVal);
         return resultVal;
     }
 
     // -------------------- FUNCIONES ESPECÍFICAS --------------------
-
 
     // Función Anular
     function anularVenta(estado){
@@ -66,6 +65,7 @@ $(document).ready(function(){
             $('#total_comprobante').addClass('inactivo');
             $('.numero').val('0');
             $('#comentario').text('Comprobante Anulado');
+            detalleglobal=[];
 
         } else {
             $('#gravado10').removeClass('inactivo');
@@ -154,15 +154,38 @@ $(document).ready(function(){
     //     }
     // });
 
+
+
+    var msg=$('#modAnular');
+    msg.modal({backdrop:'static', show:false});
+
     // Boton Anular
-    $('#anul').on('click', function(){
-        if(this.checked){
-            $('#chklabel').text('Anulado');
-        } else {
-            $('#chklabel').text('Anular?');
-        }
-        var estado = this.checked;
-        anularVenta(estado);
+    $('#anul').on('click', function(e){
+        e.preventDefault();
+        msg.modal('show');
+        console.log('se muestra el modal');
+
+        // if(this.checked){
+        //     $('#chklabel').text('Anulado');
+        // } else {
+        //     $('#chklabel').text('Anular?');
+        // }
+        // var estado = this.checked;
+        // anularVenta(estado);
+    });
+
+    // Modal Anular - Botón Anular
+    $('#modal_anular').on('click', function(){
+        $('#chklabel').text('Anulado');
+        $('#anul').prop({'checked':true});
+        msg.modal('hide');
+    });
+
+    // Modal Anular - Botón Anular
+    $('#modal_cancelar').on('click', function(){
+        $('#chklabel').text('Anular?');
+        $('#anul').prop({'checked':false});
+        msg.modal('hide');
     });
 
     // BOTON AGREGAR LÍNEA
@@ -175,6 +198,7 @@ $(document).ready(function(){
         var g5=$('#gravado5').val();
         var iva5=$('#iva5').val();
         var exe=$('#exento').val();
+        var afecta = $('#renta').val();
         var sumanum = g10+g5+exe;
 
         if(codigo!='' && cuenta!='' && sumanum >0){
@@ -191,8 +215,8 @@ $(document).ready(function(){
                 "<td class='text-center' id='borrar_linea'><span class='glyphicon glyphicon-remove text-danger'></span></td>" +
                 "</tr>";
             $("#tabla tbody").append(nuevaFila);
-            detalleglobal.push({'codigo':codigo, 'cuenta':cuenta, 'g10':g10, 'g5':g5, 'iva10':iva10, 'iva5':iva5, 'exe':exe});
-            console.log(detalleglobal);
+            detalleglobal.push({'codigo':codigo, 'cuenta':cuenta, 'g10':g10, 'g5':g5, 'iva10':iva10, 'iva5':iva5, 'exe':exe, 'afecta':afecta});
+            // console.log(detalleglobal);
             camposControl();
             limpiarDetalle();
             nuevaFila="";
@@ -223,7 +247,7 @@ $(document).ready(function(){
         if($(this).val()==0){
             this.focus();
             $(this).addClass('error');
-            console.log('el comprobante = 0');
+            // console.log('el comprobante = 0');
         } else {
             $(this).removeClass('error');
             $('#gravado10').val($(this).val())
@@ -258,8 +282,8 @@ $(document).ready(function(){
         }
 
         $.post(url, function(data){
-            console.log('se reciben los datos');
-            console.log(data);
+            // console.log('se reciben los datos');
+            // console.log(data);
             var datos=data;
             if(datos['cuenta']!=null){
                 $('#cuenta').attr({'value': datos['cuenta'],'readonly':true, 'class':'inactivo' }).val(datos['cuenta']);
@@ -315,15 +339,15 @@ $(document).ready(function(){
             'comentario':comentario,
             'detalle':detalle
         };
-        console.log(parametros);
-
-
+        // console.log(parametros);
 
         $.post("/contab/venta/guardar_venta", parametros, function(data){
             // console.log('datos almacenados');
             console.log(data);
             limpiarCabecera();
+            window.location.reload(true);
             $('#dia').focus();
+            detalleglobal=[];
         });
 
     });
