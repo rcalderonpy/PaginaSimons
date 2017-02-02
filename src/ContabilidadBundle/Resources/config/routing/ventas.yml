@@ -19,7 +19,7 @@ venta_edit:
     methods:  [GET, POST]
 
 venta_delete:
-    path:     /{id}/delete
+    path:     /{id_cliente}/{mes}/{ano}/{id_venta}/delete
     defaults: { _controller: "ContabilidadBundle:Venta:delete" }
     methods:  DELETE
 
@@ -36,7 +36,15 @@ get_cuenta_json:
     path:     /cuenta/{cod}
     defaults: { _controller: "ContabilidadBundle:Venta:getCuenta", cod:'' }
 
+get_plancta_json:
+    path:     /plan_cta
+    defaults: { _controller: "ContabilidadBundle:Venta:getPlancta" }
 
 ajax_guardar_ventas:
     path:     /guardar_venta
     defaults: { _controller: "ContabilidadBundle:Venta:guardarVenta"}
+
+ajax_get_ventas:
+    path:     /recuperar_venta/{id_venta}
+    defaults: { _controller: "ContabilidadBundle:Venta:getVenta"}
+

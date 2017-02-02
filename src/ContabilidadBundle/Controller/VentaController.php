@@ -4,14 +4,15 @@ namespace ContabilidadBundle\Controller;
 
 use ContabilidadBundle\ContabilidadBundle;
 use ContabilidadBundle\Entity\Cliente;
-use ContabilidadBundle\Entity\VentaCab;
+use ContabilidadBundle\Entity\Ventac;
 use ContabilidadBundle\Entity\Entidad;
-use ContabilidadBundle\Entity\VentaDet;
+use ContabilidadBundle\Entity\Ventad;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ContabilidadBundle\Form\VentaSinType;
-use ContabilidadBundle\Repository\VentaCabRepository;
+use ContabilidadBundle\Repository\VentacRepository;
+use ContabilidadBundle\Repository\VentadRepository;
 use ContabilidadBundle\Repository\EntidadRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -36,24 +37,50 @@ class VentaController extends Controller
         $user = $this->getUser();
 
         $em = $this->getDoctrine()->getManager();
-//        $ventaSins = $em->getRepository('ContabilidadBundle:VentaCab')->findAll();
         $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$id_cliente));
 
         $clisel=$this->get('app.cliente');
         $clisel->setCliente($cliente);
 
         $nvocli=$this->get('app.cliente')->getCliente();
-//        dump($nvocli);
-//        die();
 
-        //filtrar ventas del cliente
-        $em=$this->getDoctrine()->getManager();
-        $ventaSins=$em->getRepository('ContabilidadBundle:VentaCab')->filtrarVentasPeriodo(array(
-            'cliente'=>$id_cliente, 'mes'=>$mes, 'ano'=>$ano
+        //filtrar ventas del cliente y del periodo
+        $ventaSins=$em->getRepository('ContabilidadBundle:Ventac')->filtrarVentasPeriodo(array(
+            'cliente'=>$id_cliente,
+            'mes'=>$mes,
+            'ano'=>$ano
         ));
 
+        $ventas=[];
+
+        foreach ($ventaSins as $ventaSin) {
+//            echo 'Comprobante: ' . $ventaSin->getNsuc() . '-' . $ventaSin->getNpe() . '-'.$ventaSin->getNcomp().'<br>';
+//            echo 'Entidad: '. $ventaSin->getEntidad()->getNombre() . '<br>';
+//            echo 'Sucursal: '. $ventaSin->getSucursal()->getSucursal() . '<br>';
+//            echo 'Moneda: '. $ventaSin->getMoneda()->getMoneda() . '<br>';
+            $detalles = $ventaSin->getVentad();
+            $suma=0;
+            foreach ($detalles as $detalle){
+                $monto= $detalle->getG10()+$detalle->getG5()+$detalle->getExe()+$detalle->getIva10()+$detalle->getIva5();
+//                echo 'Monto = '.$monto.'<br>';
+                $suma+=$monto;
+            }
+//            echo 'Suma = '.$suma.'<hr>';
+            array_push($ventas, ['id'=>$ventaSin->getId(),
+                'fecha'=>$ventaSin->getFecha(),
+                'comprobante'=> $ventaSin->getNsuc() . '-' . $ventaSin->getNpe() . '-'.$ventaSin->getNcomp(),
+                'cotiz'=>$ventaSin->getCotiz(),
+                'comentario'=>$ventaSin->getComentario(),
+                'total'=>$suma,
+                'timbrado'=>$ventaSin->getTimbrado(),
+                'condicion'=>$ventaSin->getCondicion()
+            ]);
+        }
+
+        dump($ventas);
+
         return $this->render('@Contabilidad/ventas/index.html.twig', array(
-            'ventaSins' => $ventaSins,
+            'ventaSins' => $ventas,
             'user'=>$user,
             'cliente'=>$cliente,
             'titulo'=>'Ventas '.$mes.' - '.$ano,
@@ -78,7 +105,7 @@ class VentaController extends Controller
         $em=$this->getDoctrine()->getManager();
         $cliente = $em->getRepository('ContabilidadBundle:Cliente')->find($id_cliente);
 
-        $ventaCab = new VentaCab();
+        $ventac = new Ventac();
 
         // si el formulario fue enviado por POST
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -136,7 +163,7 @@ class VentaController extends Controller
             $moneda=$em->getRepository('ContabilidadBundle:Moneda')->findOneBy(['id'=>$id_moneda]);
             $sucursal=$em->getRepository('ContabilidadBundle:Sucursal')->findOneBy(['id'=>1]);
 
-            $ventaCab->setCliente($cliente)
+            $ventac->setCliente($cliente)
                 ->setUsuario($user)
                 ->setSucursal($sucursal)
                 ->setFecha($fecha)
@@ -154,7 +181,7 @@ class VentaController extends Controller
                 ->setExe($exe)
                 ->setTimbrado($timbrado)
                 ->setCondicion($condicion);
-            $em->persist($ventaCab);
+            $em->persist($ventac);
 
 
 
@@ -162,12 +189,12 @@ class VentaController extends Controller
         }
         $datosDet=['111.01', 'CAJA M/L', '100000', '10000'];
 
-//        $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaCab);
+//        $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventac);
 //        $form->handleRequest($request);
 //
 //        if ($form->isSubmitted() && $form->isValid()) {
 //            $em=$this->getDoctrine()->getManager();
-//            $em->persist($ventaCab);
+//            $em->persist($ventac);
 //            $em->flush();
 //
 //            return $this->redirectToRoute('venta_new', array(
@@ -180,7 +207,7 @@ class VentaController extends Controller
         $cirev=$imagenes['cirev'];
 
         return $this->render('@Contabilidad/ventas/new.html.twig', array(
-            'ventaSin' => $ventaCab,
+            'ventaSin' => $ventac,
             'user'=>$user,
             'cliente' => $cliente,
 //            'form' => $form->createView(),
@@ -190,6 +217,7 @@ class VentaController extends Controller
             'cianv'=>$cianv,
             'cirev'=>$cirev,
             'titulo'=>'Nueva Venta - Periodo '.$mes.' - '.$ano,
+            'tituloPag'=>'Nueva Venta',
             'datosDet'=>$datosDet,
             'botones'=>array(
                 array('texto'=>'Volver', 'ruta'=>'venta_index')
@@ -203,8 +231,7 @@ class VentaController extends Controller
      */
     public function showAction(Request $request, $id_cliente, $mes, $ano, $id_venta)
     {
-//        dump($ventaCab);
-//        die();
+
         //        Validación Usuario
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException();
@@ -212,18 +239,20 @@ class VentaController extends Controller
         $user = $this->getUser();
         $em=$this->getDoctrine()->getManager();
 
-        $ventaCab=$em->getRepository('ContabilidadBundle:VentaCab')->find($id_venta);
+        $ventac=$em->getRepository('ContabilidadBundle:Ventac')->find($id_venta);
 
-        $deleteForm = $this->createDeleteForm($ventaCab);
-        $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaCab);
-        $form->handleRequest($request);
+        $deleteForm = $this->createDeleteForm($id_cliente, $mes, $ano, $id_venta);
+
+//        $form = $this->createForm('ContabilidadBundle\Form\VentacType', $ventac);
+//        $form->handleRequest($request);
+
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$ventac->getCliente()));
 
 
-        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$ventaCab->getCliente()));
 
 
         return $this->render('@Contabilidad/ventas/show.html.twig', array(
-            'ventaSin' => $ventaCab,
+            'ventac' => $ventac,
             'user'=>$user,
             'cliente' => $cliente,
             'delete_form' => $deleteForm->createView(),
@@ -231,8 +260,8 @@ class VentaController extends Controller
             'id_venta'=>$id_venta,
             'mes'=>$mes,
             'ano'=>$ano,
-            'form'=>$form->createView(),
-            'titulo'=>'Libro de Ventas',
+//            'form'=>$form->createView(),
+            'titulo'=>'Mostrar Venta '.$ventac->getNsuc().'-'.$ventac->getNpe().'-'.$ventac->getNcomp(),
             'botones'=>array(
                 array('texto'=>'Editar', 'ruta'=>'venta_edit'),
                 array('texto'=>'Volver', 'ruta'=>'venta_index')
@@ -241,7 +270,7 @@ class VentaController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing VentaCab entity.
+     * Displays a form to edit an existing Ventac entity.
      *
      */
     public function editAction(Request $request, $id_cliente, $mes, $ano, $id_venta)
@@ -250,41 +279,132 @@ class VentaController extends Controller
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException();
         }
+
         $user = $this->getUser();
         $em=$this->getDoctrine()->getManager();
-        $ventaCab=$em->getRepository('ContabilidadBundle:VentaCab')->find($id_venta);
+        $ventac=$em->getRepository('ContabilidadBundle:Ventac')->find($id_venta);
+        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$ventac->getCliente()));
 
-        $deleteForm = $this->createDeleteForm($ventaCab);
-        $editForm = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaCab);
-        $editForm->handleRequest($request);
-        $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventaCab);
-        $form->handleRequest($request);
+        $deleteForm = $this->createDeleteForm($id_cliente, $mes, $ano, $id_venta);
 
-        $cliente = $em->getRepository('ContabilidadBundle:Cliente')->findOneBy(array('id'=>$ventaCab->getCliente()));
+        //cargar el formulario por Ajax
+
+        // si el formulario fue enviado por POST
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $formulario = $request->request;
+            dump($formulario);
+            die();
+//            --------------- CABECERA --------------- //
+            $ruc_entidad=$formulario->get('rucent');
+            $dia=$formulario->get('dia');
+            $cotiz=$formulario->get('cotiz');
+            $id_moneda=$formulario->get('moneda');
+            $condicion=$formulario->get('condicion');
+            $nsuc=$formulario->get('nsuc');
+            $npe=$formulario->get('npe');
+            $ncomp=$formulario->get('ncomp');
+            $comentario=$formulario->get('comentario');
+            $anul=$formulario->get('anul');
+//            --------------- DETALLE --------------- //
+            $codCta=$formulario->get('codCta');
+            $cuenta=$formulario->get('cuenta');
+            $g10=$formulario->get('gravado10');
+            $g5=$formulario->get('gravado5');
+            $iva10=$formulario->get('iva10');
+            $iva5=$formulario->get('iva5');
+            $exe=$formulario->get('exento');
+            $timbrado=$formulario->get('timbrado');
+            $fecha_texto=$mes.'/'.$dia.'/'.$ano;
+            $fecha=date_create($fecha_texto);
+            $renta = $formulario->get('renta');
 
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em->persist($ventaCab);
+            $datos=['ruc_entidad'=>$ruc_entidad,
+                'dia'=>$dia,
+                'cotiz'=>$cotiz,
+                'moneda'=>$id_moneda,
+                'condicion'=>$condicion,
+                'nsuc'=>$nsuc,
+                'npe'=>$npe,
+                'ncomp'=>$ncomp,
+                'comentario'=>$comentario,
+                'g10'=>$g10,
+                'g5'=>$g5,
+                'iva10'=>$iva10,
+                'iva5'=>$iva5,
+                'exe'=>$exe,
+                'timbrado'=>$timbrado,
+                'anul'=>$anul,
+                'renta'=>$renta,
+                'codCta'=>$codCta
+            ];
+            dump($datos);
+
+            // Conseguir objetos
+            $entidad=$em->getRepository('ContabilidadBundle:Entidad')->findOneBy(['ruc'=>$ruc_entidad]);
+            $moneda=$em->getRepository('ContabilidadBundle:Moneda')->findOneBy(['id'=>$id_moneda]);
+            $sucursal=$em->getRepository('ContabilidadBundle:Sucursal')->findOneBy(['id'=>1]);
+
+            $ventac->setCliente($cliente)
+                ->setUsuario($user)
+                ->setSucursal($sucursal)
+                ->setFecha($fecha)
+                ->setEntidad($entidad)
+                ->setNsuc($nsuc)
+                ->setNpe($npe)
+                ->setNcomp($ncomp)
+                ->setMoneda($moneda)
+                ->setCotiz($cotiz)
+                ->setComentario($comentario)
+                ->setG10($g10)
+                ->setG5($g5)
+                ->setIva10($iva10)
+                ->setIva5($iva5)
+                ->setExe($exe)
+                ->setTimbrado($timbrado)
+                ->setCondicion($condicion);
+            $em->persist($ventac);
+
+
+
             $em->flush();
-
-            return $this->redirectToRoute('venta_show', array(
-                'id_venta' => $id_venta,
-                'form'=>$form->createView()
-            ));
         }
+        $datosDet=['111.01', 'CAJA M/L', '100000', '10000'];
 
-        return $this->render('@Contabilidad/ventas/edit.html.twig', array(
-            'ventaSin' => $ventaCab,
+//        $form = $this->createForm('ContabilidadBundle\Form\VentaSinType', $ventac);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $em=$this->getDoctrine()->getManager();
+//            $em->persist($ventac);
+//            $em->flush();
+//
+//            return $this->redirectToRoute('venta_new', array(
+//                'id_cliente' => $id_cliente, 'mes'=>$mes, 'ano'=>$ano));
+//        }
+
+        //muestra las cédulas almacenadas
+        $imagenes=$em->getRepository('ContabilidadBundle:Cliente')->tieneCedula($cliente->getRuc());
+        $cianv=$imagenes['cianv'];
+        $cirev=$imagenes['cirev'];
+
+
+        return $this->render('@Contabilidad/ventas/new.html.twig', array(
+            'ventaSin' => $ventac,
             'user'=>$user,
             'cliente' => $cliente,
+            'cianv'=>$cianv,
+            'cirev'=>$cirev,
+            'datosDet'=>$datosDet,
             'id_cliente'=>$id_cliente,
             'id_venta'=>$id_venta,
             'mes'=>$mes,
             'ano'=>$ano,
-            'edit_form' => $editForm->createView(),
+//            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'form'=>$form->createView(),
-            'titulo'=>'Libro de Ventas',
+//            'form'=>$form->createView(),
+            'titulo'=>'Edición de Ventas',
+            'tituloPag'=>'Editar Venta',
             'botones'=>array(
                 array('texto'=>'Volver', 'ruta'=>'venta_show'),
             )
@@ -292,34 +412,48 @@ class VentaController extends Controller
     }
 
     /**
-     * Deletes a VentaCab entity.
+     * Deletes a Ventac entity.
      *
      */
-    public function deleteAction(Request $request, VentaCab $ventaCab)
+    public function deleteAction(Request $request, $id_cliente, $mes, $ano, $id_venta)
     {
-        $form = $this->createDeleteForm($ventaCab);
+//        dump($request->request());
+//        die();
+        $ventac=$this->getDoctrine()->getRepository('ContabilidadBundle:Ventac')->find($id_venta);
+        $form = $this->createDeleteForm($id_cliente, $mes, $ano, $id_venta);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($ventaCab);
+            $em->remove($ventac);
             $em->flush();
         }
 
-        return $this->redirectToRoute('venta_index');
+        return $this->redirectToRoute('venta_index', array(
+            'id_cliente'=>$id_cliente,
+            'mes'=>$mes,
+            'ano'=>$ano
+        ));
     }
 
     /**
-     * Creates a form to delete a VentaCab entity.
+     * Creates a form to delete a Ventac entity.
      *
-     * @param VentaCab $ventaCab The VentaCab entity
+     * @param Ventac $ventac The Ventac entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(VentaSin $ventaCab)
+    private function createDeleteForm($id_cliente, $mes, $ano, $id_venta)
     {
+        $parametros=array('id_venta' => $id_venta,
+            'id_cliente'=>$id_cliente,
+            'mes'=>$mes,
+            'ano'=>$ano
+        );
+//        dump($parametros);
+//        die();
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('venta_delete', array('id' => $ventaCab->getId())))
+            ->setAction($this->generateUrl('venta_delete', $parametros))
             ->setMethod('DELETE')
             ->getForm()
         ;
@@ -361,6 +495,23 @@ class VentaController extends Controller
             );
         } else {
             $respuesta=null;
+        }
+
+        return new JsonResponse($respuesta);
+
+    }
+
+    public function getPlanctaAction($cod)
+    {
+        $em=$this->getDoctrine()->getManager();
+        // ----------- METODO 1 -------------------
+        $planctas =  $em->getRepository('ContabilidadBundle:PlanCta')->findAll();
+        $respuesta=[];
+        foreach ($planctas as $cta){
+            array_push($respuesta, [
+                'codigo'=>$cta->getCodigo(),
+                'cuenta'=>$cta->getcuenta()
+            ]);
         }
 
         return new JsonResponse($respuesta);
@@ -409,8 +560,8 @@ class VentaController extends Controller
 
         // --------- CABECERA ------------ //
 
-        $ventaCab = new VentaCab();
-        $ventaCab->setCliente($cliente)
+        $ventac = new Ventac();
+        $ventac->setCliente($cliente)
             ->setUsuario($user)
             ->setSucursal($sucursal)
             ->setFecha($fecha)
@@ -425,16 +576,16 @@ class VentaController extends Controller
             ->setAnul($anulado)
             ->setComentario($comentario);
 
-        $em->persist($ventaCab);
-//        dump($detalles);
+        $em->persist($ventac);
 
         // --------- DETALLE ------------ //
         if(isset($detalles)){
             foreach ($detalles as $detalle) {
-                $ventaDet = new VentaDet();
+                $ventad = new Ventad();
                 $codigo = $detalle['codigo'];
                 $cuenta=$em->getRepository('ContabilidadBundle:PlanCta')->findOneBy(['codigo'=>$codigo]);
-                $ventaDet->setVenta($ventaCab)
+
+                $ventad->setVentac($ventac)
                     ->setNcuenta($cuenta)
                     ->setG10($detalle['g10'])
                     ->setG5($detalle['g5'])
@@ -443,15 +594,59 @@ class VentaController extends Controller
                     ->setIva5($detalle['iva5'])
                     ->setAfecta($detalle['afecta']);
 
-                $em->persist($ventaDet);
+
+                $em->persist($ventad);
             }
         }
 
-
         $em->flush();
-//        $respuesta = 'Datos almacenados exitosamente';
+        $respuesta = $ventac;
 
         return new JsonResponse($respuesta);
+    }
+
+    public function getVentaAction($id_venta)
+    {
+        $em=$this->getDoctrine()->getManager();
+        // ----------- METODO 1 -------------------
+        $venta =  $em->getRepository('ContabilidadBundle:Ventac')->find($id_venta);
+        $ventadet=[];
+        $detalles=$venta->getVentad();
+        foreach ($detalles as $detalle){
+            array_push($ventadet, [
+                'id'=>$detalle->getId(),
+                'codigo'=>$detalle->getNcuenta()->getCodigo(),
+                'cuenta'=>$detalle->getNcuenta()->getCuenta(),
+                'g10'=>$detalle->getG10(),
+                'g5'=>$detalle->getG5(),
+                'iva10'=>$detalle->getIva10(),
+                'iva5'=>$detalle->getIva5(),
+                'exe'=>$detalle->getExe(),
+                'afecta'=>$detalle->getAfecta()
+            ]);
+        }
+//        dump($ventadet);
+//        die();
+        $respuesta=['fecha'=>$venta->getFecha(),
+            'ruc'=>$venta->getEntidad()->getRuc(),
+            'dv'=>$venta->getEntidad()->getDv(),
+            'cliente'=>$venta->getEntidad()->getNombre(),
+            'nsuc'=>$venta->getNsuc(),
+            'npe'=>$venta->getNpe(),
+            'ncomp'=>$venta->getNcomp(),
+            'timbrado'=>$venta->getTimbrado(),
+            'condicion'=>$venta->getCondicion(),
+            'moneda'=>$venta->getMoneda()->getId(),
+            'cotiz'=>$venta->getCotiz(),
+            'anul'=>$venta->getAnul(),
+            'comentario'=>$venta->getComentario(),
+            'detalle'=>$ventadet
+        ];
+
+//        dump($respuesta);
+//        die();
+        return new JsonResponse($respuesta);
+
     }
 
 }

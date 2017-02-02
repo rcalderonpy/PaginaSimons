@@ -1,4 +1,49 @@
-$(document).ready(function(){
+    // -------------------- FUNCIONES GENERALES --------------------
 
+    //Pasar de texto a numero
+    function valor(objeto){
+        var input=objeto;
+        return parseFloat(input.val());
+    }
 
-});
+    //Se carga el valor del 'id' del elemento y devuelve ('#nombre_id').val();
+    function valorId(nombre){
+        var selector = $("#"+ nombre ).val();
+        return selector;
+    }
+
+    //Calcular IVA al 10%
+    function getIva10(valor, decimales){
+        var iva = valor / 11;
+        iva=iva.toFixed(decimales);
+        return iva;
+    }
+
+    //Calcular IVA al 5%
+    function getIva5(valor, decimales){
+        var iva = valor / 21;
+        iva=iva.toFixed(decimales);
+        return iva;
+    }
+
+    //total cargado
+    function SumarColumna(grilla, columna) {
+        var resultVal = 0;
+        var texto='';
+
+        $("#" + grilla + " tbody tr").each(
+            function() {
+
+                var celdaValor = $(this).find('td:eq(' + columna + ')');
+
+                if (celdaValor.val() != null){
+                    texto=celdaValor.html().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','');
+                    resultVal += parseFloat(texto);
+                }
+
+            } //function
+
+        )
+        // console.log(resultVal);
+        return resultVal;
+    }

@@ -1,56 +1,9 @@
 $(document).ready(function(){
 
+    //Agrega js de funciones generales
+    $.getScript("/js/funciones.js");
+
     var detalleglobal = [];
-
-    // -------------------- FUNCIONES GENERALES --------------------
-
-    //Pasar de texto a numero
-    function valor(objeto){
-        var input=objeto;
-        return parseFloat(input.val());
-    }
-
-    //Se carga el valor del 'id' del elemento y devuelve ('#nombre_id').val();
-    function valorId(nombre){
-        var selector = $("#"+ nombre ).val();
-        return selector;
-    }
-
-    //Calcular IVA al 10%
-    function getIva10(valor, decimales){
-        var iva = valor / 11;
-        iva=iva.toFixed(decimales);
-        return iva;
-    }
-
-    //Calcular IVA al 5%
-    function getIva5(valor, decimales){
-        var iva = valor / 21;
-        iva=iva.toFixed(decimales);
-        return iva;
-    }
-
-    //total cargado
-    function SumarColumna(grilla, columna) {
-        var resultVal = 0;
-        var texto='';
-
-        $("#" + grilla + " tbody tr").each(
-            function() {
-
-                var celdaValor = $(this).find('td:eq(' + columna + ')');
-
-                if (celdaValor.val() != null){
-                    texto=celdaValor.html().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','');
-                    resultVal += parseFloat(texto);
-                }
-
-            } //function
-
-        )
-        // console.log(resultVal);
-        return resultVal;
-    }
 
     // -------------------- FUNCIONES ESPECÍFICAS --------------------
 
@@ -65,6 +18,7 @@ $(document).ready(function(){
             $('#total_comprobante').addClass('inactivo');
             $('.numero').val('0');
             $('#comentario').text('Comprobante Anulado');
+            $('#renta').addClass('inactivo');
             detalleglobal=[];
 
         } else {
@@ -73,10 +27,24 @@ $(document).ready(function(){
             $('#exento').removeClass('inactivo');
             $('#codCta').removeClass('inactivo');
             $('#cuenta').removeClass('inactivo');
+            $('#renta').removeClass('inactivo');
             $('#total_comprobante').removeClass('inactivo');
             $('#comentario').text('');
         }
     }
+
+    // Cálculos de inputs
+    $('#formu_vta input').on('blur', function(){
+        var iva10 = getIva10( valor($('#gravado10')) );
+        var iva5 = getIva5( valor($('#gravado5')) );
+        var g10 = $('#gravado10').val()-iva10;
+        var g5 = $('#gravado5').val()-iva5;
+        var exe = $('#exento').val()
+        $('#iva10').val(iva10);
+        $('#iva5').val(iva5);
+        camposControl();
+    });
+
     //
     // Agrega Valores a los campos Total Cargado y Diferencia
     function camposControl(){
@@ -117,24 +85,6 @@ $(document).ready(function(){
         $('#comentario').val('');
     }
 
-    // --- DATOS CABECERA ---
-    var ruta = window.location.pathname.split("/");
-    var idcliente = ruta[3];
-    var tipo_comp=valorId('tipo_comp');
-    var dia=valorId('dia');
-    var mes = ruta[4];
-    var ano = ruta[5];
-    var rucent=$('#rucent').val();
-    var nsuc=valorId('nsuc');
-    var npe=valorId('npe');
-    var ncomp=valorId('ncomp');
-    var timbrado=valorId('timbrado');
-    var condicion=valorId('condicion');
-    var moneda=valorId('moneda');
-    var cotiz=valorId('cotiz');
-    var anul=$("#anul").prop('checked');
-    var comentario=valorId('comentario');
-
     // -------------------- EVENTOS --------------------
 
 
@@ -155,6 +105,8 @@ $(document).ready(function(){
     // });
 
 
+
+    $('#anul').on('checked', function(e){e.preventDefault();});
 
     var msg=$('#modAnular');
     msg.modal({backdrop:'static', show:false});
@@ -178,13 +130,15 @@ $(document).ready(function(){
     $('#modal_anular').on('click', function(){
         $('#chklabel').text('Anulado');
         $('#anul').prop({'checked':true});
+        anularVenta(true);
         msg.modal('hide');
     });
 
-    // Modal Anular - Botón Anular
+    // Modal Anular - Botón Cancelar
     $('#modal_cancelar').on('click', function(){
         $('#chklabel').text('Anular?');
         $('#anul').prop({'checked':false});
+        anularVenta(false);
         msg.modal('hide');
     });
 
@@ -193,9 +147,9 @@ $(document).ready(function(){
         // validaciones carga
         var codigo=$('#codCta').val();
         var cuenta=$('#cuenta').val();
-        var g10=$('#gravado10').val();
+        var g10=$('#gravado10').val()-valor($('#iva10'));
         var iva10=$('#iva10').val();
-        var g5=$('#gravado5').val();
+        var g5=$('#gravado5').val()-valor($('#iva5'));
         var iva5=$('#iva5').val();
         var exe=$('#exento').val();
         var afecta = $('#renta').val();
@@ -206,7 +160,7 @@ $(document).ready(function(){
             var suma_iva=valor($('#iva10'))+valor($('#iva5'));
 
             var nuevaFila=
-                "<tr>"+
+                "<tr id='fila'>"+
                 "<td class='text-center'>"+$('#codCta').val()+"</td> " +
                 "<td>"+$('#cuenta').val()+"</td> " +
                 "<td class='text-right'>"+ $.number(suma_venta) +"</td> " +
@@ -215,7 +169,7 @@ $(document).ready(function(){
                 "<td class='text-center' id='borrar_linea'><span class='glyphicon glyphicon-remove text-danger'></span></td>" +
                 "</tr>";
             $("#tabla tbody").append(nuevaFila);
-            detalleglobal.push({'codigo':codigo, 'cuenta':cuenta, 'g10':g10, 'g5':g5, 'iva10':iva10, 'iva5':iva5, 'exe':exe, 'afecta':afecta});
+            detalleglobal.push({'id':0, 'codigo':codigo, 'cuenta':cuenta, 'g10':g10, 'g5':g5, 'iva10':iva10, 'iva5':iva5, 'exe':exe, 'afecta':afecta});
             // console.log(detalleglobal);
             camposControl();
             limpiarDetalle();
@@ -235,6 +189,16 @@ $(document).ready(function(){
 
     // BOTON BORRAR LÍNEA
     $("tbody").on('click', "#borrar_linea", function(){
+        var codigo=$(this).parent().children()[0].textContent;
+        var monto = $(this).parent().children()[2].textContent
+        // console.log('Código = '+codigo+'; Monto='+monto);
+        // console.log(detalleglobal);
+
+        // elimina datos de detalleglobal
+        detalleglobal.splice($.inArray(codigo, detalleglobal),1);
+        // console.log(detalleglobal);
+
+        // elimina datos de la tabla
         $(this).parent().remove();
         camposControl();
         limpiarDetalle();
@@ -254,17 +218,6 @@ $(document).ready(function(){
         }
     });
 
-   // Cálculos de inputs
-    $('#formu_vta input').on('blur', function(){
-        var iva10 = getIva10( valor($('#gravado10')) );
-        var iva5 = getIva5( valor($('#gravado5')) );
-        var g10 = $('#gravado10').val()-iva10;
-        var g5 = $('#gravado5').val()-iva5;
-        var exe = $('#exento').val()
-        $('#iva10').val(iva10);
-        $('#iva5').val(iva5);
-        camposControl();
-    });
 
     // coloca separador de miles a todos los campos con la clase .numero
     $('.numero').number( true, 0 );
@@ -318,7 +271,7 @@ $(document).ready(function(){
         var detalle = detalleglobal;
 
 
-        console.log('Detalle = '+detalle);
+        console.log(detalle);
 
         //PARÁMETROS QUE SE VAN A ENVIAR PARA GUARDAR CABECERA
         var parametros = {
@@ -349,6 +302,73 @@ $(document).ready(function(){
             $('#dia').focus();
             detalleglobal=[];
         });
-
     });
+
+    // AJAX RECUPERAR VENTA PARA EDITAR
+
+    // $('#brand').on('click', function(e){
+
+        // e.preventDefault();
+
+        // --- DATOS CABECERA ---
+        var ruta = window.location.pathname.split("/");
+        var formulario = ruta[2];
+        var estado = ruta[7];
+        if(formulario=='venta' && estado=='edit'){
+            console.log(ruta);
+            var id_venta = ruta[6];
+            console.log(estado);
+
+            $.post("/contab/venta/recuperar_venta/"+id_venta, function(data){
+                // console.log('datos almacenados');
+                console.log(data);
+
+                // RELLENAR EL FORMULARIO - CABECERA
+                $('#rucent').val(data['ruc']);
+                $('#dv').val(data['dv']);
+                $('#nombres').val(data['cliente']);
+                $('#nsuc').val(data['nsuc']);
+                $('#npe').val(data['npe']);
+                $('#ncomp').val(data['ncomp']);
+                $('#timbrado').val(data['timbrado']);
+                $('#condicion').val(data['condicion']);
+                $('#moneda').val(data['moneda']);
+                $('#cotiz').val(data['cotiz']);
+                $('#anul').prop('checked', data['anul']);
+                if(data['anul']==true){$('#chklabel').text('Anulado')};
+                $('#comentario').val(data['comentario']);
+
+                // RELLENAR EL FORMULARIO - DETALLE
+                detalleglobal=data['detalle'];
+                var suma_total = 0;
+                $.each(detalleglobal, function(i){
+                    console.log(detalleglobal[i]);
+                    var suma_venta= parseFloat(detalleglobal[i]['g10'])+ parseFloat(detalleglobal[i]['g5'])+ parseFloat(detalleglobal[i]['iva10'])+ parseFloat(detalleglobal[i]['iva5'])+ parseFloat(detalleglobal[i]['exe']);
+                    var suma_iva= parseFloat(detalleglobal[i]['iva10'])+ parseFloat(detalleglobal[i]['iva5']);
+                    suma_total+=suma_venta;
+
+                    var nuevaFila=
+                        "<tr id='fila_"+i+"'>"+
+                        "<td class='text-center'>"+detalleglobal[i]['codigo']+"</td> " + //codigo
+                        "<td>"+detalleglobal[i]['cuenta']+"</td> " + //cuenta
+                        "<td class='text-right numero'>"+ $.number(suma_venta, 0, ',') +"</td> " + //total
+                        "<td class='text-right numero'>"+ $.number(suma_iva) +"</td> " +
+                        "<td>"+ detalleglobal[i]['afecta']+"</td> " +
+                        "<td class='text-center' id='borrar_linea'><span class='glyphicon glyphicon-remove text-danger'></span></td>" +
+                        "</tr>";
+                    $("#tabla tbody").append(nuevaFila);
+                })
+
+                $('#total_comprobante').val(suma_total);
+                $('#cargado').val(suma_total);
+                $('#diferencia').val(0);
+
+
+
+            });
+        }
+
+    // });
+
+
 });

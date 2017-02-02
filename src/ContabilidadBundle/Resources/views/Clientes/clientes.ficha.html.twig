@@ -7,6 +7,11 @@
 	Ficha
 {% endblock %}
 
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/cliente.js') }}"></script>
+{% endblock %}
+
 {% block cedulas %}
 	{% include '@Contabilidad/Partials/cedulas.html.twig' %}
 {% endblock %}
@@ -180,22 +185,23 @@
 	
 	<!-- Small modal -->
 	
-	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="mod_periodo">
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
-				{{ form_start(form) }}
+				{{ form_start(form, {'attr':{'id':'form-periodo'}}) }}
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<h4 class="modal-title">Ingrese el Periodo</h4>
 				</div>
 				<div class="modal-body">
-					{{ form_row(form.mes, {'attr':{'autofocus':true}}) }}
+					{{ form_row(form.mes, {'attr':{'autofocus':true, 'id':'mod_mes'}}) }}
 					{{ form_row(form.ano) }}
+					{{ form_errors(form, {'attr':{'id':'mod_err'}}) }}
 					
 				</div>
 				<div class="modal-footer">
-						<input type="submit" value="Guardar" class="btn btn-group btn-success pull-right"/>
-					{#<button type="submit" class="btn btn-primary" form="form">Guardar</button>#}
+						{#<input type="submit" value="Guardar" class="btn btn-group btn-success pull-right" id="mod-btn"/>#}
+					<button type="submit" class="btn btn-group btn-success pull-right" id="mod-btn">Guardar</button>
 				</div>
 				
 				{{ form_end(form) }}

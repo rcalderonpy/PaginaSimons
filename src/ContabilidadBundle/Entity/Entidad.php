@@ -3,6 +3,7 @@
 namespace ContabilidadBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Entidad
@@ -31,7 +32,7 @@ class Entidad
     /**
      * @var string
      *
-     * @ORM\Column(name="ruc", type="string", length=20)
+     * @ORM\Column(name="ruc", type="string", length=20, unique=true)
      */
     private $ruc;
 
@@ -41,6 +42,16 @@ class Entidad
      * @ORM\Column(name="dv", type="string", length=5)
      */
     private $dv;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ContabilidadBundle\Entity\Ventac", mappedBy ="entidad", cascade={"persist", "remove"})
+     */
+    private $ventac;
+
+    public function __construct()
+    {
+        $this->ventac= new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -129,5 +140,38 @@ class Entidad
     {
         return $this->dv;
     }
-}
 
+    /**
+     * Add ventac
+     *
+     * @param \ContabilidadBundle\Entity\Ventac $ventac
+     *
+     * @return Entidad
+     */
+    public function addVentac(\ContabilidadBundle\Entity\Ventac $ventac)
+    {
+        $this->ventac[] = $ventac;
+
+        return $this;
+    }
+
+    /**
+     * Remove ventac
+     *
+     * @param \ContabilidadBundle\Entity\Ventac $ventac
+     */
+    public function removeVentac(\ContabilidadBundle\Entity\Ventac $ventac)
+    {
+        $this->ventac->removeElement($ventac);
+    }
+
+    /**
+     * Get ventac
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVentac()
+    {
+        return $this->ventac;
+    }
+}

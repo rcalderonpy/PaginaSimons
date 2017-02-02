@@ -1,0 +1,6 @@
+{
+  "name":"curso-symfony-idt-2016",
+  "dependencies":{
+    "bootstrap":"^3.3.7"
+  }
+}

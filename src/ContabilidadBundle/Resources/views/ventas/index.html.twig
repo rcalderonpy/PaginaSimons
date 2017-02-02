@@ -20,7 +20,7 @@
                 <th class="text-center">Comprobante</th>
                 <th class="text-center">Cotiz</th>
                 <th class="text-center">Comentario</th>
-                <th class="text-center">G10</th>
+                <th class="text-center">Total</th>
                 <th class="text-center">Timbrado</th>
                 <th class="text-center">Condicion</th>
                 <th class="text-center">Acciones</th>
@@ -31,11 +31,11 @@
             
             <tr>
                 <td><p class="small"><a href="{{ path('venta_show', {'id_cliente':id_cliente, 'mes':mes, 'ano':ano, 'id_venta': ventaSin.id }) }}">{{ ventaSin.id }}</a></p></td>
-                <td><p class="small">{% if ventaSin.fecha %}{{ ventaSin.fecha|date('d/m/Y') }}{% endif %}</p></td>
-                <td><p class="small">{{ ventaSin.nsuc~'-'~ventaSin.npe~'-'~ventaSin.ncomp }}</p></td>
+                <td><p class="small">{% if ventaSin.fecha %}{{ ventaSin.fecha |date('d/m/Y') }}{% endif %}</p></td>
+                <td><p class="small">{{ ventaSin.comprobante}}</p></td>
                 <td><p class="small">{{ ventaSin.cotiz }}</p></td>
                 <td><p class="small">{{ ventaSin.comentario }}</p></td>
-                <td class="text-right"><p class="small">{{ ventaSin.g10|number_format(0, ',', '.') }}</p></td>
+                <td class="text-right"><p class="small">{{ventaSin.total|number_format(0, ',', '.') }}</p></td>
                 {#<td class="text-right">{{ ventaSin.g5|number_format(0, ',', '.') }}</td>#}
                 {#<td class="text-right">{{ ventaSin.iva10|number_format(0, ',', '.') }}</td>#}
                 {#<td class="text-right">{{ ventaSin.iva5|number_format(0, ',', '.') }}</td>#}
@@ -51,7 +51,12 @@
         {% endfor %}
         </tbody>
     </table>
-    {{ ventaSins|length }} Registros Encontrados
+    {{ ventaSins|length }}
+    {% if ventaSins|length != 1 %}
+        Registros Encontrados
+    {% else %}
+        Registro Encontrado
+    {% endif %}
     
     
 

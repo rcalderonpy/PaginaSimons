@@ -91,6 +91,11 @@
                                                         </div>
                                                         <div class="widget"><label for="codCta">Código</label><input type="text" id="codCta" name="codCta" style="width: 80px" class=""></div>
                                                         <div class="widget"><label for="cuenta">Cuenta</label><input type="text" id="cuenta" name="cuenta" style="width: 400px"></div>
+                                                        {#<div class="widget">#}
+                                                            {#<select class="js-data-example-ajax" style="width: 500px">#}
+                                                                {#<option value="3620194" selected="selected">Ingrese la Cuenta Contable</option>#}
+                                                            {#</select>#}
+                                                        {#</div>#}
                                                     </div>
                                                     <div class="col-lg-12" id="detalle">
                                                         <div class="widget"><label for="gravado10">IVA Incl. 10%</label><input type="text" value="0" id="gravado10" name="gravado10" style="width: 100px" class="numero"></div>
@@ -170,11 +175,18 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="gridSystemModalLabel">Anular Venta</h4>
                 </div>
-                <div class="modal-body">
-                    <p>Está seguro de anular la venta? Se borrarán los detalles</p>
+                <div class="modal-body bg-warning">
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <div class="btn-lg"><i class="fa fa-exclamation-circle aviso" aria-hidden="true"></i></div>
+                        </div>
+                        <div class="col-md-9">
+                            <p>Está seguro de anular la venta? Se borrarán los detalles</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" id="modal_cancelar">Cancelar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="modal_cancelar">No</button>
                     <button type="button" class="btn btn-danger" id="modal_anular">Anular</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -187,7 +199,7 @@
 
 {% block title %}
     {{ parent() }}
-    Nueva Venta
+    {{ tituloPag }}
 {% endblock %}
 
 {% block cedulas %}

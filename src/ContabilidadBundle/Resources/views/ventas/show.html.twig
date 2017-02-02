@@ -1,97 +1,139 @@
 {% extends '@Contabilidad/BaseFormularios.html.twig' %}
 {% block title %}
     {{ parent() }}
-    {{ ventaSin.nsuc ~'-'~ ventaSin.npe ~'-'~ ventaSin.ncomp}}
+    {{ ventac.nsuc ~'-'~ ventac.npe ~'-'~ ventac.ncomp}}
 {% endblock %}
 
 {% block areatrabajo %}
-<div>
-<!-- Nav tabs -->
-<ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Cabecera</a></li>
-    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Detalle</a></li>
-    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Asiento</a></li>
-    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Revalúo</a></li>
-</ul>
-
-<!-- Tab panes -->
-<div class="tab-content">
-    <div role="tabpanel" class="tab-pane fade in active" id="home">
+    
+    
     <div class="panel panel-default">
-        <div class="panel-body bg-info">
-            {#{{ form_start(form) }}#}
-
-            {#//primera fila#}
-            <div class="row form-inline">
-                <div class="col-md-12">
-                    <label class="control-label" style="width: 17%">Fecha</label>
-                    <label class="control-label" style="width: 36%">Cliente</label>
-                    <label class="control-label" style="width: 21%">Sucursal</label>
-                    <label class="control-label" style="width: 20%">Comprobante</label>
+        <div class="panel-body">
+            <form class="formulario" id="formu_vta" method="post" name="formu_vta" action="">
+                <div class="linea col-lg-12">
+                    <div class="widget"><label>Tipo de Comprobante</label><input readonly=true type="text" value="Factura" style="width: 200px" class="lectura"></div>
+                    <div class="widget"><label>Fecha</label><input readonly=true type="text" value="{{ ventac.fecha|date("d/m/Y") }}" style="width: 100px" class="lectura"></div>
+                    <div class="widget"><label>RUC</label><input readonly=true type="text" value="{{ ventac.cliente.ruc ~'-' ~ventac.cliente.dv }}" style="width: 120px" class="lectura"></div>
+                    <div class="widget"><label>Cliente</label><input readonly=true type="text" value="{{ ventac.cliente }}" style="width: 400px" class="lectura"></div>
+                    <div class="widget"><label>Timbrado Nº</label><input readonly=true type="text" value="{{ ventac.timbrado }}" style="width: 100px" class="lectura"></div>
+                    <div class="widget"><label>Condición</label><input readonly=true type="text" value="{% if ventac.condicion == 0 %}Contado{% else %} Crédito {% endif %}" style="width: 100px" class="lectura"></div>
+                    <div class="widget"><label>Moneda</label><input readonly=true type="text" value="{{ ventac.moneda }}" style="width: 100px" class="lectura"></div>
+                    <div class="widget"><label>Cotización</label><input readonly=true type="text" value="{{ ventac.cotiz|number_format(2, ',', '.')  }}" style="width: 100px" class="lectura text-right"></div>
+                    <div class="widget"><label>Anulado</label><input readonly=true type="text" value="{% if ventac.anul == true %}SÍ{% else %} NO {% endif %}" style="width: 60px" class="lectura text-center"></div>
+                    
                 </div>
-                <div class="col-md-12">
-                    {{ form_widget(form.fecha, {'attr':{'disabled':true}}) }}
-                    {#{{ form_widget(form.entidad, {'attr':{'disabled':true}}) }}#}
-                    {{ form_widget(form.sucursal, {'attr':{'disabled':true}}) }}
-                    {#<div class="panel panel-info visible-lg-inline-block">#}
-                    {#<div class="bg-info">#}
-                    {{ form_widget(form.nsuc, {'attr':{'disabled':true}}) }}
-                    {{ form_widget(form.npe, {'attr':{'disabled':true}}) }}
-                    {{ form_widget(form.ncomp, {'attr':{'disabled':true}}) }}
-                    {#</div>#}
-                    {#</div>#}
+             
+                <div class="enlinea"><label>Comentarios</label>
+                    <textarea readonly=true class="lectura">{{ventac.comentario}}</textarea>
                 </div>
-            </div>
-            {#//segunda fila#}
-            <div class="row form-inline">
-                <div class="col-md-12">
-                    <label class="control-label" style="width: 15%">Timbrado</label>
-                    <label class="control-label" style="width: 12%">Condición</label>
-                    <label class="control-label" style="width: 21%">Moneda</label>
-                    <label class="control-label" style="width: 10%">Cambio</label>
-                    <label class="control-label" style="width: 20%">Comentario</label>
-                </div>
-                <div class="col-md-12">
-                    {{ form_widget(form.timbrado, {'attr':{'disabled':true}}) }}
-                    {{ form_widget(form.condicion, {'attr':{'disabled':true}}) }}
-                    {{ form_widget(form.moneda, {'attr':{'disabled':true}}) }}
-                    {{ form_widget(form.cotiz, {'attr':{'disabled':true}}) }}
-                    {{ form_widget(form.comentario, {'attr':{'disabled':true}}) }}
-                </div>
-            </div>
+                
+                
+                
+                {# ------------------------------- PESTAÑAS ------------------------------- #}
+                
+                <div>
+                    
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"  tabindex="-1">Detalle</a></li>
+                        <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" tabindex="-1">Asiento</a></li>
+                        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" tabindex="-1">Revalúo</a></li>
+                    </ul>
+                    
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="home">
+                            {#<p>#}
+                            <div class="panel panel-default">
+                                <div class="panel-body bg-info">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <div class="col-lg-12" id="detalle">
+                                                       
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <table class="table table-condensed table-striped table-bordered" id="tabla">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th class="text-center" style="width: 70px;">Código</th>
+                                                                    <th class="text-center">Cuenta</th>
+                                                                    <th class="text-center">Grav10</th>
+                                                                    <th class="text-center">Grav5</th>
+                                                                    <th class="text-center">Exento</th>
+                                                                    <th class="text-center">Total</th>
+                                                                    <th class="text-center">IVA</th>
+                                                                    <th class="text-center">Renta</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                {% set grav10 = 0 %}
+                                                                {% set grav5 = 0 %}
+                                                                {% set exento = 0 %}
+                                                                {% set iva = 0 %}
+                                                                
+                                                                {% for detalle in ventac.ventad %}
+                                                                    <tr>
+                                                                        <td class="text-center">{{ detalle.ncuenta.codigo }}</td>
+                                                                        <td>{{ detalle.ncuenta.cuenta }}</td>
+                                                                        <td class="text-right">{{ (detalle.g10+detalle.iva10)|number_format(0, ',', '.') }}</td>
+                                                                        <td class="text-right">{{ (detalle.g5+detalle.iva5)|number_format(0, ',', '.')}}</td>
+                                                                        <td class="text-right">{{ detalle.exe|number_format(0, ',', '.')}}</td>
+                                                                        <td class="text-right"><strong>{{ (detalle.g10+detalle.iva10+detalle.g5+detalle.iva5+detalle.exe)|number_format(0, ',', '.') }}</strong></td>
+                                                                        <td class="text-right">{{ (detalle.iva10+detalle.iva5)|number_format(0, ',', '.') }}</td>
+                                                                        <td class="text-center">
+                                                                            {% if detalle.afecta == 0 %}IRACIS{% endif %}
+                                                                            {% if detalle.afecta == 1 %}IRAGRO{% endif %}
+                                                                            {% if detalle.afecta == 2 %}IRP{% endif %}
+                                                                            {% if detalle.afecta == 3 %}IRPC{% endif %}
+                                                                        </td>
     
-            {#//tercera fila#}
-            <div class="row form-inline">
-                <div class="col-md-12">
-                    <label class="control-label" style="width: 17%">Gravadas 10%</label>
-                    <label class="control-label" style="width: 17%">Gravadas 5%</label>
-                    <label class="control-label" style="width: 16%">IVA 10%</label>
-                    <label class="control-label" style="width: 16%">IVA 5%</label>
-                    <label class="control-label" style="width: 16%">Exentas</label>
-                    <label class="control-label" style="width: 14%">Retención IVA</label>
+                                                                    </tr>
+                                                                    {% set grav10 = grav10 + (detalle.g10+detalle.iva10) %}
+                                                                    {% set grav5 = grav5 + (detalle.g5+detalle.iva5) %}
+                                                                    {% set exento = exento+ (detalle.exe) %}
+                                                                    {% set iva = iva+ (detalle.iva10+detalle.iva5) %}
+                                                                {% endfor %}
+                                                                <tr class="total">
+                                                                    <td colspan="2" class="text-center"><strong>TOTALES</strong></td>
+                                                                    <td class="text-right"><strong>{{ grav10|number_format(0, ',', '.') }}</strong></td>
+                                                                    <td class="text-right"><strong>{{ grav5|number_format(0, ',', '.') }}</strong></td>
+                                                                    <td class="text-right"><strong>{{ exento|number_format(0, ',', '.') }}</strong></td>
+                                                                    <td class="text-right"><strong>{{ (grav10 + grav5 + exento)|number_format(0, ',', '.') }}</strong></td>
+                                                                    <td class="text-right"><strong>{{ iva|number_format(0, ',', '.') }}</strong></td>
+                                                                    <td class="text-center ultimo">---</td>
+                                                                    
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div role="tabpanel" class="tab-pane fade" id="profile">...</div>
+                        <div role="tabpanel" class="tab-pane fade" id="messages">...</div>
+                        <div role="tabpanel" class="tab-pane fade" id="settings">...</div>
+                    </div>
                 </div>
-                <div class="col-md-12">
-                    {{ form_widget(form.g10, {'attr':{'disabled':true}}) }}
-                    {{ form_widget(form.g5, {'attr':{'disabled':true}}) }}
-                    {{ form_widget(form.iva10, {'attr':{'disabled':true}}) }}
-                    {{ form_widget(form.iva5, {'attr':{'disabled':true}}) }}
-                    {{ form_widget(form.exe, {'attr':{'disabled':true}}) }}
-                    {{ form_widget(form.retencion, {'attr':{'disabled':true}}) }}
-                </div>
-            </div>
-            
-    
-            <br>
-            {#{{ form_end(form) }}#}
+            </form>
         </div>
     </div>
-    </div>
-    <div role="tabpanel" class="tab-pane fade" id="profile">...</div>
-    <div role="tabpanel" class="tab-pane fade" id="messages">...</div>
-    <div role="tabpanel" class="tab-pane fade" id="settings">...</div>
-</div>
-
-</div>
+    
+    
     <div class="row">
         <div class="col-md-12">
             {#<a href="{{ path('venta_edit', { 'id': ventaSin.id }) }}" class="btn btn-warning">Editar</a>#}

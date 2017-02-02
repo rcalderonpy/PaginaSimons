@@ -246,10 +246,10 @@ class DefaultController extends Controller
         $cirev=$imagenes['cirev'];
 
 
-        //contar y sumar libro ventas
-//        $totales=$em->getRepository('ContabilidadBundle:VentaCab')->totalesVentas(array(
-//            'cliente'=>$id_cliente, 'mes'=>$mes, 'ano'=>$ano
-//        ));
+        //  contar y sumar libro ventas
+        $totales=$em->getRepository('ContabilidadBundle:Ventac')->totalesVentas(array(
+            'cliente'=>$id_cliente, 'mes'=>$mes, 'ano'=>$ano
+        ));
 
 //        dump($totales);
 //        die();
@@ -261,7 +261,7 @@ class DefaultController extends Controller
             'botones'=>null,
             'mes'=>$mes,
             'ano'=>$ano,
-//            'totales'=>$totales,
+            'totales'=>$totales,
             'cianv'=>$cianv,
             'cirev'=>$cirev
         ));

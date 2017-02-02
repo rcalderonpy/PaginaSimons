@@ -28,8 +28,8 @@ form textarea{
     width: 100%;
     max-width: 100%;
     min-width: 100%;
-    height: 50px;
-    max-height: 80px;
+    height: 70px;
+    max-height: 100px;
     /*background: #000;*/
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -101,6 +101,13 @@ form label{
     margin: 2px 0 0 0;
 }
 
+.lectura{
+    background-color: #ededed!important;
+    color: #5b5b5b;
+    border: 0px!important;
+    box-shadow: none!important;
+}
+
 .inactivo{
     background-color: #e2e2e2;
     color: #5b5b5b;
@@ -147,4 +154,21 @@ form label{
 
 #borrar_linea span:hover{
     cursor: pointer;
+}
+
+.aviso{
+    font-size: 40px;
+    color: rgba(46, 13, 0, 0.69);
+}
+
+.total{
+    background-color: #d3d3d3 !important;
+    color: #000;
+}
+
+.total td{
+    border-right-color: #FFFFFF!important;
+}
+.total td.ultimo{
+    border-right-color: #d3d3d3 !important;
 }
