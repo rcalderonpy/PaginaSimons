@@ -1,6 +1,7 @@
 body {
     background-color: #b2dbda;
-    /*background-image: url("..//img/logotipo_simons (rasgado).png");*/
+    background-image: url("../img/TrabajoOficina.jpg");
+    background-size: cover;
 
     /*background-position: top;*/
     /*background-repeat: repeat-y;*/
@@ -49,6 +50,14 @@ form h1{
     font-family: 'Adamina', serif;
 }
 
+form label{
+    text-align: center;
+    color: #fff;
+    font-weight:normal;
+    display: inline-block;
+    /*font-size: 30px;*/
+    /*font-family: 'Adamina', serif;*/
+}
 form input{
     width: 280px;
     height: 35px;
@@ -74,8 +83,6 @@ form button{
     box-shadow: 0px 2px 0px #000;
     -moz-box-shadow: 0px 2px 0px #000;
     -webkit-box-shadow: 0px 2px 0px #000;
-    -webkit-border-radius:;
-    -moz-border-radius:;
     border-radius:3px;
     font-size: 15px;
     font-family:"Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;

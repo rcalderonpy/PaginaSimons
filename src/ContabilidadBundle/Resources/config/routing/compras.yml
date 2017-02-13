@@ -1,0 +1,24 @@
+compra_index:
+    path:     /{id_cliente}/{mes}/{ano}/compras_lista
+    defaults: { _controller: "ContabilidadBundle:Compra:index" }
+    methods:  GET
+
+compra_show:
+    path:     /{id_cliente}/{mes}/{ano}/{id_compra}/show
+    defaults: { _controller: "ContabilidadBundle:Compra:show" }
+    methods:  GET
+
+compra_new:
+    path:     /{id_cliente}/{mes}/{ano}/new
+    defaults: { _controller: "ContabilidadBundle:Compra:new" }
+    methods:  [GET, POST]
+
+compra_edit:
+    path:     /{id_cliente}/{mes}/{ano}/{id_compra}/edit
+    defaults: { _controller: "ContabilidadBundle:Compra:edit" }
+    methods:  [GET, POST]
+
+compra_delete:
+    path:     /{id_cliente}/{mes}/{ano}/{id_compra}/delete
+    defaults: { _controller: "ContabilidadBundle:Compra:delete" }
+    methods:  DELETE

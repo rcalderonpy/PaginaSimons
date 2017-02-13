@@ -6,6 +6,10 @@ contabilidad_venta:
     resource: "@ContabilidadBundle/Resources/config/routing/ventas.yml"
     prefix:   /venta
 
+contabilidad_compra:
+        resource: "@ContabilidadBundle/Resources/config/routing/compras.yml"
+        prefix:   /compra
+
 contabilidad_cliente:
     resource: "@ContabilidadBundle/Resources/config/routing/cliente.yml"
     prefix:   /cliente

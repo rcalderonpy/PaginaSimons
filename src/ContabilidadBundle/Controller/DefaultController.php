@@ -5,9 +5,10 @@ namespace ContabilidadBundle\Controller;
 use ContabilidadBundle\ContabilidadBundle;
 use ContabilidadBundle\Entity\Periodo;
 use ContabilidadBundle\Entity\Cliente;
-use ContabilidadBundle\Entity\VentaCab;
+use ContabilidadBundle\Entity\Comprac;
 use ContabilidadBundle\Repository\PeriodoRepository;
-use ContabilidadBundle\Repository\VentaCabRepository;
+use ContabilidadBundle\Repository\VentacRepository;
+use ContabilidadBundle\Repository\CompracRepository;
 use ContabilidadBundle\Repository\ClienteRepository;
 use ContabilidadBundle\Form\PeriodoType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -247,7 +248,12 @@ class DefaultController extends Controller
 
 
         //  contar y sumar libro ventas
-        $totales=$em->getRepository('ContabilidadBundle:Ventac')->totalesVentas(array(
+        $tot_ventas=$em->getRepository('ContabilidadBundle:Ventac')->totalesVentas(array(
+            'cliente'=>$id_cliente, 'mes'=>$mes, 'ano'=>$ano
+        ));
+
+        //  contar y sumar libro compras
+        $tot_compras=$em->getRepository('ContabilidadBundle:Comprac')->totalesCompras(array(
             'cliente'=>$id_cliente, 'mes'=>$mes, 'ano'=>$ano
         ));
 
@@ -261,7 +267,8 @@ class DefaultController extends Controller
             'botones'=>null,
             'mes'=>$mes,
             'ano'=>$ano,
-            'totales'=>$totales,
+            'totventas'=>$tot_ventas,
+            'totcompras'=>$tot_compras,
             'cianv'=>$cianv,
             'cirev'=>$cirev
         ));

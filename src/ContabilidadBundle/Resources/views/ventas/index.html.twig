@@ -19,7 +19,7 @@
                 <th class="text-center">Fecha</th>
                 <th class="text-center">Comprobante</th>
                 <th class="text-center">Cotiz</th>
-                <th class="text-center">Comentario</th>
+                <th class="text-center">Cliente</th>
                 <th class="text-center">Total</th>
                 <th class="text-center">Timbrado</th>
                 <th class="text-center">Condicion</th>
@@ -34,7 +34,7 @@
                 <td><p class="small">{% if ventaSin.fecha %}{{ ventaSin.fecha |date('d/m/Y') }}{% endif %}</p></td>
                 <td><p class="small">{{ ventaSin.comprobante}}</p></td>
                 <td><p class="small">{{ ventaSin.cotiz }}</p></td>
-                <td><p class="small">{{ ventaSin.comentario }}</p></td>
+                <td><p class="small">{{ ventaSin.entidad }}</p></td>
                 <td class="text-right"><p class="small">{{ventaSin.total|number_format(0, ',', '.') }}</p></td>
                 {#<td class="text-right">{{ ventaSin.g5|number_format(0, ',', '.') }}</td>#}
                 {#<td class="text-right">{{ ventaSin.iva10|number_format(0, ',', '.') }}</td>#}

@@ -5,12 +5,12 @@ namespace ContabilidadBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PlanCta
+ * Cuenta
  *
- * @ORM\Table(name="plan_cta")
- * @ORM\Entity(repositoryClass="ContabilidadBundle\Repository\PlanCtaRepository")
+ * @ORM\Table(name="cuenta")
+ * @ORM\Entity(repositoryClass="ContabilidadBundle\Repository\CuentaRepository")
  */
-class PlanCta
+class Cuenta
 {
     /**
      * @var int
@@ -50,7 +50,11 @@ class PlanCta
      */
     private $renta=0;
 
-    /**
+    public function __toString(){
+        return $this->getCuenta();
+    }
+
+/**
      * Get id
      *
      * @return int
@@ -91,7 +95,7 @@ class PlanCta
      *
      * @return PlanCta
      */
-    public function setcuenta($cuenta)
+    public function setCuenta($cuenta)
     {
         $this->cuenta = $cuenta;
 
@@ -103,7 +107,7 @@ class PlanCta
      *
      * @return string
      */
-    public function getcuenta()
+    public function getCuenta()
     {
         return $this->cuenta;
     }

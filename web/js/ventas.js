@@ -220,7 +220,7 @@ $(document).ready(function(){
 
 
     // coloca separador de miles a todos los campos con la clase .numero
-    $('.numero').number( true, 0 );
+    $('.numero').number( true, 2, ',', '.');
 
 
     // Ajax solicita datos de Cuenta Contable
@@ -369,6 +369,5 @@ $(document).ready(function(){
         }
 
     // });
-
 
 });

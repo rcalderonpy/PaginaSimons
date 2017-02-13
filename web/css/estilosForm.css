@@ -1,5 +1,5 @@
 
-form input[type=text], select{
+input[type=text], select{
     height: 25px;
     padding: 0px 10px;
     margin: 0px 2px;
@@ -17,7 +17,7 @@ form input[type=text], select{
     display: block;
 }
 
-form .numero{
+.numero{
     text-align: right;
 }
 
@@ -145,6 +145,7 @@ form label{
     /*justify-content: space-between;*/
     flex-wrap: wrap;
     /*margin-bottom:5px;*/
+    align-items: flex-end;
 }
 
 .error{
@@ -171,4 +172,17 @@ form label{
 }
 .total td.ultimo{
     border-right-color: #d3d3d3 !important;
+}
+
+ul li{
+    list-style: none;
+}
+
+ul li div{
+    padding: 3px 0;
+}
+
+li button{
+    margin-bottom: 2px!important;
+    margin-left: 3px;
 }

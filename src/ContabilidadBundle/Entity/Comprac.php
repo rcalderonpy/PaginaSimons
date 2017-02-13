@@ -8,19 +8,19 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 
 /**
- * Ventac
+ * Comprac
  *
- * @ORM\Table(name="ventac")
- * @ORM\Entity(repositoryClass="ContabilidadBundle\Repository\VentacRepository")
+ * @ORM\Table(name="comprac")
+ * @ORM\Entity(repositoryClass="ContabilidadBundle\Repository\CompracRepository")
  */
-class Ventac
+class Comprac
 {
     /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
@@ -45,7 +45,7 @@ class Ventac
     /**
      * @var Entidad
      *
-     * @ORM\ManyToOne(targetEntity="ContabilidadBundle\Entity\Entidad", inversedBy="ventac")
+     * @ORM\ManyToOne(targetEntity="ContabilidadBundle\Entity\Entidad")
      * @ORM\JoinColumn(name="entidad_id", referencedColumnName="id")
      * @Assert\NotNull()
      *
@@ -144,22 +144,20 @@ class Ventac
 
 
     /**
-     * @ORM\OneToMany(targetEntity="ContabilidadBundle\Entity\Ventad", mappedBy ="ventac", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="ContabilidadBundle\Entity\Comprad", mappedBy ="comprac", cascade={"remove", "persist"})
      */
-    private $ventad;
+    private $comprad;
 
 
 
     public function __construct()
     {
-        $this->ventad = new ArrayCollection();
+        $this->comprad = new ArrayCollection();
         $this->setFecha(new \DateTime());
 
     }
 
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -168,23 +166,17 @@ class Ventac
     }
 
     /**
-     * Set suc
-     *
-     * @param \stdClass $suc
-     *
-     * @return VentaSin
+     * @param int $id
+     * @return Comprac
      */
-    public function setSucursal($sucursal)
+    public function setId($id)
     {
-        $this->sucursal = $sucursal;
-
+        $this->id = $id;
         return $this;
     }
 
     /**
-     * Get sucursal
-     *
-     * @return \stdClass
+     * @return Sucursal
      */
     public function getSucursal()
     {
@@ -192,22 +184,16 @@ class Ventac
     }
 
     /**
-     * Set fecha
-     *
-     * @param \DateTime $fecha
-     *
-     * @return VentaSin
+     * @param Sucursal $sucursal
+     * @return Comprac
      */
-    public function setFecha($fecha)
+    public function setSucursal($sucursal)
     {
-        $this->fecha = $fecha;
-
+        $this->sucursal = $sucursal;
         return $this;
     }
 
     /**
-     * Get fecha
-     *
      * @return \DateTime
      */
     public function getFecha()
@@ -216,23 +202,17 @@ class Ventac
     }
 
     /**
-     * Set empresa
-     *
-     * @param \stdClass $empresa
-     *
-     * @return VentaSin
+     * @param \DateTime $fecha
+     * @return Comprac
      */
-    public function setEntidad($entidad)
+    public function setFecha($fecha)
     {
-        $this->entidad = $entidad;
-
+        $this->fecha = $fecha;
         return $this;
     }
 
     /**
-     * Get empresa
-     *
-     * @return \stdClass
+     * @return Entidad
      */
     public function getEntidad()
     {
@@ -240,27 +220,31 @@ class Ventac
     }
 
     /**
-     * Set cliente
-     *
-     * @param \stdClass $cliente
-     *
-     * @return VentaSin
+     * @param Entidad $entidad
+     * @return Comprac
      */
-    public function setCliente($cliente)
+    public function setEntidad($entidad)
     {
-        $this->cliente = $cliente;
-
+        $this->entidad = $entidad;
         return $this;
     }
 
     /**
-     * Get cliente
-     *
      * @return \stdClass
      */
     public function getCliente()
     {
         return $this->cliente;
+    }
+
+    /**
+     * @param \stdClass $cliente
+     * @return Comprac
+     */
+    public function setCliente($cliente)
+    {
+        $this->cliente = $cliente;
+        return $this;
     }
 
     /**
@@ -273,7 +257,7 @@ class Ventac
 
     /**
      * @param string $nsuc
-     * @return VentaSin
+     * @return Comprac
      */
     public function setNsuc($nsuc)
     {
@@ -291,7 +275,7 @@ class Ventac
 
     /**
      * @param string $npe
-     * @return VentaSin
+     * @return Comprac
      */
     public function setNpe($npe)
     {
@@ -309,7 +293,7 @@ class Ventac
 
     /**
      * @param string $ncomp
-     * @return VentaSin
+     * @return Comprac
      */
     public function setNcomp($ncomp)
     {
@@ -317,25 +301,7 @@ class Ventac
         return $this;
     }
 
-
-
     /**
-     * Set moneda
-     *
-     * @param \stdClass $moneda
-     *
-     * @return VentaSin
-     */
-    public function setMoneda($moneda)
-    {
-        $this->moneda = $moneda;
-
-        return $this;
-    }
-
-    /**
-     * Get moneda
-     *
      * @return \stdClass
      */
     public function getMoneda()
@@ -344,22 +310,16 @@ class Ventac
     }
 
     /**
-     * Set cotiz
-     *
-     * @param float $cotiz
-     *
-     * @return VentaSin
+     * @param \stdClass $moneda
+     * @return Comprac
      */
-    public function setCotiz($cotiz)
+    public function setMoneda($moneda)
     {
-        $this->cotiz = $cotiz;
-
+        $this->moneda = $moneda;
         return $this;
     }
 
     /**
-     * Get cotiz
-     *
      * @return float
      */
     public function getCotiz()
@@ -368,99 +328,13 @@ class Ventac
     }
 
     /**
-     * Set comentario
-     *
-     * @param string $comentario
-     *
-     * @return VentaSin
+     * @param float $cotiz
+     * @return Comprac
      */
-    public function setComentario($comentario)
+    public function setCotiz($cotiz)
     {
-        $this->comentario = $comentario;
-
+        $this->cotiz = $cotiz;
         return $this;
-    }
-
-    /**
-     * Get comentario
-     *
-     * @return string
-     */
-    public function getComentario()
-    {
-        return $this->comentario;
-    }
-
-    /**
-     * Set usuario
-     *
-     * @param \stdClass $usuario
-     *
-     * @return VentaSin
-     */
-    public function setUsuario($usuario)
-    {
-        $this->usuario = $usuario;
-
-        return $this;
-    }
-
-    /**
-     * Get usuario
-     *
-     * @return \stdClass
-     */
-    public function getUsuario()
-    {
-        return $this->usuario;
-    }
-
-    /**
-     * Set timbrado
-     *
-     * @param string $timbrado
-     *
-     * @return VentaSin
-     */
-    public function setTimbrado($timbrado)
-    {
-        $this->timbrado = $timbrado;
-
-        return $this;
-    }
-
-    /**
-     * Get timbrado
-     *
-     * @return string
-     */
-    public function getTimbrado()
-    {
-        return $this->timbrado;
-    }
-
-    /**
-     * Set condicion
-     *
-     * @param string $condicion
-     *
-     * @return VentaSin
-     */
-    public function setCondicion($condicion)
-    {
-        $this->condicion = $condicion;
-
-        return $this;
-    }
-
-    /**
-     * Get condicion
-     *
-     * @return string
-     */
-    public function getCondicion()
-    {
-        return $this->condicion;
     }
 
     /**
@@ -473,7 +347,7 @@ class Ventac
 
     /**
      * @param boolean $anul
-     * @return Ventac
+     * @return Comprac
      */
     public function setAnul($anul)
     {
@@ -481,50 +355,113 @@ class Ventac
         return $this;
     }
 
-
     /**
-     * Get anul
-     *
-     * @return boolean
+     * @return string
      */
-    public function getAnul()
+    public function getComentario()
     {
-        return $this->anul;
+        return $this->comentario;
     }
 
-
+    /**
+     * @param string $comentario
+     * @return Comprac
+     */
+    public function setComentario($comentario)
+    {
+        $this->comentario = $comentario;
+        return $this;
+    }
 
     /**
-     * Add ventad
-     *
-     * @param \ContabilidadBundle\Entity\Ventad $ventad
-     *
-     * @return Ventac
+     * @return \stdClass
      */
-    public function addVentad(\ContabilidadBundle\Entity\Ventad $ventad)
+    public function getUsuario()
     {
-        $this->ventad[] = $ventad;
+        return $this->usuario;
+    }
+
+    /**
+     * @param \stdClass $usuario
+     * @return Comprac
+     */
+    public function setUsuario($usuario)
+    {
+        $this->usuario = $usuario;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimbrado()
+    {
+        return $this->timbrado;
+    }
+
+    /**
+     * @param string $timbrado
+     * @return Comprac
+     */
+    public function setTimbrado($timbrado)
+    {
+        $this->timbrado = $timbrado;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCondicion()
+    {
+        return $this->condicion;
+    }
+
+    /**
+     * @param string $condicion
+     * @return Comprac
+     */
+    public function setCondicion($condicion)
+    {
+        $this->condicion = $condicion;
+        return $this;
+    }
+
+    
+
+    /**
+     * Add comprad
+     *
+     * @param \ContabilidadBundle\Entity\Comprad $comprad
+     *
+     * @return Comprac
+     */
+    public function addComprad(Comprad $comprad)
+    {
+        $this->comprad[] = $comprad;
 
         return $this;
     }
 
     /**
-     * Remove ventad
+     * Remove comprad
      *
-     * @param \ContabilidadBundle\Entity\Ventad $ventad
+     * @param \ContabilidadBundle\Entity\Comprad $comprad
      */
-    public function removeVentad(\ContabilidadBundle\Entity\Ventad $ventad)
+    public function removeComprad(Comprad $comprad)
     {
-        $this->ventad->removeElement($ventad);
+        $this->comprad->removeElement($comprad);
     }
 
     /**
-     * Get ventad
+     * Get comprad
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getVentad()
+    public function getComprad()
     {
-        return $this->ventad;
+        return $this->comprad;
     }
+
+
 }

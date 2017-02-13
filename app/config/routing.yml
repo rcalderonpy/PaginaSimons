@@ -1,3 +1,7 @@
+# app/config/routing.yml
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
 
 contabilidad:
     resource: "@ContabilidadBundle/Resources/config/routing.yml"
@@ -24,13 +28,13 @@ contacto:
     path:      /contacto
     defaults:  { _controller: AppBundle:Default:contacto }
 
-login:
-    path:      /login
-    defaults:  { _controller: AppBundle:User:login}
+#login:
+#    path:      /login
+#    defaults:  { _controller: AppBundle:User:login}
 
-
-login_check:
-    path:      /login_check
-
-logout:
-    path:      /logout
+#
+#login_check:
+#    path:      /login_check
+#
+#logout:
+#    path:      /logout

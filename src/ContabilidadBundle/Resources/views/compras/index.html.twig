@@ -1,0 +1,59 @@
+{% extends '@Contabilidad/BaseFormularios.html.twig' %}
+
+{% block title %}
+    {{ parent() }}
+    Compras
+    {{ mes }} - {{ ano }}
+{% endblock %}
+
+{% block funciones %}
+    {% include 'ContabilidadBundle:Partials:cuadroFunciones.html.twig' %}
+{% endblock %}
+
+{% block areatrabajo %}
+    {#{{ dump(titulo) }}#}
+    <table class="table table-striped table-condensed table-bordered">
+        <thead>
+        <tr>
+            <th class="text-center">Id</th>
+            <th class="text-center">Fecha</th>
+            <th class="text-center">Comprobante</th>
+            <th class="text-center">Cotiz</th>
+            <th class="text-center">Proveedor</th>
+            <th class="text-center">Total</th>
+            <th class="text-center">Timbrado</th>
+            <th class="text-center">Condicion</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for compra in compras %}
+            
+            <tr>
+                <td><p class="small"><a href="{{ path('venta_show', {'id_cliente':id_cliente, 'mes':mes, 'ano':ano, 'id_venta': compra.id }) }}">{{ compra.id }}</a></p></td>
+                <td><p class="small">{% if compra.fecha %}{{ compra.fecha |date('d/m/Y') }}{% endif %}</p></td>
+                <td><p class="small">{{ compra.comprobante}}</p></td>
+                <td><p class="small">{{ compra.cotiz }}</p></td>
+                <td><p class="small">{{ compra.entidad }}</p></td>
+                <td class="text-right"><p class="small">{{compra.total|number_format(0, ',', '.') }}</p></td>
+                <td><p class="small">{{ compra.timbrado }}</p></td>
+                <td><p class="small">{{ compra.condicion }}</p></td>
+                <td class="text-center">
+                    <a href="{{ path('compra_show', { 'id_cliente':id_cliente, 'mes':mes, 'ano':ano, 'id_compra': compra.id }) }}" class="btn btn-info btn-xs">Mostrar</a>
+                    <a href="{{ path('compra_edit', { 'id_cliente': id_cliente, 'mes':mes, 'ano':ano, 'id_compra':compra.id }) }}" class="btn btn-warning btn-xs">Editar</a>
+                </td>
+            </tr>
+            {% dump compra %}
+        {% endfor %}
+        </tbody>
+    </table>
+    {{ compras|length }}
+    {% if compras|length != 1 %}
+        Registros Encontrados
+    {% else %}
+        Registro Encontrado
+    {% endif %}
+
+
+
+{% endblock %}

@@ -20,7 +20,7 @@ class PlanCtaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $planCtas = $em->getRepository('ContabilidadBundle:PlanCta')->findAll();
+        $planCtas = $em->getRepository('Cuenta.php')->findAll();
 
         return $this->render('@Contabilidad/plancta/index.html.twig', array(
             'planCtas' => $planCtas,

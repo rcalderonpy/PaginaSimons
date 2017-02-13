@@ -14,7 +14,7 @@
         <br>
         <div class="row">
             <div class="btn-group col-md-12 btn-group-justified" role="group" aria-label="x">
-                <a href="#" class="btn btn-default">Compras</a>
+                <a href="{{ path('compra_index', {'id_cliente':cliente.id, 'mes':mes, 'ano':ano}) }}" class="btn btn-default {% if app.request.attributes.get('_route') == 'compra_index' %} active {% endif %}">Compras</a>
                 <a href="#" class="btn btn-default">NC Recibidas</a>
             </div>
         </div>

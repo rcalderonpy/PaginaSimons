@@ -21,9 +21,23 @@
 					'ano':ano
 				},
 				'titulo':'Libro Ventas',
-				'cantidad':totales[0]['cantidad'],
-				'total':totales[0]['suma']
+				'cantidad':totventas[0]['cantidad'],
+				'total':totventas[0]['suma']
 			}
+		%}
+		
+		{% include 'ContabilidadBundle:Partials:etiquetaMes.html.twig' with
+		{
+		'objetivo':{
+		'ruta':'compra_index',
+		'id_cliente':cliente.id,
+		'mes':mes,
+		'ano':ano
+		},
+		'titulo':'Libro Compras',
+		'cantidad':totcompras[0]['cantidad'],
+		'total':totcompras[0]['suma']
+		}
 		%}
 	</div>
 	

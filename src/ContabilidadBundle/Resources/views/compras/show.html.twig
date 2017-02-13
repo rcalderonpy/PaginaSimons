@@ -1,0 +1,147 @@
+{% extends '@Contabilidad/BaseFormularios.html.twig' %}
+{% block title %}
+    {{ parent() }}
+    {{ comprac.nsuc ~'-'~ comprac.npe ~'-'~ comprac.ncomp}}
+{% endblock %}
+
+{% block areatrabajo %}
+    
+    
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="formulario" id="formu_vta" method="post" name="formu_vta" action="">
+                <div class="linea col-lg-12">
+                    <div class="widget"><label>Tipo de Comprobante</label><input readonly=true type="text" value="Factura" style="width: 200px" class="lectura"></div>
+                    <div class="widget"><label>Fecha</label><input readonly=true type="text" value="{{ comprac.fecha|date("d/m/Y") }}" style="width: 100px" class="lectura"></div>
+                    <div class="widget"><label>RUC</label><input readonly=true type="text" value="{{ comprac.entidad.ruc ~'-' ~comprac.entidad.dv }}" style="width: 120px" class="lectura"></div>
+                    <div class="widget"><label>Proveedor</label><input readonly=true type="text" value="{{ comprac.entidad.nombre }}" style="width: 400px" class="lectura"></div>
+                    <div class="widget"><label>Timbrado Nº</label><input readonly=true type="text" value="{{ comprac.timbrado }}" style="width: 100px" class="lectura"></div>
+                    <div class="widget"><label>Condición</label><input readonly=true type="text" value="{% if comprac.condicion == 0 %}Contado{% else %} Crédito {% endif %}" style="width: 100px" class="lectura"></div>
+                    <div class="widget"><label>Moneda</label><input readonly=true type="text" value="{{ comprac.moneda }}" style="width: 100px" class="lectura"></div>
+                    <div class="widget"><label>Cotización</label><input readonly=true type="text" value="{{ comprac.cotiz|number_format(2, ',', '.')  }}" style="width: 100px" class="lectura text-right"></div>
+                    <div class="widget"><label>Anulado</label><input readonly=true type="text" value="{% if comprac.anul == true %}SÍ{% else %} NO {% endif %}" style="width: 60px" class="lectura text-center"></div>
+                
+                </div>
+                
+                <div class="enlinea"><label>Comentarios</label>
+                    <textarea readonly=true class="lectura">{{comprac.comentario}}</textarea>
+                </div>
+                
+                
+                
+                {# ------------------------------- PESTAÑAS ------------------------------- #}
+                
+                <div>
+                    
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"  tabindex="-1">Detalle</a></li>
+                        <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" tabindex="-1">Asiento</a></li>
+                        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" tabindex="-1">Revalúo</a></li>
+                    </ul>
+                    
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="home">
+                            {#<p>#}
+                            <div class="panel panel-default">
+                                <div class="panel-body bg-info">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                        
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <div class="col-lg-12" id="detalle">
+                                                    
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <table class="table table-condensed table-striped table-bordered" id="tabla">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th class="text-center" style="width: 70px;">Código</th>
+                                                                    <th class="text-center">Cuenta</th>
+                                                                    <th class="text-center">Grav10</th>
+                                                                    <th class="text-center">Grav5</th>
+                                                                    <th class="text-center">Exento</th>
+                                                                    <th class="text-center">Total</th>
+                                                                    <th class="text-center">IVA</th>
+                                                                    <th class="text-center">Renta</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                {% set grav10 = 0 %}
+                                                                {% set grav5 = 0 %}
+                                                                {% set exento = 0 %}
+                                                                {% set iva = 0 %}
+                                                                
+                                                                {% for detalle in comprac.comprad %}
+                                                                    <tr>
+                                                                        <td class="text-center">{{ detalle.cuenta.codigo }}</td>
+                                                                        <td>{{ detalle.cuenta.cuenta }}</td>
+                                                                        <td class="text-right">{{ (detalle.g10+detalle.iva10)|number_format(0, ',', '.') }}</td>
+                                                                        <td class="text-right">{{ (detalle.g5+detalle.iva5)|number_format(0, ',', '.')}}</td>
+                                                                        <td class="text-right">{{ detalle.exe|number_format(0, ',', '.')}}</td>
+                                                                        <td class="text-right"><strong>{{ (detalle.g10+detalle.iva10+detalle.g5+detalle.iva5+detalle.exe)|number_format(0, ',', '.') }}</strong></td>
+                                                                        <td class="text-right">{{ (detalle.iva10+detalle.iva5)|number_format(0, ',', '.') }}</td>
+                                                                        <td class="text-center">
+                                                                            {% if detalle.afecta == 0 %}IRACIS{% endif %}
+                                                                            {% if detalle.afecta == 1 %}IRAGRO{% endif %}
+                                                                            {% if detalle.afecta == 2 %}IRP{% endif %}
+                                                                            {% if detalle.afecta == 3 %}IRPC{% endif %}
+                                                                        </td>
+                                                                    
+                                                                    </tr>
+                                                                    {% set grav10 = grav10 + (detalle.g10+detalle.iva10) %}
+                                                                    {% set grav5 = grav5 + (detalle.g5+detalle.iva5) %}
+                                                                    {% set exento = exento+ (detalle.exe) %}
+                                                                    {% set iva = iva+ (detalle.iva10+detalle.iva5) %}
+                                                                {% endfor %}
+                                                                <tr class="total">
+                                                                    <td colspan="2" class="text-center"><strong>TOTALES</strong></td>
+                                                                    <td class="text-right"><strong>{{ grav10|number_format(0, ',', '.') }}</strong></td>
+                                                                    <td class="text-right"><strong>{{ grav5|number_format(0, ',', '.') }}</strong></td>
+                                                                    <td class="text-right"><strong>{{ exento|number_format(0, ',', '.') }}</strong></td>
+                                                                    <td class="text-right"><strong>{{ (grav10 + grav5 + exento)|number_format(0, ',', '.') }}</strong></td>
+                                                                    <td class="text-right"><strong>{{ iva|number_format(0, ',', '.') }}</strong></td>
+                                                                    <td class="text-center ultimo">---</td>
+                                                                
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div role="tabpanel" class="tab-pane fade" id="profile">...</div>
+                        <div role="tabpanel" class="tab-pane fade" id="messages">...</div>
+                        <div role="tabpanel" class="tab-pane fade" id="settings">...</div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="visible-lg-inline-block pull-right">
+                {{ form_start(delete_form) }}
+                <input type="submit" value="Borrar" class="btn btn-danger">
+                {{ form_end(delete_form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

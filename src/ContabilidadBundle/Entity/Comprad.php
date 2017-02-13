@@ -5,28 +5,28 @@ namespace ContabilidadBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Ventad
+ * Comprad
  *
- * @ORM\Table(name="ventad")
- * @ORM\Entity(repositoryClass="ContabilidadBundle\Repository\VentadRepository")
+ * @ORM\Table(name="comprad")
+ * @ORM\Entity(repositoryClass="ContabilidadBundle\Repository\CompradRepository")
  */
-class Ventad
+class Comprad
 {
     /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var \stdClass
-     * @ORM\ManyToOne(targetEntity="ContabilidadBundle\Entity\Ventac", inversedBy="ventad")
-     * @ORM\JoinColumn(name="ventac_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="ContabilidadBundle\Entity\Comprac", inversedBy="comprad", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="comprac_id", referencedColumnName="id")
      */
-    private $ventac;
+    private $comprac;
 
     /**
      * @var \stdClass
@@ -78,6 +78,9 @@ class Ventad
     private $afecta;
 
 
+    public function _toString(){
+        return (string) $this->getCuenta();
+    }
     /**
      * Get id
      *
@@ -89,27 +92,27 @@ class Ventad
     }
 
     /**
-     * Set Ventac
+     * Set Comprac
      *
-     * @param \stdClass $Ventac
+     * @param \stdClass $Comprac
      *
-     * @return Ventad
+     * @return Comprad
      */
-    public function setVentac($Ventac)
+    public function setComprac($comprac)
     {
-        $this->ventac = $Ventac;
+        $this->comprac = $comprac;
 
         return $this;
     }
 
     /**
-     * Get Ventac
+     * Get Comprac
      *
      * @return \stdClass
      */
-    public function getVentac()
+    public function getComprac()
     {
-        return $this->ventac;
+        return $this->comprac;
     }
 
     /**
@@ -117,7 +120,7 @@ class Ventad
      *
      * @param string $cuenta
      *
-     * @return Ventad
+     * @return Comprad
      */
     public function setCuenta($cuenta)
     {
@@ -141,7 +144,7 @@ class Ventad
      *
      * @param float $g10
      *
-     * @return Ventad
+     * @return Comprad
      */
     public function setG10($g10)
     {
@@ -165,7 +168,7 @@ class Ventad
      *
      * @param float $g5
      *
-     * @return Ventad
+     * @return Comprad
      */
     public function setG5($g5)
     {
@@ -189,7 +192,7 @@ class Ventad
      *
      * @param float $iva10
      *
-     * @return Ventad
+     * @return Comprad
      */
     public function setIva10($iva10)
     {
@@ -213,7 +216,7 @@ class Ventad
      *
      * @param float $iva5
      *
-     * @return Ventad
+     * @return Comprad
      */
     public function setIva5($iva5)
     {
@@ -237,7 +240,7 @@ class Ventad
      *
      * @param float $exe
      *
-     * @return Ventad
+     * @return Comprad
      */
     public function setExe($exe)
     {
@@ -261,7 +264,7 @@ class Ventad
      *
      * @param integer $afecta
      *
-     * @return Ventad
+     * @return Comprad
      */
     public function setAfecta($afecta)
     {

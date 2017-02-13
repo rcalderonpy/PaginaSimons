@@ -7,6 +7,7 @@ use ContabilidadBundle\Entity\Cliente;
 use ContabilidadBundle\Entity\Ventac;
 use ContabilidadBundle\Entity\Entidad;
 use ContabilidadBundle\Entity\Ventad;
+use ContabilidadBundle\Entity\Cuenta;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -30,7 +31,7 @@ class VentaController extends Controller
     public function indexAction(Request $request, $id_cliente, $mes, $ano)
     {
 
-//        Validación Usuario
+        // Validación Usuario
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException();
         }
@@ -73,7 +74,8 @@ class VentaController extends Controller
                 'comentario'=>$ventaSin->getComentario(),
                 'total'=>$suma,
                 'timbrado'=>$ventaSin->getTimbrado(),
-                'condicion'=>$ventaSin->getCondicion()
+                'condicion'=>$ventaSin->getCondicion(),
+                'entidad'=>$ventaSin->getEntidad()->getNombre()
             ]);
         }
 
@@ -484,12 +486,12 @@ class VentaController extends Controller
     {
         $em=$this->getDoctrine()->getManager();
         // ----------- METODO 1 -------------------
-        $codcta =  $em->getRepository('ContabilidadBundle:PlanCta')->findOneBy(array('codigo'=>$cod));
+        $codcta =  $em->getRepository('ContabilidadBundle:Cuenta')->findOneBy(array('codigo'=>$cod));
 
         if($codcta){
             $respuesta = array(
                 'codigo'=>$codcta->getCodigo(),
-                'cuenta'=>$codcta->getcuenta(),
+                'cuenta'=>$codcta->getCuenta(),
                 'imputable'=>$codcta->getImputable(),
                 'renta'=>$codcta->getRenta()
             );
@@ -505,12 +507,12 @@ class VentaController extends Controller
     {
         $em=$this->getDoctrine()->getManager();
         // ----------- METODO 1 -------------------
-        $planctas =  $em->getRepository('ContabilidadBundle:PlanCta')->findAll();
+        $planctas =  $em->getRepository('ContabilidadBundle:Cuenta')->findAll();
         $respuesta=[];
         foreach ($planctas as $cta){
             array_push($respuesta, [
                 'codigo'=>$cta->getCodigo(),
-                'cuenta'=>$cta->getcuenta()
+                'cuenta'=>$cta->getCuenta()
             ]);
         }
 
@@ -583,10 +585,10 @@ class VentaController extends Controller
             foreach ($detalles as $detalle) {
                 $ventad = new Ventad();
                 $codigo = $detalle['codigo'];
-                $cuenta=$em->getRepository('ContabilidadBundle:PlanCta')->findOneBy(['codigo'=>$codigo]);
+                $cuenta=$em->getRepository('ContabilidadBundle:Cuenta')->findOneBy(['codigo'=>$codigo]);
 
                 $ventad->setVentac($ventac)
-                    ->setNcuenta($cuenta)
+                    ->setCuenta($cuenta)
                     ->setG10($detalle['g10'])
                     ->setG5($detalle['g5'])
                     ->setExe($detalle['exe'])
