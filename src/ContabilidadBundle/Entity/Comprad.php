@@ -38,35 +38,35 @@ class Comprad
     /**
      * @var float
      *
-     * @ORM\Column(name="g10", type="float")
+     * @ORM\Column(name="g10", type="decimal", scale=2)
      */
     private $g10;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="g5", type="float")
+     * @ORM\Column(name="g5", type="decimal", scale=2)
      */
     private $g5;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="iva10", type="float")
+     * @ORM\Column(name="iva10", type="decimal", scale=2)
      */
     private $iva10;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="iva5", type="float")
+     * @ORM\Column(name="iva5", type="decimal", scale=2)
      */
     private $iva5;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="exe", type="float")
+     * @ORM\Column(name="exe", type="decimal", scale=2)
      */
     private $exe;
 

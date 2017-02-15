@@ -47,3 +47,16 @@
         // console.log(resultVal);
         return resultVal;
     }
+
+    //Rellenar campos de comprobantes
+    function relleFac(campo, largo){
+        var completo = '0000000000000000'+campo;
+        return completo.substr(-largo, largo);
+    }
+
+    // selecciona el contenido del imput
+    function selText(){
+        $("input[type=text]").focus(function(){
+            this.select();
+        });
+    }

@@ -11,6 +11,19 @@
  {% block body %}
      {% include 'Partials/maninmenu.html.twig' with {'marca':'Simons Estudio Contable'} %}
      <section class="container">
+         // MENSAJES FLASH
+         {#{% if app.request.hasPreviousSession %}#}
+             {#{% for type, messages in app.session.flashbag.all() %}#}
+                 {#{% for message in messages %}#}
+                     {#<div class="bg-{{ type }}">#}
+                         {#{{ message }}#}
+                     {#</div>#}
+                 {#{% endfor %}#}
+             {#{% endfor %}#}
+         {#{% endif %}#}
+    
+         
+         
          {% block content %} {% endblock %}
      </section>
      {% block javascripts %}
@@ -39,7 +52,7 @@
                 <br>
                 <br>
                 <br>
-                <address><strong class="text-muted">Diseñado por <cite>Rodrigo Calderón</cite></address>
+                <address><strong class="text-muted">Diseñado por <cite>Rodrigo Calderón</cite></strong></address>
             </div>
         </div>
     </div>

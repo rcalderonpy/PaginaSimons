@@ -174,15 +174,48 @@ form label{
     border-right-color: #d3d3d3 !important;
 }
 
-ul li{
+li{
     list-style: none;
 }
+form ul li:not(.pestaña){
+    /*list-style: none;*/
+    background-color: rgba(246, 57, 34, 0.1);
+    color: #aa1226;
+    margin-bottom: 2px;
+    padding: 10px;
+    border-radius: 5px;
 
-ul li div{
+}
+
+
+li.detalle{
+    /*list-style: none;*/
+    background-color: #ededed;
+    /*color: green;*/
+    margin-bottom: 2px;
+    padding: 5px;
+    /*border-radius: 5px;*/
+
+}
+
+form div ul li div{
     padding: 3px 0;
+}
+ul{
+    padding: 0;
 }
 
 li button{
     margin-bottom: 2px!important;
     margin-left: 3px;
+}
+
+p{
+    margin-bottom: 0;
+    padding:2px 3px;
+}
+
+table td{
+    padding: 0!important;
+    padding-top: 2!important;
 }

@@ -7,99 +7,216 @@
 {% endblock %}
 
 {% block areatrabajo %}
-	{% dump form %}
+	{{ parent() }}
 	<div class="panel panel-default">
 		<div class="panel-body">
-			{{ form_start(form) }}
-			{{ form_errors(form) }}
+			{{ form_start(form, {'attr':{'id':'formuCompra'}}) }}
+			{{ form_errors(form.dia) }}
+			{{ form_errors(form.nsuc) }}
+			{{ form_errors(form.npe) }}
+			{{ form_errors(form.ncomp) }}
 			<div class="linea col-lg-12">
-				{{ form_row(form.dia) }}
-				{{ form_row(form.entidad) }}
-				{{ form_row(form.nsuc) }}
-				{{ form_row(form.npe) }}
-				{{ form_row(form.ncomp) }}
-				{{ form_row(form.timbrado) }}
-				{{ form_row(form.condicion) }}
-				{{ form_row(form.moneda) }}
-				{{ form_row(form.cotiz) }}
-				{{ form_row(form.anul) }}
+				<div class="widget">
+					{{ form_label(form.tipocomp) }}
+					{{ form_widget(form.tipocomp) }}
+				</div>
+				<div class="widget">
+					{{ form_label(form.dia) }}
+					{{ form_widget(form.dia) }}
+				</div>
+				<div class="widget">
+					{{ form_label(form.entidad) }}
+					{{ form_widget(form.entidad) }}
+				</div>
+				<div class="widget">
+					{{ form_label(form.nsuc) }}
+					{{ form_widget(form.nsuc) }}
+				</div>
+				<div class="widget">
+					{{ form_label(form.npe) }}
+					{{ form_widget(form.npe) }}
+				</div>
+				<div class="widget">
+					{{ form_label(form.ncomp) }}
+					{{ form_widget(form.ncomp) }}
+				</div>
+				<div class="widget">
+					{{ form_label(form.timbrado) }}
+					{{ form_widget(form.timbrado) }}
+				</div>
+				<div class="widget">
+					{{ form_label(form.condicion) }}
+					{{ form_widget(form.condicion) }}
+				</div>
+				<div class="widget">
+					{{ form_label(form.moneda) }}
+					{{ form_widget(form.moneda) }}
+				</div>
+				<div class="widget">
+					{{ form_label(form.cotiz) }}
+					{{ form_widget(form.cotiz) }}
+				</div>
+				<div class="widget">
+					{{ form_label(form.anul) }}
+					{{ form_widget(form.anul, {'attr':{'class':'inactivo'}}) }}
+				</div>
 			</div>
 			<div class="linea col-lg-12">
 				{{ form_label(form.comentario) }}
 				{{ form_widget(form.comentario) }}
-				<a href="#" id="add-another-email">Agregar detalle</a>
 			</div>
-			
-			<ul id="formulario-detalle"
-			    data-prototype="{{ form_widget(form.comprad.vars.prototype, {'attr':{'class':'linea col-lg-12'}})|e }}" class="linea col-lg-12">
-				{% for detalle in form.comprad %}
-					<li class="col-md-12 bg-danger">
-						<div class="linea col-lg-12 bg-danger">
-							{{ form_errors(detalle) }}
-							{#{{ form_label(detalle) }}#}
-							{{ form_row(detalle.afecta) }}
-							{{ form_row(detalle.cuenta) }}
-							{{ form_row(detalle.g10) }}
-							{{ form_row(detalle.g5) }}
-							{{ form_row(detalle.iva10) }}
-							{{ form_row(detalle.iva5) }}
-							{{ form_row(detalle.exe) }}
-							{{ form_row(detalle.borrar) }}
-							{{ form_row(detalle.agregar) }}
-						</div>
-					</li>
-				{% endfor %}
-			</ul>
-			
-			<input type="submit" value="Guardar" class="btn btn-success pull-right"/>
-			{{ form_end(form) }}
-			
-			</div>
+		
 		</div>
 	</div>
+			{#<div>#}
+				
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active pestaña">
+						<a href="#home" aria-controls="home" role="tab" data-toggle="tab" tabindex="-1">Detalle</a>
+					</li>
+					<li role="presentation" class="pestaña">
+						<a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" tabindex="-1">Asiento</a>
+					</li>
+					<li role="presentation" class="pestaña">
+						<a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" tabindex="-1">Revalúo</a>
+					</li>
+				</ul>
+				
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane fade in active" id="home">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								
+								<div class="row">
+									<div class="col-md-12">
+										<div class="widget">
+											<label for="total_comprobante">Total Comprobante</label>
+											<strong><input type="text" value="0" id="total_comprobante" style="width: 150px" class="numero"></strong>
+										</div>
+										<div class="widget">
+											<label for="cargado">Cargado</label>
+											<input type="text" value="0" id="cargado" style="width: 150px" class="numero inactivo" disabled>
+										</div>
+										<div class="widget">
+											<label for="diferencia">Diferencia</label>
+											<input type="text" value="0" id="diferencia" style="width: 150px" class="numero inactivo" disabled>
+										</div>
+									</div>
+								</div>
+								{#<div class="row">#}
+									{#<ul class="col-lg-12">#}
+										{#<li class="detalle col-md-12">#}
+											{#<div class="linea col-md-12">#}
+												{#<input type="text" class="lectura" STYLE="width: 100px" value="Afecta">#}
+												{#<input type="text" class="lectura" STYLE="width: 200px" value="Cuenta">#}
+												{#<input type="text" class="lectura" STYLE="width: 100px" value="IVA incl. 10%">#}
+												{#<input type="text" class="lectura" STYLE="width: 100px" value="IVA incl. 5%">#}
+												{#<input type="text" class="lectura" STYLE="width: 100px" value="EXENTAS">#}
+												{#<input type="text" class="lectura" STYLE="width: 100px" value="IVA 10%">#}
+												{#<input type="text" class="lectura" STYLE="width: 100px" value="IVA 5%">#}
+											{#</div>#}
+										{#</li>#}
+									{#</ul>#}
+								{#</div>#}
+								<a href="#" id="add-another-email">Agregar detalle</a>
+								
+								<ul id="formulario-detalle"
+								    data-prototype="{{ form_widget(form.comprad.vars.prototype, {'attr':{'class':'linea col-lg-12'}})|e }}"
+								    class="linea col-lg-12">
+									<li class="detalle col-md-12">
+										<div class="linea col-md-12">
+											<strong><input type="text" class="lectura text-center" STYLE="width: 100px" value="Afecta"></strong>
+											<strong><input type="text" class="lectura text-center" STYLE="width: 200px" value="Cuenta"></strong>
+											<strong><input type="text" class="lectura text-center" STYLE="width: 100px" value="IVA incl. 10%"></strong>
+											<strong><input type="text" class="lectura text-center" STYLE="width: 100px" value="IVA incl. 5%"></strong>
+											<strong><input type="text" class="lectura text-center" STYLE="width: 100px" value="EXENTAS"></strong>
+											<strong><input type="text" class="lectura text-center" STYLE="width: 100px" value="IVA 10%"></strong>
+											<strong><input type="text" class="lectura text-center" STYLE="width: 100px" value="IVA 5%"></strong>
+											<strong><input type="text" class="lectura text-center" STYLE="width: 100px" value="TOTAL"></strong>
+										</div>
+									</li>
+									
+									{% for detalle in form.comprad %}
+										<li class="col-md-12 bg-danger">
+											<div class="linea col-lg-12 bg-danger">
+												{{ form_errors(detalle) }}
+												{{ form_row(detalle.afecta) }}
+												{{ form_row(detalle.cuenta) }}
+												{{ form_row(detalle.g10) }}
+												{{ form_row(detalle.g5) }}
+												{{ form_row(detalle.iva10) }}
+												{{ form_row(detalle.iva5) }}
+												{{ form_row(detalle.exe) }}
+												{{ form_row(detalle.borrar) }}
+												{{ form_row(detalle.agregar) }}
+											</div>
+										</li>
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
+					</div>
+					
+					<div role="tabpanel" class="tab-pane fade" id="profile">...</div>
+					<div role="tabpanel" class="tab-pane fade" id="messages">...</div>
+					<div role="tabpanel" class="tab-pane fade" id="settings">...</div>
+				</div>
+		
+		<input type="submit" value="Guardar" class="btn btn-success pull-right" id="btnGuardar"/>
+		{#<button type="button" class="btn btn-success pull-right" id="btnGuardar">Guardar</button>#}
+		
+		{{ form_end(form) }}
+	
+
+	{#</div>#}
 	
 	
 	<!-- Small modal -->
 	{#<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal-anular">Modal</button>#}
 	
-	<div class="modal fade modal-anular" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"
-	     id="modAnular">
-		<div class="modal-dialog modal-sm" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-								aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="gridSystemModalLabel">Anular Venta</h4>
-				</div>
-				<div class="modal-body bg-warning">
-					<div class="row">
-						<div class="col-md-3 text-center">
-							<div class="btn-lg"><i class="fa fa-exclamation-circle aviso" aria-hidden="true"></i></div>
-						</div>
-						<div class="col-md-9">
-							<p>Está seguro de anular la venta? Se borrarán los detalles</p>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" id="modal_cancelar">No</button>
-					<button type="button" class="btn btn-danger" id="modal_anular">Anular</button>
-				</div>
-			</div><!-- /.modal-content -->
-		</div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
+	{#<div class="modal fade modal-anular" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"#}
+	     {#id="modAnular">#}
+		{#<div class="modal-dialog modal-sm" role="document">#}
+			{#<div class="modal-content">#}
+				{#<div class="modal-header">#}
+					{#<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span#}
+								{#aria-hidden="true">&times;</span></button>#}
+					{#<h4 class="modal-title" id="gridSystemModalLabel">Anular Venta</h4>#}
+				{#</div>#}
+				{#<div class="modal-body bg-warning">#}
+					{#<div class="row">#}
+						{#<div class="col-md-3 text-center">#}
+							{#<div class="btn-lg"><i class="fa fa-exclamation-circle aviso" aria-hidden="true"></i></div>#}
+						{#</div>#}
+						{#<div class="col-md-9">#}
+							{#<p>Está seguro de anular la venta? Se borrarán los detalles</p>#}
+						{#</div>#}
+					{#</div>#}
+				{#</div>#}
+				{#<div class="modal-footer">#}
+					{#<button type="button" class="btn btn-default" data-dismiss="modal" id="modal_cancelar">No</button>#}
+					{#<button type="button" class="btn btn-danger" id="modal_anular">Anular</button>#}
+				{#</div>#}
+			{#</div><!-- /.modal-content -->#}
+		{#</div><!-- /.modal-dialog -->#}
+	{#</div><!-- /.modal -->#}
 	
 	<script type="text/javascript">
 		// keep track of how many email fields have been rendered
 		var emailCount = '{{ form.comprad|length }}';
 		
-		jQuery(document).ready(function() {
-			jQuery('#add-another-email').click(function(e) {
+		jQuery(document).ready(function () {
+			
+			//Agrega una línea de detalle
+			
+			jQuery('#add-another-email').click(function (e) {
 				e.preventDefault();
 				console.log(emailCount);
 				
 				var emailList = jQuery('#formulario-detalle');
-				console.log(emailList);
+//				console.log(emailList);
 				
 				// grab the prototype template
 				var newWidget = emailList.attr('data-prototype');
@@ -110,38 +227,66 @@
 				emailCount++;
 				
 				// create a new list element and add it to the list
-				var newLi = jQuery('<li></li>').html(newWidget).addClass('col-md-12');
+				var newLi = jQuery('<li></li>').html(newWidget).addClass('detalle col-md-12');
 				newLi.appendTo(emailList);
 //				newLi.prependTo(emailList);
-				var botonborrar = "contabilidadbundle_comprac_comprad_"+(parseInt(emailCount)-1)+"_borrar";
+//				emailList[0].lastChild.lastChild.firstChild.firstChild.focus();
+				emailList[0].lastChild.lastChild.childNodes[1].childNodes[0].focus();
+				var botonborrar = "contabilidadbundle_comprac_comprad_" + (parseInt(emailCount) - 1) + "_borrar";
 				console.log(botonborrar);
-				$("#"+botonborrar).hide();
+				$("#" + botonborrar).hide();
 				$(this).hide();
+				$('.numero').number(true, 2, ',', '.');
+				selText();
+				
 				
 				
 			});
+			function inhabilitarDetalle(boton){
+//				console.log(boton);
+				var padre = boton.parent().parent();
+				padre[0].childNodes[0].childNodes[0].classList.add('inactivo');
+				padre[0].childNodes[1].childNodes[0].classList.add('inactivo');
+				padre[0].childNodes[2].childNodes[0].classList.add('inactivo');
+				padre[0].childNodes[3].childNodes[0].classList.add('inactivo');
+				padre[0].childNodes[4].childNodes[0].classList.add('inactivo');
+				padre[0].childNodes[5].childNodes[0].classList.add('inactivo');
+				padre[0].childNodes[6].childNodes[0].classList.add('inactivo');
+//				var hijo=padre[0].childNodes[3].childNodes[0];
+//				console.log(padre[0]);
+//				console.log(hijo);
+				$(padre[0].childNodes[0].childNodes[0]).prop('disabled', true);
+				$(padre[0].childNodes[1].childNodes[0]).prop('disabled', true);
+				$(padre[0].childNodes[2].childNodes[0]).prop('disabled', true);
+				$(padre[0].childNodes[3].childNodes[0]).prop('disabled', true);
+				$(padre[0].childNodes[4].childNodes[0]).prop('disabled', true);
+				$(padre[0].childNodes[5].childNodes[0]).prop('disabled', true);
+				$(padre[0].childNodes[6].childNodes[0]).prop('disabled', true);
+				
+			}
 			
-			$('#formulario-detalle').on('click', 'li div button.agregar', function(){
+			// al agregar fila nueva
+			$('#formulario-detalle').on('click', 'li div button.agregar', function () {
 				var elemento = $(this).parent().parent();
-				var liActual = $(this).parent().parent().parent();
 //				console.log(this);
-				var texto= this.name.replace(']', '').replace(']', '').replace(']', '');
-				var indice= texto.split('[');
+				var texto = this.name.replace(']', '').replace(']', '').replace(']', '');
+				var indice = texto.split('[');
 				console.log(indice);
 				//muestra boton borrar
-				var botonborrar = "contabilidadbundle_comprac_comprad_"+(parseInt(indice[2]))+"_borrar";
+				var botonborrar = "contabilidadbundle_comprac_comprad_" + (parseInt(indice[2])) + "_borrar";
 //				console.log(botonborrar);
-				$("#"+botonborrar).show();
+				$("#" + botonborrar).show();
 //
+				inhabilitarDetalle($(this));
 //              // oculta boton agregar
 				$(this).hide();
-				elemento.parent().addClass('bg-danger col-md-12');
+				elemento.parent().addClass('detalle col-md-12');
 				$('#add-another-email').click();
 //				console.log('se realiza el borrado')
 			});
 			
 			// borrar línea de detalle
-			$('#formulario-detalle').on('click', 'li div button.borrar', function(){
+			$('#formulario-detalle').on('click', 'li div button.borrar', function () {
 				var elemento = $(this).parent().parent().parent();
 				console.log(elemento);
 				$(this).hide();
@@ -153,9 +298,95 @@
 			$('button.agregar').hide();
 //			$('#contabilidadbundle_comprac_dia').val(8);
 			console.log($(document.dataset));
-
+			
+			//rellena campo nsuc al salir con 3 digitos
+			$('#contabilidadbundle_comprac_nsuc').on('blur', function () {
+				$(this).val(relleFac($(this).val(), 3));
+			});
+			
+			//rellena campo npe al salir con 3 digitos
+			$('#contabilidadbundle_comprac_npe').on('blur', function () {
+				$(this).val(relleFac($(this).val(), 3));
+			});
+			
+			//rellena campo ncomp al salir con 3 digitos
+			$('#contabilidadbundle_comprac_ncomp').on('blur', function () {
+				$(this).val(relleFac($(this).val(), 7));
+			});
+			
+			
+			function sumarDetalle() {
+				var fila = 0;
+				var hijos = $('#formulario-detalle')[0].childNodes;
+				var suma = 0;
+				hijos.forEach(function (i) {
+//					console.log(fila);
+					if(fila>2){
+//						console.log($(hijos)[fila]);
+						
+						suma+=parseFloat($($(hijos)[fila].childNodes[0].childNodes[2].childNodes[0]).val())+
+								parseFloat($($(hijos)[fila].childNodes[0].childNodes[3].childNodes[0]).val())+
+								parseFloat($($(hijos)[fila].childNodes[0].childNodes[4].childNodes[0]).val());
+//						console.log($($(hijos)[fila].childNodes[0].childNodes[2].childNodes[0]).val());
+						console.log(suma);
+					}
+					
+					fila++;
+					
+				})
+				return suma;
+			}
+			
+			// Agrega Valores a los campos Total Cargado y Diferencia
+			function camposControl(){
+				// Control de carga
+				$('#cargado').val(sumarDetalle());
+				$('#diferencia').val($('#total_comprobante').val()-$('#cargado').val());
+				if($('#diferencia').val()!=0){
+					$('#diferencia').addClass('error');
+				} else {
+					$('#diferencia').removeClass('error');
+				}
+			}
+			
+			function calculos(){
+				var iva10 = getIva10( valor($('#gravado10')) );
+				var iva5 = getIva5( valor($('#gravado5')) );
+				var g10 = $('#gravado10').val()-iva10;
+				var g5 = $('#gravado5').val()-iva5;
+				var exe = $('#exento').val()
+				$('#iva10').val(iva10);
+				$('#iva5').val(iva5);
+				camposControl();
+				console.log('se ejecuta salida de input');
+			}
+			
+			// Cálculos de inputs
+			$('#formulario-detalle').on('blur', 'input[type=text]', function(){
+				calculos();
+			})
+			
+			// Cálculos de inputs
+			$('#total_comprobante').on('blur', function(){
+				calculos();
+			})
+			
+			
+			// ----------- VALIDACIONES GUARDADO ---------------------
+			
+			
+			$('#btnGuardar').on('click', function (e) {
+				e.preventDefault();
+				if($('#cargado').val()==0 && $('#contabilidadbundle_comprac_anul').val()==0){
+					alert('No puede quedar vacío');
+				} else {
+					$('#formuCompra').submit();
+					
+				}
+			})
+			
 		})
-		
+	
 	</script>
 
 

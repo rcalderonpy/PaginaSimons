@@ -33,6 +33,14 @@ class Comprac
     private $sucursal;
 
     /**
+     * @var Tipocomp
+     * @ORM\ManyToOne(targetEntity="ContabilidadBundle\Entity\Parametro")
+     * @ORM\JoinColumn(name="parametro_id", referencedColumnName="id")
+     * @Assert\NotNull()
+     */
+    private $tipocomp;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="fecha", type="date")
@@ -41,6 +49,16 @@ class Comprac
      *
      */
     private $fecha;
+
+    /**
+     * @var \int
+
+     * @Assert\NotNull()
+     * @Assert\Regex(pattern="/^\d{1,2}$/", message="Día: Debe ser un número")
+     * @Assert\Range(min="1", max="31", maxMessage="<b>Día:</b> Debe ser un día de mes válido")
+     *
+     */
+    private $dia;
 
     /**
      * @var Entidad
@@ -66,7 +84,7 @@ class Comprac
      * @ORM\Column(name="nsuc", type="string", length=5)
      * @Assert\NotBlank()
      * @Assert\Length(max="3")
-     * @Assert\Regex(pattern="/^\d*$/")
+     * @Assert\Regex(pattern="/^\d{3}$/", message="SUC: Debe tener 3 dígitos")
      *
      */
     private $nsuc;
@@ -77,7 +95,7 @@ class Comprac
      * @ORM\Column(name="npe", type="string", length=5)
      * @Assert\NotBlank()
      * @Assert\Length(max="3")
-     * @Assert\Regex(pattern="/^\d*$/")
+     * @Assert\Regex(pattern="/^\d{3}$/", message="PE: Debe tener 3 dígitos")
      */
     private $npe;
 
@@ -87,6 +105,7 @@ class Comprac
      * @ORM\Column(name="ncomp", type="string", length=20)
      * @Assert\NotBlank()
      * @Assert\Length(max="7")
+     * @Assert\Regex(pattern="/^\d{7}$/", message="PE: Debe tener 7 dígitos")
      */
     private $ncomp;
 
@@ -192,6 +211,27 @@ class Comprac
         $this->sucursal = $sucursal;
         return $this;
     }
+
+    /**
+     * @return Tipocomp
+     */
+    public function getTipocomp()
+    {
+        return $this->tipocomp;
+    }
+
+    /**
+     * @param Tipocomp $tipocomp
+     * @return Comprac
+     */
+    public function setTipocomp($tipocomp)
+    {
+        $this->tipocomp = $tipocomp;
+        return $this;
+    }
+
+
+
 
     /**
      * @return \DateTime
@@ -461,6 +501,24 @@ class Comprac
     public function getComprad()
     {
         return $this->comprad;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDia()
+    {
+        return $this->dia;
+    }
+
+    /**
+     * @param int $dia
+     * @return Comprac
+     */
+    public function setDia($dia)
+    {
+        $this->dia = $dia;
+        return $this;
     }
 
 

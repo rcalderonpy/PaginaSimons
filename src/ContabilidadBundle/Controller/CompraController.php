@@ -6,6 +6,7 @@ use ContabilidadBundle\Entity\Comprac;
 use ContabilidadBundle\Entity\Comprad;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ContabilidadBundle\Form\CompracType;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -14,6 +15,13 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class CompraController extends Controller
 {
+    private $session;
+
+    public function __construct()
+    {
+        $this->session=new Session();
+    }
+
     /**
      * Lists all compras entities.
      *
@@ -97,14 +105,15 @@ class CompraController extends Controller
             throw $this->createAccessDeniedException();
         }
         $user = $this->getUser();
-
         $em=$this->getDoctrine()->getManager();
         $cliente = $em->getRepository('ContabilidadBundle:Cliente')->find($id_cliente);
 
-//
-//            // Conseguir objetos
-//            $entidad=$em->getRepository('ContabilidadBundle:Entidad')->findOneBy(['ruc'=>$ruc_entidad]);
-//            $moneda=$em->getRepository('ContabilidadBundle:Moneda')->findOneBy(['id'=>$id_moneda]);
+        //muestra las cédulas almacenadas
+        $imagenes=$em->getRepository('ContabilidadBundle:Cliente')->tieneCedula($cliente->getRuc());
+        $cianv=$imagenes['cianv'];
+        $cirev=$imagenes['cirev'];
+
+        // Conseguir objetos
         $sucursal=$em->getRepository('ContabilidadBundle:Sucursal')->findOneBy(['id'=>1]);
 
         $comprac = new Comprac();
@@ -114,36 +123,34 @@ class CompraController extends Controller
         $form = $this->createForm('ContabilidadBundle\Form\CompracType', $comprac);
         $form->handleRequest($request);
 
-
 //        $comprad = new Comprad();
 //        $comprad->setComprac($comprac);
 //        $form_det = $this->createForm('ContabilidadBundle\Form\CompradType', $comprad);
 //        $form_det->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            dump($form);
+            die();
             $dia=$form['dia']->getData();
-            $fecha_texto=$mes.'/'.$dia .'/'.$ano;
-            $fecha=date_create($fecha_texto);
-            $comprac->setFecha($fecha);
-            $detalles=$comprac->getComprad(); //cuenta la cantidad de filas detalle para agregar objeto $comprac
-            foreach ($detalles as $detalle){
-                $detalle->setComprac($comprac);
+            $fecha_valida=checkdate ( $mes , $dia, $ano );
+            if($fecha_valida){
+                $fecha_texto=$mes.'/'.$dia .'/'.$ano;
+                $fecha=date_create($fecha_texto);
+                $comprac->setFecha($fecha);
+                $detalles=$comprac->getComprad(); //cuenta la cantidad de filas detalle para agregar objeto $comprac
+                foreach ($detalles as $detalle){
+                    $detalle->setComprac($comprac);
+                }
+                $em->persist($comprac);
+                $em->flush();
+
+                $this->session->getFlashBag()->add('success', 'Registro guardado exitosamente');
+                return $this->redirectToRoute('compra_new', array(
+                    'id_cliente' => $id_cliente, 'mes'=>$mes, 'ano'=>$ano));
             }
+            $this->session->getFlashBag()->add('danger', 'Fecha inválida');
 
-//            dump(count($comprac->getComprad()));
-//            die();
-
-            $em->persist($comprac);
-            $em->flush();
-
-            return $this->redirectToRoute('compra_new', array(
-                'id_cliente' => $id_cliente, 'mes'=>$mes, 'ano'=>$ano));
         }
-
-        //muestra las cédulas almacenadas
-        $imagenes=$em->getRepository('ContabilidadBundle:Cliente')->tieneCedula($cliente->getRuc());
-        $cianv=$imagenes['cianv'];
-        $cirev=$imagenes['cirev'];
 
         return $this->render('@Contabilidad/compras/new.html.twig', array(
             'compra' => $comprac,
@@ -215,7 +222,7 @@ class CompraController extends Controller
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException();
         }
-
+        $mensaje=null;
         $user = $this->getUser();
         $em=$this->getDoctrine()->getManager();
         $comprac=$em->getRepository('ContabilidadBundle:Comprac')->find($id_compra);
@@ -234,11 +241,11 @@ class CompraController extends Controller
 //        dump($form);
 //        die();
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em=$this->getDoctrine()->getManager();
             $em->persist($comprac);
             $em->flush();
+            $this->addFlash('success', 'Registro guardado exitosamente');
             return $this->redirectToRoute('compra_show', array(
                 'id_cliente' => $id_cliente, 'mes'=>$mes, 'ano'=>$ano, 'id_compra'=>$id_compra));
         }

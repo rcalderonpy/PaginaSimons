@@ -8,6 +8,9 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use ContabilidadBundle\Repository\ParametroRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -22,14 +25,27 @@ class CompracType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dia', null, array(
+            ->add('tipocomp', EntityType::class, array(
+                'class' => 'ContabilidadBundle\Entity\Parametro',
+                'query_builder' => function (ParametroRepository $er) {
+                    return $er->createQueryBuilder('p')
+                        ->Where("p.dominio = 'GENERALES_TIPO_COMPROBANTE'")
+                        ->andWhere("p.id<>11")
+                        ->andWhere("p.id<>12")
+                        ->andWhere("p.id<>18")
+                        ->orderBy('p.orden', 'ASC');
+                },
+                'choice_label' => 'codigo',
+                'label' => 'Tipo de Comprobante'
+            ))
+            ->add('dia', TextType::class, array(
                 'attr'=>array('style'=>'width:40px',
 //                    'id'=>'dia',
                     'autofocus'=>true,
                     'maxlength'=>'2',
                     'class'=>'input-sm text-center'),
                 'required'=>true,
-                'mapped'=>false
+//                'mapped'=>false
             ))
             ->add('entidad', null, array(
                 'attr'=>array(
@@ -66,13 +82,13 @@ class CompracType extends AbstractType
             ->add('moneda', null, array(
                 'placeholder'=>false
             ))
-            ->add('cotiz',NumberType::class, array(
-                'attr'=>array(
-                    'style'=>'width:80px',
-                    'class'=>'text-right input-sm'
+            ->add('cotiz', NumberType::class, array(
+                'attr' => array(
+                    'class' => 'numero',
+                    'style' => 'width:100px'
                 ),
-                'scale'=>2,
-                'grouping'=>true,
+                'label' => 'Cotización',
+                'grouping'=>true
             ))
             ->add('anul', ChoiceType::class, array(
                 'choices'=>array('No'=>false,

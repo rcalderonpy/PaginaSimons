@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block content %}
-	
+
 	
 	{#<div class="row">#}
 		
@@ -45,6 +45,18 @@
 		<div class="area_trabajo">
 			{% include '@Contabilidad/Partials/menuform.html.twig' %}
 			{% block areatrabajo %}
+				{% if app.request.hasPreviousSession %}
+					{% for type, messages in app.session.flashbag().all() %}
+						{% for message in messages %}
+							<div class="alert alert-{{ type }} alert-dismissable fade in" role="alert" id="mensajeFlash">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								{{ message }}
+							</div>
+						{% endfor %}
+					{% endfor %}
+				{% endif %}
 			{% endblock %}
 		</div>
 	{#</div>#}

@@ -7,6 +7,7 @@ $(document).ready(function(){
 
     // -------------------- FUNCIONES ESPECÍFICAS --------------------
 
+
     // Función Anular
     function anularVenta(estado){
         if(estado==true){

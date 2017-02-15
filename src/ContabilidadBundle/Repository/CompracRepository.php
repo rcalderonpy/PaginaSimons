@@ -52,6 +52,7 @@ class CompracRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('mes', $opciones['mes'])
             ->setParameter('ano', $opciones['ano'])
             ->orderBy('c.fecha', 'ASC')
+            ->addOrderBy('c.id', 'ASC')
             ->getQuery();
 
         $resultado = $query->getResult();
