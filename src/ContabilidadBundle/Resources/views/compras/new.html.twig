@@ -15,6 +15,11 @@
 			{{ form_errors(form.nsuc) }}
 			{{ form_errors(form.npe) }}
 			{{ form_errors(form.ncomp) }}
+			{{ form_errors(form.timbrado) }}
+			{{ form_errors(form.condicion) }}
+			{{ form_errors(form.moneda) }}
+			{{ form_errors(form.cotiz) }}
+			{{ form_errors(form.comentario) }}
 			<div class="linea col-lg-12">
 				<div class="widget">
 					{{ form_label(form.tipocomp) }}
@@ -66,8 +71,7 @@
 				{{ form_widget(form.comentario) }}
 			</div>
 		
-		</div>
-	</div>
+
 			{#<div>#}
 				
 				<!-- Nav tabs -->
@@ -127,32 +131,20 @@
 								    class="linea col-lg-12">
 									<li class="detalle col-md-12">
 										<div class="linea col-md-12">
-											<strong><input type="text" class="lectura text-center" STYLE="width: 100px" value="Afecta"></strong>
-											<strong><input type="text" class="lectura text-center" STYLE="width: 200px" value="Cuenta"></strong>
-											<strong><input type="text" class="lectura text-center" STYLE="width: 100px" value="IVA incl. 10%"></strong>
-											<strong><input type="text" class="lectura text-center" STYLE="width: 100px" value="IVA incl. 5%"></strong>
-											<strong><input type="text" class="lectura text-center" STYLE="width: 100px" value="EXENTAS"></strong>
-											<strong><input type="text" class="lectura text-center" STYLE="width: 100px" value="IVA 10%"></strong>
-											<strong><input type="text" class="lectura text-center" STYLE="width: 100px" value="IVA 5%"></strong>
-											<strong><input type="text" class="lectura text-center" STYLE="width: 100px" value="TOTAL"></strong>
+											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 100px" value="Afecta"></strong>
+											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 150px" value="Cuenta"></strong>
+											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 100px" value="IVA incl. 10"></strong>
+											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 100px" value="IVA incl. 5"></strong>
+											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 100px" value="EXENTAS"></strong>
+											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 100px" value="IVA 10%"></strong>
+											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 100px" value="IVA 5%"></strong>
+											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 100px" value="TOTAL"></strong>
 										</div>
 									</li>
 									
 									{% for detalle in form.comprad %}
-										<li class="col-md-12 bg-danger">
-											<div class="linea col-lg-12 bg-danger">
-												{{ form_errors(detalle) }}
-												{{ form_row(detalle.afecta) }}
-												{{ form_row(detalle.cuenta) }}
-												{{ form_row(detalle.g10) }}
-												{{ form_row(detalle.g5) }}
-												{{ form_row(detalle.iva10) }}
-												{{ form_row(detalle.iva5) }}
-												{{ form_row(detalle.exe) }}
-												{{ form_row(detalle.borrar) }}
-												{{ form_row(detalle.agregar) }}
-											</div>
-										</li>
+										<li class="col-md-12 detalle"><div class="linea col-lg-12 detalle"><div>{{ form_widget(detalle.afecta) }}</div><div>{{ form_widget(detalle.cuenta) }}</div><div>{{ form_widget(detalle.g10) }}</div><div>{{ form_widget(detalle.g5) }}</div><div>{{ form_widget(detalle.exe) }}</div><div>{{ form_widget(detalle.iva10) }}</div><div>{{ form_widget(detalle.iva5) }}</div><div>{{ form_widget(detalle.total) }}</div><div>{{ form_widget(detalle.borrar) }}</div><div>{{ form_widget(detalle.agregar) }}</div>
+											</div></li>
 									{% endfor %}
 								</ul>
 							</div>
@@ -164,11 +156,12 @@
 					<div role="tabpanel" class="tab-pane fade" id="settings">...</div>
 				</div>
 		
-		<input type="submit" value="Guardar" class="btn btn-success pull-right" id="btnGuardar"/>
-		{#<button type="button" class="btn btn-success pull-right" id="btnGuardar">Guardar</button>#}
+		{#<input type="submit" value="Guardar" class="btn btn-success pull-right" id="btnGuardar"/>#}
+		<button type="button" class="btn btn-success pull-right" id="btnGuardar">Guardar</button>
 		
 		{{ form_end(form) }}
-	
+		</div>
+	</div>
 
 	{#</div>#}
 	
@@ -232,12 +225,16 @@
 //				newLi.prependTo(emailList);
 //				emailList[0].lastChild.lastChild.firstChild.firstChild.focus();
 				emailList[0].lastChild.lastChild.childNodes[1].childNodes[0].focus();
+				var padre = emailList[0].lastChild.lastChild;
 				var botonborrar = "contabilidadbundle_comprac_comprad_" + (parseInt(emailCount) - 1) + "_borrar";
 				console.log(botonborrar);
 				$("#" + botonborrar).hide();
 				$(this).hide();
 				$('.numero').number(true, 2, ',', '.');
 				selText();
+				$($(padre)[0].childNodes[5].childNodes[0]).attr('readonly', true).addClass('inactivo');
+				$($(padre)[0].childNodes[6].childNodes[0]).attr('readonly', true).addClass('inactivo');
+				$($(padre)[0].childNodes[7].childNodes[0]).attr('disabled', true).addClass('inactivo');
 				
 				
 				
@@ -252,37 +249,42 @@
 				padre[0].childNodes[4].childNodes[0].classList.add('inactivo');
 				padre[0].childNodes[5].childNodes[0].classList.add('inactivo');
 				padre[0].childNodes[6].childNodes[0].classList.add('inactivo');
+				padre[0].childNodes[7].childNodes[0].classList.add('inactivo');
 //				var hijo=padre[0].childNodes[3].childNodes[0];
 //				console.log(padre[0]);
 //				console.log(hijo);
-				$(padre[0].childNodes[0].childNodes[0]).prop('disabled', true);
-				$(padre[0].childNodes[1].childNodes[0]).prop('disabled', true);
-				$(padre[0].childNodes[2].childNodes[0]).prop('disabled', true);
-				$(padre[0].childNodes[3].childNodes[0]).prop('disabled', true);
-				$(padre[0].childNodes[4].childNodes[0]).prop('disabled', true);
-				$(padre[0].childNodes[5].childNodes[0]).prop('disabled', true);
-				$(padre[0].childNodes[6].childNodes[0]).prop('disabled', true);
+				$(padre[0].childNodes[0].childNodes[0]).prop('readonly', true);
+				$(padre[0].childNodes[1].childNodes[0]).prop('readonly', true);
+				$(padre[0].childNodes[2].childNodes[0]).prop('readonly', true);
+				$(padre[0].childNodes[3].childNodes[0]).prop('readonly', true);
+				$(padre[0].childNodes[4].childNodes[0]).prop('readonly', true);
+//				$(padre[0].childNodes[5].childNodes[0]).prop('disabled', true);
+//				$(padre[0].childNodes[6].childNodes[0]).prop('disabled', true);
+//				$(padre[0].childNodes[7].childNodes[0]).prop('disabled', true);
 				
 			}
+			
 			
 			// al agregar fila nueva
 			$('#formulario-detalle').on('click', 'li div button.agregar', function () {
 				var elemento = $(this).parent().parent();
-//				console.log(this);
 				var texto = this.name.replace(']', '').replace(']', '').replace(']', '');
 				var indice = texto.split('[');
-				console.log(indice);
-				//muestra boton borrar
-				var botonborrar = "contabilidadbundle_comprac_comprad_" + (parseInt(indice[2])) + "_borrar";
-//				console.log(botonborrar);
-				$("#" + botonborrar).show();
+				
+				// si diferencia diferente a 0 permite agregar
+				if($('#diferencia').val()!=0){
+					//muestra boton borrar
+					var botonborrar = "contabilidadbundle_comprac_comprad_" + (parseInt(indice[2])) + "_borrar";
+					$("#" + botonborrar).show();
 //
-				inhabilitarDetalle($(this));
+					inhabilitarDetalle($(this));
 //              // oculta boton agregar
-				$(this).hide();
-				elemento.parent().addClass('detalle col-md-12');
-				$('#add-another-email').click();
-//				console.log('se realiza el borrado')
+					$(this).hide();
+					elemento.parent().addClass('detalle col-md-12');
+					$('#add-another-email').click();
+				} else {
+					$('#btnGuardar').click();
+				}
 			});
 			
 			// borrar línea de detalle
@@ -292,6 +294,7 @@
 				$(this).hide();
 				elemento.parent();
 				elemento.remove();
+				camposControl();
 				console.log('se realiza el borrado')
 			});
 			
@@ -321,12 +324,18 @@
 				var suma = 0;
 				hijos.forEach(function (i) {
 //					console.log(fila);
-					if(fila>2){
-//						console.log($(hijos)[fila]);
+					if(fila>2 && $(i)[0].nodeName == 'LI'){
+//						console.log($(i)[0].nodeName);
+						// coloca total
+						var linea = 0;
 						
-						suma+=parseFloat($($(hijos)[fila].childNodes[0].childNodes[2].childNodes[0]).val())+
+						linea=parseFloat($($(hijos)[fila].childNodes[0].childNodes[2].childNodes[0]).val())+
 								parseFloat($($(hijos)[fila].childNodes[0].childNodes[3].childNodes[0]).val())+
 								parseFloat($($(hijos)[fila].childNodes[0].childNodes[4].childNodes[0]).val());
+						suma+=linea;
+						
+						$($(hijos)[fila].childNodes[0].childNodes[7].childNodes[0]).val(linea);
+						
 //						console.log($($(hijos)[fila].childNodes[0].childNodes[2].childNodes[0]).val());
 						console.log(suma);
 					}
@@ -349,40 +358,145 @@
 				}
 			}
 			
-			function calculos(){
-				var iva10 = getIva10( valor($('#gravado10')) );
-				var iva5 = getIva5( valor($('#gravado5')) );
-				var g10 = $('#gravado10').val()-iva10;
-				var g5 = $('#gravado5').val()-iva5;
-				var exe = $('#exento').val()
-				$('#iva10').val(iva10);
-				$('#iva5').val(iva5);
+			//calculos
+			function calculos(objeto){
+				var padre = $(objeto).parent().parent();
+				var ii10=$(padre)[0].childNodes[2].childNodes[0]
+				var ii5=$(padre)[0].childNodes[3].childNodes[0]
+				var exe=$(padre)[0].childNodes[4].childNodes[0]
+				var iva10 = getIva10( $(ii10).val() , $('#contabilidadbundle_comprac_moneda').val() );
+				var iva5 = getIva5( $(ii5).val() , $('#contabilidadbundle_comprac_moneda').val() );
+				var total = parseFloat($(ii10).val())+parseFloat($(ii5).val())+parseFloat($(exe).val());
+
+				// ASIGNA VALOR A LOS CAMPOS CALCULADOS
+				$(padre[0].childNodes[5].childNodes[0]).val(iva10);
+				$(padre[0].childNodes[6].childNodes[0]).val(iva5);
+				$(padre[0].childNodes[7].childNodes[0]).val(total);
 				camposControl();
-				console.log('se ejecuta salida de input');
+//				console.log('se ejecuta salida de input');
 			}
 			
 			// Cálculos de inputs
 			$('#formulario-detalle').on('blur', 'input[type=text]', function(){
-				calculos();
+				calculos($(this));
 			})
 			
 			// Cálculos de inputs
 			$('#total_comprobante').on('blur', function(){
-				calculos();
+				camposControl();
 			})
+			
+			// cuando se muestra para editar
+			sumarDetalle();
+			camposControl();
+			$('#total_comprobante').val($('#cargado').val());
+			camposControl();
+			$('#formulario-detalle input').attr('disabled', 'disabled').addClass('inactivo');
+			$('#formulario-detalle select').attr('disabled', 'disabled').addClass('inactivo');
+		
 			
 			
 			// ----------- VALIDACIONES GUARDADO ---------------------
 			
+			function msgNoti(msg, tipo){
+				var titulo = '';
+				if(tipo=='danger'){
+					titulo='Error: ';
+				}
+				if(tipo=='success'){
+					titulo='Éxito: ';
+				}
+				if(tipo=='warning'){
+					titulo='Atención: ';
+				}
+				
+				$.notify({
+					// options
+					
+					title: '<strong>'+titulo+'</strong> ',
+					message: msg
+				},{
+					// settings
+					type: tipo,
+					delay: 2000,
+					animate: {
+						enter: 'animated fadeInDown',
+						exit: 'animated fadeOutUp'
+					},
+					placement: {
+						align: 'center'
+					}
+				});
+			}
 			
 			$('#btnGuardar').on('click', function (e) {
 				e.preventDefault();
-				if($('#cargado').val()==0 && $('#contabilidadbundle_comprac_anul').val()==0){
-					alert('No puede quedar vacío');
-				} else {
-					$('#formuCompra').submit();
-					
+				
+				var errores = 0;
+				
+				// no se carga dia
+				if($('#contabilidadbundle_comprac_dia').val()==='') {
+					msgNoti('Debe cargar una fecha', 'danger');
+					errores++;
 				}
+				
+				// no se carga suc
+				if($('#contabilidadbundle_comprac_nsuc').val()==='') {
+					msgNoti('Debe cargar una sucursal', 'danger');
+					errores++;
+				}
+				
+				// no se carga pe
+				if($('#contabilidadbundle_comprac_npe').val()==='') {
+					msgNoti('Debe cargar punto de expedición', 'danger');
+					errores++;
+				}
+				
+				// no se carga ncomp
+				if($('#contabilidadbundle_comprac_ncomp').val()==='') {
+					msgNoti('Debe cargar punto de expedición', 'danger');
+					errores++;
+				}
+				
+				// no se carga timbrado
+				if($('#contabilidadbundle_comprac_timbrado').val()==='') {
+					msgNoti('Debe cargar timbrado', 'danger');
+					errores++;
+				}
+				
+				// timbrado con menos de 8 dígitos
+				if($('#contabilidadbundle_comprac_timbrado').val().length != 8) {
+					msgNoti('Timbrado debe contener 8 dígitos', 'danger');
+					errores++;
+				}
+				
+				// no se carga cotizacion
+				if($('#contabilidadbundle_comprac_cotiz').val()==='') {
+					msgNoti('Debe cargar cotización', 'danger');
+					errores++;
+				}
+				
+				// no se carga comentario
+				if($('#contabilidadbundle_comprac_comentario').val()==='') {
+					msgNoti('Debe cargar comentario', 'danger');
+					errores++;
+				}
+				
+				// no se carga ningún detalle
+				if($('#cargado').val()==0 && $('#contabilidadbundle_comprac_anul').val()==0){
+					msgNoti('Debe cargar detalles', 'danger')
+					errores++;
+				}
+				
+				if(errores>0){return false;}
+				
+				//todo ok para hacer el submit
+				$('#formulario-detalle input').attr('disabled', 'disabled').addClass('inactivo');
+				$('#formulario-detalle select').attr('disabled', 'disabled').addClass('inactivo');
+				$('#formuCompra').submit();
+				
+				// Grabado exitosamente
+				msgNoti('Compra grabada exitosamente', 'success');
 			})
 			
 		})

@@ -90,9 +90,10 @@ $(document).ready(function(){
 
 
     // selecciona el contenido del imput
-    $("input[type=text]").focus(function(){
-        this.select();
-    });
+    selText();
+    // $("input[type=text]").focus(function(){
+    //     // this.select();
+    // });
 
 
     // BOTON GUARDAR

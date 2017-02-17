@@ -42,7 +42,7 @@ class CompradType extends AbstractType
                 'placeholder' => false,
                 'label' => false,
                 'attr'=>array(
-                    'style'=>'width:200px'
+                    'style'=>'width:150px'
                 )
             ))
             ->add('g10', NumberType::class, array(
@@ -51,7 +51,8 @@ class CompradType extends AbstractType
                     'style' => 'width:100px'
                 ),
                 'label' => false,
-                'grouping'=>true
+                'grouping'=>true,
+                'scale'=>2
             ))
             ->add('g5', NumberType::class, array(
                 'attr' => array(
@@ -59,7 +60,8 @@ class CompradType extends AbstractType
                     'style' => 'width:100px'
                 ),
                 'label' => false,
-                'grouping'=>true
+                'grouping'=>true,
+                'scale'=>2
             ))
             ->add('exe', NumberType::class, array(
                 'attr' => array(
@@ -67,25 +69,39 @@ class CompradType extends AbstractType
                     'style' => 'width:100px'
                 ),
                 'label' => false,
-                'grouping'=>true
+                'grouping'=>true,
+                'scale'=>2
             ))
             ->add('iva10', NumberType::class, array(
                 'attr' => array(
                     'class' => 'numero',
                     'style' => 'width:100px',
-                    'disabled'=>true
+                    'readonly'=>true
                 ),
                 'label' => false,
-                'grouping'=>true
+                'grouping'=>true,
+                'scale'=>2
             ))
             ->add('iva5', NumberType::class, array(
+                'attr' => array(
+                    'class' => 'numero',
+                    'style' => 'width:100px',
+                    'readonly'=>true
+                ),
+                'label' => false,
+                'grouping'=>true,
+                'scale'=>2
+            ))
+            ->add('total', NumberType::class, array(
                 'attr' => array(
                     'class' => 'numero',
                     'style' => 'width:100px',
                     'disabled'=>true
                 ),
                 'label' => false,
-                'grouping'=>true
+                'grouping'=>true,
+                'mapped'=>false,
+                'scale'=>2
             ))
 
             ->add('borrar', ButtonType::class, array(
@@ -98,7 +114,7 @@ class CompradType extends AbstractType
             ->add('agregar', ButtonType::class, array(
                 'attr' => array(
                     'class' => 'btn btn-xs btn-success agregar',
-                    'tabindex' => -1
+//                    'tabindex' => -1
                 ),
                 'label' => '+'
             ));
@@ -111,6 +127,7 @@ class CompradType extends AbstractType
                 $form['iva10']->setData(0);
                 $form['iva5']->setData(0);
                 $form['exe']->setData(0);
+                $form['total']->setData(0);
             }
         });
 

@@ -60,8 +60,7 @@ class CompraController extends Controller
             $detalles = $comprascab->getComprad();
             $suma=0;
             foreach ($detalles as $detalle){
-                $monto= $detalle->getG10()+$detalle->getG5()+$detalle->getExe()+$detalle->getIva10()+$detalle->getIva5();
-//                echo 'Monto = '.$monto.'<br>';
+                $monto= $detalle->getG10()+$detalle->getG5()+$detalle->getExe();
                 $suma+=$monto;
             }
 //            echo 'Suma = '.$suma.'<hr>';
@@ -72,7 +71,7 @@ class CompraController extends Controller
                 'comentario'=>$comprascab->getComentario(),
                 'total'=>$suma,
                 'timbrado'=>$comprascab->getTimbrado(),
-                'condicion'=>$comprascab->getCondicion(),
+                'condicion'=>$comprascab->getCondicion()==0?'Contado':'Plazo',
                 'entidad'=>$comprascab->getEntidad()->getNombre()
             ]);
         }
@@ -129,8 +128,8 @@ class CompraController extends Controller
 //        $form_det->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($form);
-            die();
+//            dump($form);
+//            die();
             $dia=$form['dia']->getData();
             $fecha_valida=checkdate ( $mes , $dia, $ano );
             if($fecha_valida){
@@ -140,6 +139,8 @@ class CompraController extends Controller
                 $detalles=$comprac->getComprad(); //cuenta la cantidad de filas detalle para agregar objeto $comprac
                 foreach ($detalles as $detalle){
                     $detalle->setComprac($comprac);
+                    $detalle->setBase10($detalle->getG10() - $detalle->getIva10());
+                    $detalle->setBase5($detalle->getG5() - $detalle->getIva5());
                 }
                 $em->persist($comprac);
                 $em->flush();

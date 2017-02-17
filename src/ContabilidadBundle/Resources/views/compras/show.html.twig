@@ -99,8 +99,8 @@
 															</tr>
 															</thead>
 															<tbody>
-															{% set grav10 = 0 %}
-															{% set grav5 = 0 %}
+															{% set base10 = 0 %}
+															{% set base5 = 0 %}
 															{% set exento = 0 %}
 															{% set iva = 0 %}
 															
@@ -108,11 +108,11 @@
 																<tr>
 																	<td class="text-center">{{ detalle.cuenta.codigo }}</td>
 																	<td>{{ detalle.cuenta.cuenta }}</td>
-																	<td class="text-right">{{ (detalle.g10+detalle.iva10)|number_format(2, ',', '.') }}</td>
-																	<td class="text-right">{{ (detalle.g5+detalle.iva5)|number_format(2, ',', '.') }}</td>
+																	<td class="text-right">{{ (detalle.base10+detalle.iva10)|number_format(2, ',', '.') }}</td>
+																	<td class="text-right">{{ (detalle.base5+detalle.iva5)|number_format(2, ',', '.') }}</td>
 																	<td class="text-right">{{ detalle.exe|number_format(2, ',', '.') }}</td>
 																	<td class="text-right">
-																		<strong>{{ (detalle.g10+detalle.iva10+detalle.g5+detalle.iva5+detalle.exe)|number_format(2, ',', '.') }}</strong>
+																		<strong>{{ (detalle.base10+detalle.iva10+detalle.base5+detalle.iva5+detalle.exe)|number_format(2, ',', '.') }}</strong>
 																	</td>
 																	<td class="text-right">{{ (detalle.iva10+detalle.iva5)|number_format(2, ',', '.') }}</td>
 																	<td class="text-center">
@@ -123,8 +123,8 @@
 																	</td>
 																
 																</tr>
-																{% set grav10 = grav10 + (detalle.g10+detalle.iva10) %}
-																{% set grav5 = grav5 + (detalle.g5+detalle.iva5) %}
+																{% set base10 = base10 + (detalle.base10+detalle.iva10) %}
+																{% set base5 = base5 + (detalle.base5+detalle.iva5) %}
 																{% set exento = exento+ (detalle.exe) %}
 																{% set iva = iva+ (detalle.iva10+detalle.iva5) %}
 															{% endfor %}
@@ -132,16 +132,16 @@
 																<td colspan="2" class="text-center">
 																	<strong>TOTALES</strong></td>
 																<td class="text-right">
-																	<strong>{{ grav10|number_format(2, ',', '.') }}</strong>
+																	<strong>{{ base10|number_format(2, ',', '.') }}</strong>
 																</td>
 																<td class="text-right">
-																	<strong>{{ grav5|number_format(2, ',', '.') }}</strong>
+																	<strong>{{ base5|number_format(2, ',', '.') }}</strong>
 																</td>
 																<td class="text-right">
 																	<strong>{{ exento|number_format(2, ',', '.') }}</strong>
 																</td>
 																<td class="text-right">
-																	<strong>{{ (grav10 + grav5 + exento)|number_format(2, ',', '.') }}</strong>
+																	<strong>{{ (base10 + base5 + exento)|number_format(2, ',', '.') }}</strong>
 																</td>
 																<td class="text-right">
 																	<strong>{{ iva|number_format(2, ',', '.') }}</strong>

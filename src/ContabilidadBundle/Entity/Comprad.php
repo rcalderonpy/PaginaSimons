@@ -3,6 +3,7 @@
 namespace ContabilidadBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Comprad
@@ -39,6 +40,7 @@ class Comprad
      * @var float
      *
      * @ORM\Column(name="g10", type="decimal", scale=2)
+     * @Assert\NotNull()
      */
     private $g10;
 
@@ -46,13 +48,32 @@ class Comprad
      * @var float
      *
      * @ORM\Column(name="g5", type="decimal", scale=2)
+     * @Assert\NotNull()
      */
     private $g5;
 
     /**
      * @var float
      *
+     * @ORM\Column(name="base10", type="decimal", scale=2)
+     * @Assert\NotNull()
+     */
+    private $base10;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="base5", type="decimal", scale=2)
+     * @Assert\NotNull()
+     */
+
+    private $base5;
+
+    /**
+     * @var float
+     *
      * @ORM\Column(name="iva10", type="decimal", scale=2)
+     * @Assert\NotNull()
      */
     private $iva10;
 
@@ -60,6 +81,7 @@ class Comprad
      * @var float
      *
      * @ORM\Column(name="iva5", type="decimal", scale=2)
+     * @Assert\NotNull()
      */
     private $iva5;
 
@@ -67,6 +89,7 @@ class Comprad
      * @var float
      *
      * @ORM\Column(name="exe", type="decimal", scale=2)
+     * @Assert\NotNull()
      */
     private $exe;
 
@@ -185,6 +208,42 @@ class Comprad
     public function getG5()
     {
         return $this->g5;
+    }
+
+    /**
+     * @return float
+     */
+    public function getBase10()
+    {
+        return $this->base10;
+    }
+
+    /**
+     * @param float $base10
+     * @return Comprad
+     */
+    public function setBase10($base10)
+    {
+        $this->base10 = $base10;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getBase5()
+    {
+        return $this->base5;
+    }
+
+    /**
+     * @param float $base5
+     * @return Comprad
+     */
+    public function setBase5($base5)
+    {
+        $this->base5 = $base5;
+        return $this;
     }
 
     /**

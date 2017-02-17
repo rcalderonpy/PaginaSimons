@@ -177,13 +177,19 @@ form label{
 li{
     list-style: none;
 }
-form ul li:not(.pestaña){
+
+form ul{
+    margin-bottom: 2px;
+}
+form ul li:not(.pestaña):not(.detalle){
     /*list-style: none;*/
     background-color: rgba(246, 57, 34, 0.1);
     color: #aa1226;
-    margin-bottom: 2px;
-    padding: 10px;
+    margin: 2px 2px 10px 2px;
+    padding: 5px 10px;
     border-radius: 5px;
+    display: inline-block;
+    float: left;
 
 }
 

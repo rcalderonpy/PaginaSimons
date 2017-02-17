@@ -13,14 +13,18 @@
     }
 
     //Calcular IVA al 10%
-    function getIva10(valor, decimales){
+    function getIva10(valor, moneda){
+        var decimales = 0;
+        if(moneda!=1){decimales=2;}
         var iva = valor / 11;
         iva=iva.toFixed(decimales);
         return iva;
     }
 
     //Calcular IVA al 5%
-    function getIva5(valor, decimales){
+    function getIva5(valor, moneda){
+        var decimales = 0;
+        if(moneda!=1){decimales=2;}
         var iva = valor / 21;
         iva=iva.toFixed(decimales);
         return iva;
@@ -57,6 +61,10 @@
     // selecciona el contenido del imput
     function selText(){
         $("input[type=text]").focus(function(){
-            this.select();
+            if(this.readOnly==false){
+                this.select();
+            } else {
+                this.select(false);
+            }
         });
     }
