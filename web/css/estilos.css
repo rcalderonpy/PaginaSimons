@@ -68,8 +68,8 @@ form input{
     text-transform: uppercase;
 }
 
-form button{
-    width: 280px;
+form input[type=submit]{
+    width: 305px;
     margin: 0px 0px 30px 30px;
     height: 35px;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3c3c3c+0,2a2828+100 */
@@ -88,11 +88,11 @@ form button{
     font-family:"Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
 }
 
-form button:hover{
+form button[type=submit]:hover{
     background: #3a3a3a;
 }
 
-form button:active{
+form button[type=submit]:active{
 
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,3a3a3a+100 */
     background: #000000; /* Old browsers */

@@ -1,0 +1,9 @@
+factura_index:
+    path:     /factura_lista
+    defaults: { _controller: "ContabilidadBundle:Venta:index" }
+    methods:  [GET, POST]
+
+factura_new:
+    path:     /new
+    defaults: { _controller: "ContabilidadBundle:Venta:new" }
+    methods:  [GET, POST]

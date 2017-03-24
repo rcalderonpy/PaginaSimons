@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{#{{ parent() }}#}
+	Libro Compras
+	{{ mes }} - {{ ano }}
+{% endblock %}
+
+{% block stylesheets %}
+	{#{{ parent() }}#}
+	<link rel="stylesheet" href="{{ absolute_url(asset("bundles/app/Bootstrap/css/bootstrap.min.css") ) }}">
+	<link href="https://fonts.googleapis.com/css?family=Adamina" rel="stylesheet">
+	<link rel="stylesheet" href="{{ absolute_url(asset("css/reportes.css") ) }}">
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		
+		<h1 class="text-center">Libro de Compras</h1>
+		<p><strong>Periodo: </strong>{{ mes }} - {{ ano }}</p>
+		
+		<table class="table table-striped table-condensed table-bordered" style="width: 100%">
+			<thead>
+			<tr>
+				<th class="text-center">Fecha</th>
+				<th class="text-center">Proveedor</th>
+				<th class="text-center">Comprobante</th>
+				<th class="text-center">Timbrado</th>
+				<th class="text-center">Grav. 10%</th>
+				<th class="text-center">Grav. 5%</th>
+				<th class="text-center">IVA 10%</th>
+				<th class="text-center">IVA 5%</th>
+				<th class="text-center">Exentas</th>
+				<th class="text-center">Total</th>
+				<th class="text-center">Condicion</th>
+			</tr>
+			</thead>
+			<tbody>
+			{% set sumabase10 = 0 %}
+			{% set sumabase5 = 0 %}
+			{% set sumaiva10 = 0 %}
+			{% set sumaiva5 = 0 %}
+			{% set sumaexe = 0 %}
+			{% set sumatotal = 0 %}
+			{% set sumacontado = 0 %}
+			{% set sumacredito = 0 %}
+			
+			
+			{% for compra in compras %}
+				
+				<tr>
+					<td>
+						<p class="small text-center">{% if compra.fecha %}{{ compra.fecha |date('d/m/Y') }}{% endif %}</p>
+					</td>
+					<td><p class="small">{{ compra.entidad }}</p></td>
+					<td><p class="small text-center">{{ compra.comprobante }}</p></td>
+					<td><p class="small text-center">{{ compra.timbrado }}</p></td>
+					<td><p class="small text-right">{{ compra.base10 |number_format(0, ',', '.') }}</p></td>
+					<td><p class="small text-right">{{ compra.base5 |number_format(0, ',', '.') }}</p></td>
+					<td><p class="small text-right">{{ compra.iva10 |number_format(0, ',', '.') }}</p></td>
+					<td><p class="small text-right">{{ compra.iva5 |number_format(0, ',', '.') }}</p></td>
+					<td><p class="small text-right">{{ compra.exe |number_format(0, ',', '.') }}</p></td>
+					<td class=""><p class="small text-right">{{ compra.total|number_format(0, ',', '.') }}</p></td>
+					<td><p class="small text-center">{{ compra.condicion }}</p></td>
+				</tr>
+				{#{% dump compra %}#}
+				{% set sumabase10 = sumabase10 + compra.base10 %}
+				{% set sumabase5 = sumabase5 + compra.base5 %}
+				{% set sumaiva10 = sumaiva10 + compra.iva10 %}
+				{% set sumaiva5 = sumaiva5 + compra.iva5 %}
+				{% set sumaexe = sumaexe + compra.exe %}
+				{% set sumatotal = sumatotal + compra.total %}
+				{% if compra.condicion == 'Contado' %}{% set sumacontado = sumacontado + compra.total %}{% endif %}
+				{% if compra.condicion == 'Plazo' %}{% set sumacredito = sumacredito + compra.total %}{% endif %}
+			{% endfor %}
+			<tr>
+				<td colspan="4" class="text-center"><strong>TOTALES</strong></td>
+				{#<td class="text-center">Fecha</td>#}
+				{#<td class="text-center">Proveedor</td>#}
+				{#<td class="text-center">Comprobante</td>#}
+				{#<td class="text-center">Timbrado</td>#}
+				{#<td class="text-center">Cotiz</td>#}
+				<td class="text-right"><strong>{{ sumabase10 |number_format(0, ',', '.') }}</strong></td>
+				<td class="text-right"><strong>{{ sumabase5 |number_format(0, ',', '.') }}</strong></td>
+				<td class="text-right"><strong>{{ sumaiva10 |number_format(0, ',', '.') }}</strong></td>
+				<td class="text-right"><strong>{{ sumaiva5 |number_format(0, ',', '.') }}</strong></td>
+				<td class="text-right"><strong>{{ sumaexe |number_format(0, ',', '.') }}</strong></td>
+				<td class="text-right"><strong>{{ sumatotal |number_format(0, ',', '.') }}</strong></td>
+				<td class="text-center"></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="row padre">
+		<div class="col-md-6">
+			{{ compras|length }}
+			{% if compras|length != 1 %}
+				Registros Encontrados
+			{% else %}
+				Registro Encontrado
+			{% endif %}
+		</div>
+		<div class="col-md-3">
+			<div class=""><strong>Total Contado: </strong>{{ sumacontado |number_format(0, ',', '.') }}</div>
+		</div>
+		<div class="col-md-3">
+			<div class=""><strong>Total Crédito: </strong>{{ sumacredito |number_format(0, ',', '.') }}</div>
+		</div>
+	</div>
+{% endblock %}

@@ -22,3 +22,7 @@ plancta_delete:
     path:     /{id}/delete
     defaults: { _controller: "ContabilidadBundle:PlanCta:delete" }
     methods:  DELETE
+
+get_cuenta_json:
+    path:     /cuentas
+    defaults: { _controller: "ContabilidadBundle:Default:getCuenta"}

@@ -70,7 +70,7 @@ class CompracRepository extends \Doctrine\ORM\EntityRepository
         $em=$this->getEntityManager()->getRepository('ContabilidadBundle:Comprac');
 
         $query=$em->createQueryBuilder('c')
-            ->Select('COUNT(1) AS cantidad, sum(d.g10+d.g5+d.iva10+d.iva5+d.exe) as suma')
+            ->Select('COUNT(distinct c.id) AS cantidad, sum(d.g10+d.g5+d.iva10+d.iva5+d.exe) as suma')
             ->leftJoin('c.comprad', 'd', 'ON')
             ->andWhere("c.cliente = :cliente")
             ->andWhere("month(c.fecha) = :mes")

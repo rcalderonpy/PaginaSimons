@@ -95,7 +95,6 @@
 																<th class="text-center">Exento</th>
 																<th class="text-center">Total</th>
 																<th class="text-center">IVA</th>
-																<th class="text-center">Renta</th>
 															</tr>
 															</thead>
 															<tbody>
@@ -115,12 +114,6 @@
 																		<strong>{{ (detalle.base10+detalle.iva10+detalle.base5+detalle.iva5+detalle.exe)|number_format(2, ',', '.') }}</strong>
 																	</td>
 																	<td class="text-right">{{ (detalle.iva10+detalle.iva5)|number_format(2, ',', '.') }}</td>
-																	<td class="text-center">
-																		{% if detalle.afecta == 0 %}IRACIS{% endif %}
-																		{% if detalle.afecta == 1 %}IRAGRO{% endif %}
-																		{% if detalle.afecta == 2 %}IRP{% endif %}
-																		{% if detalle.afecta == 3 %}IRPC{% endif %}
-																	</td>
 																
 																</tr>
 																{% set base10 = base10 + (detalle.base10+detalle.iva10) %}
@@ -146,7 +139,6 @@
 																<td class="text-right">
 																	<strong>{{ iva|number_format(2, ',', '.') }}</strong>
 																</td>
-																<td class="text-center ultimo">---</td>
 															
 															</tr>
 															</tbody>

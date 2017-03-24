@@ -1,0 +1,29 @@
+{% extends '@Contabilidad/BaseFormularios.html.twig' %}
+{% block title %}
+	Entidad Guardada
+{% endblock %}
+
+{% block cedulas %}
+	{% include '@Contabilidad/Partials/cedulas.html.twig' %}
+{% endblock %}
+
+{% block areatrabajo %}
+	
+	<div class="container-fluid">
+		<h1>Entidad guardada exitosamente</h1>
+	</div>
+	<button type="button" id="btnCerrar" class="btn btn-success btn-md">Cerrar</button>
+	{##}
+	{#<script>#}
+		{##}
+		{#setTimeout(function(){#}
+{#//			open(location, '_self').close();#}
+{#//			self.close();#}
+		{#}, 5000);#}
+
+		{#$('#btnCerrar').on('click', function(){#}
+			{#window.close();#}
+		{#})#}
+	{#</script>#}
+
+{% endblock %}

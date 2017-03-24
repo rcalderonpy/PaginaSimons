@@ -1,0 +1,47 @@
+html{
+    margin: 1cm 1cm;
+    width: auto;
+
+}
+
+
+.mayusculas{
+    text-transform: uppercase;
+}
+
+.numero{
+    text-align: right;
+}
+
+
+table{
+    background-color: #ffffff;
+}
+
+table th{
+    /*background-color: #d3d3d3;*/
+    color: #000;
+}
+
+tr{
+    page-break-inside:avoid;
+}
+
+table tr td{
+    text-decoration: none;
+    margin: 0;
+    padding: 3px!important;
+}
+
+table tr td p{
+    margin: 0;
+}
+
+h1, body{
+    font-family: Adamina, Arial, Times;
+}
+
+.padre{
+    display: flex;
+    align-content: center;
+}

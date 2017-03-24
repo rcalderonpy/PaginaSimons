@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 class CompradType extends AbstractType
 {
@@ -25,30 +26,38 @@ class CompradType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('afecta', EntityType::class, array(
-                'class' => 'ContabilidadBundle\Entity\Parametro',
-                'query_builder' => function (ParametroRepository $er) {
-                    return $er->createQueryBuilder('p')
-                        ->Where("p.dominio = 'GENERALES_RENTA'")
-                        ->orderBy('p.orden', 'ASC');
-                },
-                'choice_label' => 'codigo',
-                'label' => false,
+
+//            ->add('cuenta', null, array(
+//                'placeholder' => false,
+//                'label' => false,
+//                'attr'=>array(
+//                    'style'=>'width:150px'
+//                )
+//            ))
+            ->add('cuenta', Select2EntityType::class, array(
+                'multiple' => false,
+                'remote_route' => 'get_cuenta_json',
+                'class' => 'ContabilidadBundle\Entity\Cuenta',
+                'primary_key' => 'id',
+//                'text_property' => 'text',
+                'minimum_input_length' => 2,
+                'page_limit' => 10,
+                'allow_clear' => true,
+                'delay' => 500,
+                'cache' => true,
+                'cache_timeout' => 6000, // if 'cache' is true
+                'language' => 'es_es',
+                'placeholder' => 'Elija una cuenta',
+                'label'=>false,
                 'attr'=>array(
-                    'style'=>'width:100px'
-                )
-            ))
-            ->add('cuenta', null, array(
-                'placeholder' => false,
-                'label' => false,
-                'attr'=>array(
-                    'style'=>'width:150px'
+                    'style'=>'width:150px',
+                    'class'=>'select2'
                 )
             ))
             ->add('g10', NumberType::class, array(
                 'attr' => array(
                     'class' => 'numero',
-                    'style' => 'width:100px'
+                    'style' => 'width:130px'
                 ),
                 'label' => false,
                 'grouping'=>true,
@@ -57,7 +66,7 @@ class CompradType extends AbstractType
             ->add('g5', NumberType::class, array(
                 'attr' => array(
                     'class' => 'numero',
-                    'style' => 'width:100px'
+                    'style' => 'width:130px'
                 ),
                 'label' => false,
                 'grouping'=>true,
@@ -66,7 +75,7 @@ class CompradType extends AbstractType
             ->add('exe', NumberType::class, array(
                 'attr' => array(
                     'class' => 'numero',
-                    'style' => 'width:100px'
+                    'style' => 'width:115px'
                 ),
                 'label' => false,
                 'grouping'=>true,
@@ -74,9 +83,10 @@ class CompradType extends AbstractType
             ))
             ->add('iva10', NumberType::class, array(
                 'attr' => array(
-                    'class' => 'numero',
+                    'class' => 'numero inactivo',
                     'style' => 'width:100px',
-                    'readonly'=>true
+                    'readonly'=>true,
+                    'tabindex' => -1
                 ),
                 'label' => false,
                 'grouping'=>true,
@@ -84,9 +94,10 @@ class CompradType extends AbstractType
             ))
             ->add('iva5', NumberType::class, array(
                 'attr' => array(
-                    'class' => 'numero',
+                    'class' => 'numero inactivo',
                     'style' => 'width:100px',
-                    'readonly'=>true
+                    'readonly'=>true,
+                    'tabindex' => -1
                 ),
                 'label' => false,
                 'grouping'=>true,
@@ -94,14 +105,14 @@ class CompradType extends AbstractType
             ))
             ->add('total', NumberType::class, array(
                 'attr' => array(
-                    'class' => 'numero',
-                    'style' => 'width:100px',
+                    'class' => 'numero inactivo',
+                    'style' => 'width:130px',
                     'disabled'=>true
                 ),
                 'label' => false,
                 'grouping'=>true,
-                'mapped'=>false,
-                'scale'=>2
+                'scale'=>2,
+                'mapped'=>false
             ))
 
             ->add('borrar', ButtonType::class, array(

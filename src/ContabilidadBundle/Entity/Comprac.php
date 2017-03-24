@@ -3,15 +3,16 @@
 namespace ContabilidadBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Comprac
  *
  * @ORM\Table(name="comprac")
  * @ORM\Entity(repositoryClass="ContabilidadBundle\Repository\CompracRepository")
+ * @UniqueEntity(fields={"nsuc", "npe", "ncomp", "tipocomp", "entidad"}, message="Compra Duplicada: Ya existen los datos ingresados")
  */
 class Comprac
 {
@@ -117,11 +118,13 @@ class Comprac
     private $moneda;
 
     /**
-     * @var float
+     * @var decimal
      *
-     * @ORM\Column(name="cotiz", type="float")
+     * @ORM\Column(name="cotiz", type="decimal", scale=2)
+     * @Assert\NotNull()
      */
-    private $cotiz=0.00;
+
+    private $cotiz;
 
     /**
      * @var bool
@@ -129,6 +132,14 @@ class Comprac
      * @ORM\Column(name="anul", type="boolean")
      */
     private $anul;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="afecta", type="smallint")
+     */
+    private $afecta;
+
 
     /**
      * @var string
@@ -173,7 +184,7 @@ class Comprac
     {
         $this->comprad = new ArrayCollection();
         $this->setFecha(new \DateTime());
-
+        $this->setCotiz(0);
     }
 
     /**
@@ -521,5 +532,27 @@ class Comprac
         return $this;
     }
 
+    /**
+     * Set afecta
+     *
+     * @param integer $afecta
+     *
+     * @return Comprad
+     */
+    public function setAfecta($afecta)
+    {
+        $this->afecta = $afecta;
 
+        return $this;
+    }
+
+    /**
+     * Get afecta
+     *
+     * @return int
+     */
+    public function getAfecta()
+    {
+        return $this->afecta;
+    }
 }

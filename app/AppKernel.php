@@ -17,6 +17,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new Tetranz\Select2EntityBundle\TetranzSelect2EntityBundle(),
             new AppBundle\AppBundle(),
             new PersonalBundle\PersonalBundle(),
             new ContabilidadBundle\ContabilidadBundle(),

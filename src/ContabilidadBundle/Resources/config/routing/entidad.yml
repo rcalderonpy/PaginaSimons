@@ -1,0 +1,9 @@
+entidad_new:
+    path:     /crear_entidad/{id_cliente}
+    defaults: { _controller: "ContabilidadBundle:Default:nuevaEntidad" }
+    methods:  [GET, POST]
+
+entidad_success:
+    path:     /entidad_success/{id_cliente}
+    defaults: { _controller: "ContabilidadBundle:Default:entidadSuccess" }
+    methods:  [GET, POST]

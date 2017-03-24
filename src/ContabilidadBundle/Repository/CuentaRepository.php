@@ -10,5 +10,16 @@ namespace ContabilidadBundle\Repository;
  */
 class CuentaRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function encontrarCuenta($cuenta)
+    {
+        $em=$this->getEntityManager()->getRepository('ContabilidadBundle:Cuenta');
+        $query = $em->createQueryBuilder('c')
+            ->where("c.cuenta like :cuenta")
+            ->setParameter('cuenta', '%'.$cuenta.'%')
+            ->getQuery();
 
+        $resultado=$query->getResult();
+
+        return $resultado;
+    }
 }

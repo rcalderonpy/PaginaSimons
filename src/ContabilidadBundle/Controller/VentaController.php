@@ -79,8 +79,6 @@ class VentaController extends Controller
             ]);
         }
 
-        dump($ventas);
-
         return $this->render('@Contabilidad/ventas/index.html.twig', array(
             'ventaSins' => $ventas,
             'user'=>$user,
@@ -90,7 +88,16 @@ class VentaController extends Controller
             'mes'=>$mes,
             'ano'=>$ano,
             'botones'=>array(
-                array('texto'=>'Nueva Venta', 'ruta'=>'venta_new')
+                array(
+                    'texto'=>'Nueva Venta',
+                    'ruta'=>'venta_new',
+                    'parametros'=>array(
+                        'id_cliente'=>$id_cliente,
+                        'mes'=>$mes,
+                        'ano'=>$ano
+                    )
+
+                )
             )
         ));
     }
@@ -222,7 +229,15 @@ class VentaController extends Controller
             'tituloPag'=>'Nueva Venta',
             'datosDet'=>$datosDet,
             'botones'=>array(
-                array('texto'=>'Volver', 'ruta'=>'venta_index')
+                array(
+                    'texto'=>'Volver',
+                    'ruta'=>'venta_index',
+                    'parametros'=>array(
+                        'id_cliente'=>$id_cliente,
+                        'mes'=>$mes,
+                        'ano'=>$ano
+                    )
+                )
             )
         ));
     }
@@ -265,8 +280,25 @@ class VentaController extends Controller
 //            'form'=>$form->createView(),
             'titulo'=>'Mostrar Venta '.$ventac->getNsuc().'-'.$ventac->getNpe().'-'.$ventac->getNcomp(),
             'botones'=>array(
-                array('texto'=>'Editar', 'ruta'=>'venta_edit'),
-                array('texto'=>'Volver', 'ruta'=>'venta_index')
+                array(
+                    'texto'=>'Editar',
+                    'ruta'=>'venta_edit',
+                    'parametros'=>array(
+                        'id_cliente'=>$id_cliente,
+                        'mes'=>$mes,
+                        'ano'=>$ano,
+                        'id_venta'=> $id_venta
+                    )
+                ),
+                array(
+                    'texto'=>'Volver',
+                    'ruta'=>'venta_index',
+                    'parametros'=>array(
+                        'id_cliente'=>$id_cliente,
+                        'mes'=>$mes,
+                        'ano'=>$ano
+                    )
+                )
             )
         ));
     }
@@ -408,7 +440,16 @@ class VentaController extends Controller
             'titulo'=>'Edición de Ventas',
             'tituloPag'=>'Editar Venta',
             'botones'=>array(
-                array('texto'=>'Volver', 'ruta'=>'venta_show'),
+                array(
+                    'texto'=>'Volver',
+                    'ruta'=>'venta_show',
+                    'parametros'=>array(
+                        'id_cliente'=>$id_cliente,
+                        'mes'=>$mes,
+                        'ano'=>$ano,
+                        'id_venta'=>$id_venta
+                    )
+                ),
             )
         ));
     }
@@ -461,23 +502,30 @@ class VentaController extends Controller
         ;
     }
 
-    public function getEntidadAction($ruc)
+    public function getEntidadAction(Request $request)
     {
+//        dump($request->query->get('q'));
+//        die();
         $em=$this->getDoctrine()->getManager();
        // ----------- METODO 1 -------------------
-        $entidad =  $em->getRepository('ContabilidadBundle:Entidad')->findOneBy(array('ruc'=>$ruc));
+        $entidades =  $em->getRepository('ContabilidadBundle:Entidad')->encontrarEntidad($request->query->get('q'));
 
-        if($entidad){
-            $respuesta = array(
-                'ruc'=>$entidad->getRuc(),
-                'dv'=>$entidad->getDv(),
-                'nombre'=>$entidad->getNombre(),
-                'id'=>$entidad->getId()
-            );
+        if(count($entidades)>0){
+           $respuesta = [];
+            foreach ($entidades as $entidad){
+                array_push($respuesta, array(
+//                    'ruc'=>$entidad->getRuc(),
+//                    'dv'=>$entidad->getDv(),
+                    'id'=>$entidad->getId(),
+                    'text'=>$entidad->getNombre()
+                ));
+            }
+
         } else {
             $respuesta=null;
         }
 
+//        $json=json_encode($respuesta);
         return new JsonResponse($respuesta);
 
     }
@@ -499,7 +547,9 @@ class VentaController extends Controller
             $respuesta=null;
         }
 
-        return new JsonResponse($respuesta);
+        $json=json_encode($respuesta);
+        return $json;
+//        return new JsonResponse($respuesta);
 
     }
 

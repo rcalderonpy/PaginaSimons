@@ -29,12 +29,12 @@ venta_ajax:
     methods:  GET
 
 get_entidad_json:
-    path:     /entidad/{ruc}
-    defaults: { _controller: "ContabilidadBundle:Venta:getEntidad", ruc:'' }
+    path:     /entidades
+    defaults: { _controller: "ContabilidadBundle:Venta:getEntidad"}
 
 get_cuenta_json:
     path:     /cuenta/{cod}
-    defaults: { _controller: "ContabilidadBundle:Venta:getCuenta", cod:'' }
+    defaults: { _controller: "ContabilidadBundle:Venta:getCuenta", cod:''}
 
 get_plancta_json:
     path:     /plan_cta

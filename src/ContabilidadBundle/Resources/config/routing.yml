@@ -10,11 +10,18 @@ contabilidad_compra:
         resource: "@ContabilidadBundle/Resources/config/routing/compras.yml"
         prefix:   /compra
 
+contabilidad_entidad:
+        resource: "@ContabilidadBundle/Resources/config/routing/entidad.yml"
+        prefix:   /entidad
+
 contabilidad_cliente:
     resource: "@ContabilidadBundle/Resources/config/routing/cliente.yml"
     prefix:   /cliente
 
 contabilidad_plancta:
-        resource: "@ContabilidadBundle/Resources/config/routing/plancta.yml"
-        prefix:   /plancta
+        resource: "@ContabilidadBundle/Resources/config/routing/cuenta.yml"
+        prefix:   /cuenta
 
+contabilidad_plancta:
+        resource: "@ContabilidadBundle/Resources/config/routing/factuas.yml"
+        prefix:   /factura

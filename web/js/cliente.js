@@ -15,7 +15,7 @@ $(document).ready(function(){
 
     // Botón Modal
     $('#mod-btn').on('click', function (e) {
-        e.preventDefault();
+        // e.preventDefault();
 
     });
 

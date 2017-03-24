@@ -58,6 +58,16 @@
         return completo.substr(-largo, largo);
     }
 
+    //Sale del componente cuando alcanza largo máximo
+    function exitImput(campo, largo){
+        if(campo.val().length == largo) {
+            // console.log('sale del componente');
+            campo.parent().next()[0].childNodes[3].focus();
+        } else {
+            // console.log(campo.val().length);
+        }
+    }
+
     // selecciona el contenido del imput
     function selText(){
         $("input[type=text]").focus(function(){

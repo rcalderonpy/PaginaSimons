@@ -3,7 +3,7 @@
 {% block javascripts %}
 	{{ parent() }}
 	<script src="{{ asset("js/entidades.js") }}"></script>
-	<script src="{{ asset("js/ventas.js") }}"></script>
+	{#<script src="{{ asset("js/ventas.js") }}"></script>#}
 {% endblock %}
 
 {% block areatrabajo %}
@@ -32,6 +32,9 @@
 				<div class="widget">
 					{{ form_label(form.entidad) }}
 					{{ form_widget(form.entidad) }}
+				</div>
+				<div class="widget">
+					<button type="button" id="nueva_entidad" class="btn btn-success btn-xs fa fa-plus btnBuscar" tabindex="-1"></button>
 				</div>
 				<div class="widget">
 					{{ form_label(form.nsuc) }}
@@ -65,6 +68,11 @@
 					{{ form_label(form.anul) }}
 					{{ form_widget(form.anul, {'attr':{'class':'inactivo'}}) }}
 				</div>
+				<div class="widget">
+					{{ form_label(form.afecta) }}
+					{{ form_widget(form.afecta) }}
+				</div>
+			
 			</div>
 			<div class="linea col-lg-12">
 				{{ form_label(form.comentario) }}
@@ -131,19 +139,18 @@
 								    class="linea col-lg-12">
 									<li class="detalle col-md-12">
 										<div class="linea col-md-12">
-											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 100px" value="Afecta"></strong>
 											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 150px" value="Cuenta"></strong>
-											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 100px" value="IVA incl. 10"></strong>
-											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 100px" value="IVA incl. 5"></strong>
-											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 100px" value="EXENTAS"></strong>
+											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 130px" value="IVA incl. 10"></strong>
+											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 130px" value="IVA incl. 5"></strong>
+											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 115px" value="EXENTAS"></strong>
 											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 100px" value="IVA 10%"></strong>
 											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 100px" value="IVA 5%"></strong>
-											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 100px" value="TOTAL"></strong>
+											<strong><input type="text" class="lectura text-center" disabled STYLE="width: 130px" value="TOTAL"></strong>
 										</div>
 									</li>
 									
 									{% for detalle in form.comprad %}
-										<li class="col-md-12 detalle"><div class="linea col-lg-12 detalle"><div>{{ form_widget(detalle.afecta) }}</div><div>{{ form_widget(detalle.cuenta) }}</div><div>{{ form_widget(detalle.g10) }}</div><div>{{ form_widget(detalle.g5) }}</div><div>{{ form_widget(detalle.exe) }}</div><div>{{ form_widget(detalle.iva10) }}</div><div>{{ form_widget(detalle.iva5) }}</div><div>{{ form_widget(detalle.total) }}</div><div>{{ form_widget(detalle.borrar) }}</div><div>{{ form_widget(detalle.agregar) }}</div>
+										<li class="col-md-12 detalle"><div class="linea col-lg-12 detalle"><div>{{ form_widget(detalle.cuenta) }}</div><div>{{ form_widget(detalle.g10) }}</div><div>{{ form_widget(detalle.g5) }}</div><div>{{ form_widget(detalle.exe) }}</div><div>{{ form_widget(detalle.iva10) }}</div><div>{{ form_widget(detalle.iva5) }}</div><div>{{ form_widget(detalle.total) }}</div><div>{{ form_widget(detalle.borrar) }}</div><div>{{ form_widget(detalle.agregar) }}</div>
 											</div></li>
 									{% endfor %}
 								</ul>
@@ -169,42 +176,90 @@
 	<!-- Small modal -->
 	{#<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal-anular">Modal</button>#}
 	
-	{#<div class="modal fade modal-anular" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"#}
-	     {#id="modAnular">#}
-		{#<div class="modal-dialog modal-sm" role="document">#}
-			{#<div class="modal-content">#}
-				{#<div class="modal-header">#}
-					{#<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span#}
-								{#aria-hidden="true">&times;</span></button>#}
-					{#<h4 class="modal-title" id="gridSystemModalLabel">Anular Venta</h4>#}
-				{#</div>#}
-				{#<div class="modal-body bg-warning">#}
-					{#<div class="row">#}
-						{#<div class="col-md-3 text-center">#}
-							{#<div class="btn-lg"><i class="fa fa-exclamation-circle aviso" aria-hidden="true"></i></div>#}
-						{#</div>#}
-						{#<div class="col-md-9">#}
-							{#<p>Está seguro de anular la venta? Se borrarán los detalles</p>#}
-						{#</div>#}
-					{#</div>#}
-				{#</div>#}
-				{#<div class="modal-footer">#}
-					{#<button type="button" class="btn btn-default" data-dismiss="modal" id="modal_cancelar">No</button>#}
-					{#<button type="button" class="btn btn-danger" id="modal_anular">Anular</button>#}
-				{#</div>#}
-			{#</div><!-- /.modal-content -->#}
-		{#</div><!-- /.modal-dialog -->#}
-	{#</div><!-- /.modal -->#}
+	<div class="modal fade modal-anular" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"
+	     id="modAnular">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+								aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="gridSystemModalLabel">Anular Compra</h4>
+				</div>
+				<div class="modal-body bg-warning">
+					<div class="row">
+						<div class="col-md-3 text-center">
+							<div class="btn-lg"><i class="fa fa-exclamation-circle aviso" aria-hidden="true"></i></div>
+						</div>
+						<div class="col-md-9">
+							<p>Está seguro de anular la compra? Se borrarán los detalles</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" id="modal_cancelar">No</button>
+					<button type="button" class="btn btn-danger" id="modal_anular">Anular</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 	
+	
+	{#-------------------- JQUERY ----------------------#}
 	<script type="text/javascript">
 		// keep track of how many email fields have been rendered
 		var emailCount = '{{ form.comprad|length }}';
 		
 		jQuery(document).ready(function () {
 			
+			// -------------------- EJECUTADOS AL INICIO --------------------
+			
+			// Función Anular
+			function anularComprobante(estado){
+				if(estado==true){
+					$('#total_comprobante').addClass('inactivo');
+					$('.numero').val('0');
+					$('#contabilidadbundle_comprac_comentario').text('Comprobante Anulado');
+					var fila=0;
+					var hijos = $('#formulario-detalle')[0].childNodes;
+					hijos.forEach(function (i) {
+//					console.log(fila);
+						if(fila>2 && $(i)[0].nodeName == 'LI'){
+							$(hijos)[fila]  .remove();
+						}
+						fila++;
+					})
+					
+					
+				} else {
+					$('#total_comprobante').removeClass('inactivo');
+					$('#contabilidadbundle_comprac_comentario').removeClass('inactivo');
+					$('#contabilidadbundle_comprac_comentario').text('');
+					$('#add-another-email').show();
+				}
+			}
+			// -------------------- EJECUTADOS AL INICIO --------------------
+			
+			var msg=$('#modAnular');
+			msg.modal({backdrop:'static', show:false});
+			
+//			$('select').select2();
+			// los imputs se seleccionan al recibir el foco
+			selText();
+			
+			//
+			if($('#mensajeFlash').val()!=null){
+				msgNoti('Compra grabada exitosamente', 'success');
+//				console.log('Sí existe flash');
+			} else {
+//				console.log('Flash Vacío');
+			}
+			
+			// coloca separador de miles a todos los campos con la clase .numero
+			$('.numero').number( true, 2, ',', '.');
+			
 			//Agrega una línea de detalle
 			
-			jQuery('#add-another-email').click(function (e) {
+			$('#add-another-email').click(function (e) {
 				e.preventDefault();
 				console.log(emailCount);
 				
@@ -224,46 +279,76 @@
 				newLi.appendTo(emailList);
 //				newLi.prependTo(emailList);
 //				emailList[0].lastChild.lastChild.firstChild.firstChild.focus();
-				emailList[0].lastChild.lastChild.childNodes[1].childNodes[0].focus();
+//				emailList[0].lastChild.lastChild.childNodes[0].childNodes[0].focus();
 				var padre = emailList[0].lastChild.lastChild;
 				var botonborrar = "contabilidadbundle_comprac_comprad_" + (parseInt(emailCount) - 1) + "_borrar";
-				console.log(botonborrar);
+//				console.log(botonborrar);
 				$("#" + botonborrar).hide();
 				$(this).hide();
 				$('.numero').number(true, 2, ',', '.');
 				selText();
+				if ($('#contabilidadbundle_comprac_tipocomp').val() == 14){
+					console.log('Es autofactura');
+					$($(padre)[0].childNodes[1].childNodes[0]).attr('readonly', true).addClass('inactivo').attr('tabindex', -1);
+					$($(padre)[0].childNodes[2].childNodes[0]).attr('readonly', true).addClass('inactivo').attr('tabindex', -1);
+				} else {
+					console.log('No es autofactura');
+					$($(padre)[0].childNodes[1].childNodes[0]).attr('readonly', false).removeClass('inactivo').attr('tabindex', 0);
+					$($(padre)[0].childNodes[2].childNodes[0]).attr('readonly', false).removeClass('inactivo').attr('tabindex', 0);
+				}
+				$($(padre)[0].childNodes[4].childNodes[0]).attr('readonly', true).addClass('inactivo');
 				$($(padre)[0].childNodes[5].childNodes[0]).attr('readonly', true).addClass('inactivo');
-				$($(padre)[0].childNodes[6].childNodes[0]).attr('readonly', true).addClass('inactivo');
-				$($(padre)[0].childNodes[7].childNodes[0]).attr('disabled', true).addClass('inactivo');
-				
-				
-				
+				$($(padre)[0].childNodes[6].childNodes[0]).attr('disabled', true).addClass('inactivo');
+				$('.select2entity').select2entity();
 			});
+			
 			function inhabilitarDetalle(boton){
 //				console.log(boton);
 				var padre = boton.parent().parent();
-				padre[0].childNodes[0].childNodes[0].classList.add('inactivo');
+//				padre[0].childNodes[0].childNodes[0].classList.add('inactivo');
 				padre[0].childNodes[1].childNodes[0].classList.add('inactivo');
 				padre[0].childNodes[2].childNodes[0].classList.add('inactivo');
 				padre[0].childNodes[3].childNodes[0].classList.add('inactivo');
 				padre[0].childNodes[4].childNodes[0].classList.add('inactivo');
 				padre[0].childNodes[5].childNodes[0].classList.add('inactivo');
 				padre[0].childNodes[6].childNodes[0].classList.add('inactivo');
-				padre[0].childNodes[7].childNodes[0].classList.add('inactivo');
 //				var hijo=padre[0].childNodes[3].childNodes[0];
 //				console.log(padre[0]);
 //				console.log(hijo);
-				$(padre[0].childNodes[0].childNodes[0]).prop('readonly', true);
+//				$(padre[0].childNodes[0].childNodes[0]).prop('readonly', true);
 				$(padre[0].childNodes[1].childNodes[0]).prop('readonly', true);
 				$(padre[0].childNodes[2].childNodes[0]).prop('readonly', true);
 				$(padre[0].childNodes[3].childNodes[0]).prop('readonly', true);
-				$(padre[0].childNodes[4].childNodes[0]).prop('readonly', true);
+//				$(padre[0].childNodes[4].childNodes[0]).prop('readonly', true);
 //				$(padre[0].childNodes[5].childNodes[0]).prop('disabled', true);
 //				$(padre[0].childNodes[6].childNodes[0]).prop('disabled', true);
-//				$(padre[0].childNodes[7].childNodes[0]).prop('disabled', true);
 				
 			}
 			
+			// Anular Compra
+			$('#contabilidadbundle_comprac_anul').on('change', function(){
+				if($(this).val()==1){ //si está anulado
+					console.log('compra anulada');
+					msg.modal('show');
+				} else {
+					console.log('compra válida');
+					anularComprobante(false);
+				}
+			})
+			
+			// Modal Anular - Botón Anular
+			$('#modal_anular').on('click', function(){
+				anularComprobante(true);
+				console.log('se apretó anular compra')
+				msg.modal('hide');
+			});
+			
+			// Modal Anular - Botón Cancelar
+			$('#modal_cancelar').on('click', function(){
+				$('#contabilidadbundle_comprac_anul').val(0);
+				anularVenta(false);
+				msg.modal('hide');
+			});
 			
 			// al agregar fila nueva
 			$('#formulario-detalle').on('click', 'li div button.agregar', function () {
@@ -329,12 +414,12 @@
 						// coloca total
 						var linea = 0;
 						
-						linea=parseFloat($($(hijos)[fila].childNodes[0].childNodes[2].childNodes[0]).val())+
-								parseFloat($($(hijos)[fila].childNodes[0].childNodes[3].childNodes[0]).val())+
-								parseFloat($($(hijos)[fila].childNodes[0].childNodes[4].childNodes[0]).val());
+						linea=parseFloat($($(hijos)[fila].childNodes[0].childNodes[1].childNodes[0]).val())+
+								parseFloat($($(hijos)[fila].childNodes[0].childNodes[2].childNodes[0]).val())+
+								parseFloat($($(hijos)[fila].childNodes[0].childNodes[3].childNodes[0]).val());
 						suma+=linea;
 						
-						$($(hijos)[fila].childNodes[0].childNodes[7].childNodes[0]).val(linea);
+						$($(hijos)[fila].childNodes[0].childNodes[6].childNodes[0]).val(linea);
 						
 //						console.log($($(hijos)[fila].childNodes[0].childNodes[2].childNodes[0]).val());
 						console.log(suma);
@@ -361,17 +446,17 @@
 			//calculos
 			function calculos(objeto){
 				var padre = $(objeto).parent().parent();
-				var ii10=$(padre)[0].childNodes[2].childNodes[0]
-				var ii5=$(padre)[0].childNodes[3].childNodes[0]
-				var exe=$(padre)[0].childNodes[4].childNodes[0]
+				var ii10=$(padre)[0].childNodes[1].childNodes[0]
+				var ii5=$(padre)[0].childNodes[2].childNodes[0]
+				var exe=$(padre)[0].childNodes[3].childNodes[0]
 				var iva10 = getIva10( $(ii10).val() , $('#contabilidadbundle_comprac_moneda').val() );
 				var iva5 = getIva5( $(ii5).val() , $('#contabilidadbundle_comprac_moneda').val() );
 				var total = parseFloat($(ii10).val())+parseFloat($(ii5).val())+parseFloat($(exe).val());
 
 				// ASIGNA VALOR A LOS CAMPOS CALCULADOS
-				$(padre[0].childNodes[5].childNodes[0]).val(iva10);
-				$(padre[0].childNodes[6].childNodes[0]).val(iva5);
-				$(padre[0].childNodes[7].childNodes[0]).val(total);
+				$(padre[0].childNodes[4].childNodes[0]).val(iva10);
+				$(padre[0].childNodes[5].childNodes[0]).val(iva5);
+				$(padre[0].childNodes[6].childNodes[0]).val(total);
 				camposControl();
 //				console.log('se ejecuta salida de input');
 			}
@@ -391,9 +476,43 @@
 			camposControl();
 			$('#total_comprobante').val($('#cargado').val());
 			camposControl();
-			$('#formulario-detalle input').attr('disabled', 'disabled').addClass('inactivo');
-			$('#formulario-detalle select').attr('disabled', 'disabled').addClass('inactivo');
+//			$('#formulario-detalle input').attr('disabled', 'disabled').addClass('inactivo');
+//			$('#formulario-detalle select').attr('disabled', 'disabled').addClass('inactivo');
 		
+			// CREAR NUEVA ENTIDAD
+			$('#nueva_entidad').on('click', function(){
+				window.open("{{ path("entidad_new", {'id_cliente':cliente.id}) }}", "_blank");
+			})
+			
+			// PIERDE FOCO NSUC
+			$('#contabilidadbundle_comprac_nsuc').on('keyup', function(e){
+				var teclas = [96,97,98,99,100,101,102,103,104,105];
+				if(e.which == 96 || e.which == 97 || e.which == 98 || e.which == 99
+						|| e.which == 100 || e.which == 101 || e.which == 102
+						|| e.which == 103 || e.which == 104 || e.which == 105){
+					exitImput($(this), 3)
+				}
+			})
+			
+			// PIERDE FOCO NPE
+			$('#contabilidadbundle_comprac_npe').on('keyup', function(e){
+				var teclas = [96,97,98,99,100,101,102,103,104,105];
+				if(e.which == 96 || e.which == 97 || e.which == 98 || e.which == 99
+						|| e.which == 100 || e.which == 101 || e.which == 102
+						|| e.which == 103 || e.which == 104 || e.which == 105){
+					exitImput($(this), 3)
+				}
+			})
+			
+			// PIERDE FOCO NCOMP
+			$('#contabilidadbundle_comprac_ncomp').on('keyup', function(e){
+				var teclas = [96,97,98,99,100,101,102,103,104,105];
+				if(e.which == 96 || e.which == 97 || e.which == 98 || e.which == 99
+						|| e.which == 100 || e.which == 101 || e.which == 102
+						|| e.which == 103 || e.which == 104 || e.which == 105){
+					exitImput($(this), 7)
+				}
+			})
 			
 			
 			// ----------- VALIDACIONES GUARDADO ---------------------
@@ -491,12 +610,12 @@
 				if(errores>0){return false;}
 				
 				//todo ok para hacer el submit
-				$('#formulario-detalle input').attr('disabled', 'disabled').addClass('inactivo');
-				$('#formulario-detalle select').attr('disabled', 'disabled').addClass('inactivo');
+//				$('#formulario-detalle input').attr('disabled', false).addClass('inactivo');
+//				$('#formulario-detalle select').attr('disabled', false).addClass('inactivo');
 				$('#formuCompra').submit();
 				
 				// Grabado exitosamente
-				msgNoti('Compra grabada exitosamente', 'success');
+//				msgNoti('Compra grabada exitosamente', 'success');
 			})
 			
 		})

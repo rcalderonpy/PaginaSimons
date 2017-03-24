@@ -1,0 +1,56 @@
+{% extends '@Contabilidad/BaseFormularios.html.twig' %}
+{% block title %}
+	Nueva Entidad
+{% endblock %}
+
+
+{% block areatrabajo %}
+	
+	<div class="container-fluid">
+		<h1>Alta de Entidades</h1>
+		{{ form_start(form, {'attr':{'id':'form_entidad'}}) }}
+		<div class="row">
+			<div class="col-md-12">
+				{{ form_row(form.ruc, {'attr':{'class':'form-control'}} ) }}
+				{{ form_row(form.dv, {'attr':{'class':'form-control'}} ) }}
+				{{ form_row(form.nombre)}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<br>
+				{#<input type="submit" value="Guardar" class="btn btn-group btn-success"/>#}
+				<button type="button" class="btn btn-group btn-success" id="btnGuardar">Guardar</button>
+			</div>
+		</div>
+		{{ form_end(form) }}
+	</div>
+	
+	
+	<script>
+		$(document).ready(function(){
+			
+			console.log($(this));
+			
+			//boton guardar
+			$('#btnGuardar').on('click', function (e) {
+				e.preventDefault();
+				var formulario=$('#form_entidad');
+				
+				setTimeout(function(){
+					formulario.submit();
+//					alert('registro guardado')
+				}, 5000);
+//				window.close();
+//				console.log('formulario exitoso');
+			})
+			
+			
+		})
+	</script>
+
+{% endblock %}
+
+{% block cedulas %}
+	{% include '@Contabilidad/Partials/cedulas.html.twig' %}
+{% endblock %}

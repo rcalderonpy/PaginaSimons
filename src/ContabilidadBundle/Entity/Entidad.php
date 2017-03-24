@@ -4,12 +4,16 @@ namespace ContabilidadBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * Entidad
  *
  * @ORM\Table(name="entidad")
  * @ORM\Entity(repositoryClass="ContabilidadBundle\Repository\EntidadRepository")
+ * @UniqueEntity(fields={"ruc"}, message="Entidad Duplicada: Ya existe el RUC ingresado")
  */
 class Entidad
 {
@@ -26,6 +30,8 @@ class Entidad
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(min="4", min="Debe contener al menos 4 caracteres", max="250")
      */
     private $nombre;
 
@@ -33,6 +39,9 @@ class Entidad
      * @var string
      *
      * @ORM\Column(name="ruc", type="string", length=20, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Regex(pattern="/^\d{5,8}$/", message="RUC: Debe ser un número")
+     * @Assert\Range(min="10000", max="89999999", maxMessage="RUC: Fuera del rango permitido")
      */
     private $ruc;
 
@@ -40,6 +49,8 @@ class Entidad
      * @var string
      *
      * @ORM\Column(name="dv", type="string", length=5)
+     * @Assert\Length(min="1", max="1")
+     * @Assert\Regex(pattern="/^\d{1}$/", message="DV: Debe ser un número entre el 0 y el 9")
      */
     private $dv;
 

@@ -37,11 +37,11 @@ class Comprad
     private $cuenta;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="g10", type="decimal", scale=2)
-     * @Assert\NotNull()
-     */
+ * @var float
+ *
+ * @ORM\Column(name="g10", type="decimal", scale=2)
+ * @Assert\NotNull()
+ */
     private $g10;
 
     /**
@@ -93,12 +93,6 @@ class Comprad
      */
     private $exe;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="afecta", type="smallint")
-     */
-    private $afecta;
 
 
     public function _toString(){
@@ -318,27 +312,4 @@ class Comprad
         return $this->exe;
     }
 
-    /**
-     * Set afecta
-     *
-     * @param integer $afecta
-     *
-     * @return Comprad
-     */
-    public function setAfecta($afecta)
-    {
-        $this->afecta = $afecta;
-
-        return $this;
-    }
-
-    /**
-     * Get afecta
-     *
-     * @return int
-     */
-    public function getAfecta()
-    {
-        return $this->afecta;
-    }
 }

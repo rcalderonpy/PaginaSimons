@@ -3,6 +3,7 @@
 namespace ContabilidadBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -16,6 +17,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use ContabilidadBundle\Entity\Comprac;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 class CompracType extends AbstractType
 {
@@ -47,11 +49,58 @@ class CompracType extends AbstractType
                 'required'=>true,
 //                'mapped'=>false
             ))
-            ->add('entidad', null, array(
+//            ->add('entidad', null, array(
+//                'attr'=>array(
+//                    'style'=>'widht:1000px'
+//                )
+//            ))
+            ->add('entidad', Select2EntityType::class, array(
+                'multiple' => false,
+                'remote_route' => 'get_entidad_json',
+                'class' => 'ContabilidadBundle\Entity\Entidad',
+                'primary_key' => 'id',
+                'text_property' => 'nombre',
+                'minimum_input_length' => 2,
+                'page_limit' => 10,
+                'allow_clear' => true,
+//                'allow_add' => array(
+//                    'enabled' => true,
+//                    'new_tag_text' => ' (Nuevo)',
+//                    'new_tag_prefix' => '__',
+//                    'tag_separators' => '[",", " "]'
+//                ),
+                'delay' => 500,
+                'cache' => true,
+                'cache_timeout' => 6000, // if 'cache' is true
+                'language' => 'es_es',
+                'placeholder' => 'Elija una entidad',
+                'label'=>'Proveedor',
                 'attr'=>array(
-                    'style'=>'widht:1000px'
+                    'style'=>'width:400px',
+                    'class'=>'select2'
                 )
             ))
+//            ->add('cuenta', Select2EntityType::class, array(
+//                'multiple' => false,
+//                'remote_route' => 'get_cuenta_json',
+//                'class' => 'ContabilidadBundle\Entity\Cuenta',
+//                'primary_key' => 'id',
+////                'text_property' => 'text',
+//                'minimum_input_length' => 2,
+//                'page_limit' => 10,
+//                'allow_clear' => true,
+//                'delay' => 300,
+//                'cache' => true,
+//                'cache_timeout' => 3000, // if 'cache' is true
+//                'language' => 'es_es',
+//                'placeholder' => 'Elija una cuenta',
+//                'label'=>null,
+//                'attr'=>array(
+//                    'style'=>'width:150px',
+//                    'class'=>'select2'
+//                ),
+//                'mapped'=>false
+//            ))
             ->add('nsuc', null, array(
                 'attr'=>array('style'=>'width:50px',
 //                    'placeholder'=>'Suc',
@@ -88,12 +137,26 @@ class CompracType extends AbstractType
                     'style' => 'width:100px'
                 ),
                 'label' => 'Cotización',
-                'grouping'=>true
+                'grouping'=>true,
+                'scale'=>2
             ))
             ->add('anul', ChoiceType::class, array(
                 'choices'=>array('No'=>false,
                     'Sí'=>true),
                 'attr'=>array('tabindex'=>-1)
+            ))
+            ->add('afecta', EntityType::class, array(
+                'class' => 'ContabilidadBundle\Entity\Parametro',
+                'query_builder' => function (ParametroRepository $er) {
+                    return $er->createQueryBuilder('p')
+                        ->Where("p.dominio = 'GENERALES_RENTA'")
+                        ->orderBy('p.orden', 'ASC');
+                },
+                'choice_label' => 'codigo',
+                'label' => 'Renta',
+                'attr'=>array(
+                    'style'=>'width:100px'
+                )
             ))
             ->add('comentario', TextareaType::class, array(
                 'attr'=>array(

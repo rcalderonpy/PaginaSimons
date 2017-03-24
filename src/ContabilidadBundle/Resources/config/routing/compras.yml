@@ -3,6 +3,11 @@ compra_index:
     defaults: { _controller: "ContabilidadBundle:Compra:index" }
     methods:  GET
 
+compra_libro_imprimir:
+    path:     /{id_cliente}/{mes}/{ano}/libro_compras
+    defaults: { _controller: "ContabilidadBundle:Compra:printCompras" }
+    methods:  GET
+
 compra_show:
     path:     /{id_cliente}/{mes}/{ano}/{id_compra}/show
     defaults: { _controller: "ContabilidadBundle:Compra:show" }
